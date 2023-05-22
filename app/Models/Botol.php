@@ -10,4 +10,9 @@ class Botol extends Model
     protected $guarded = ['id'];
 
     use HasFactory;
+
+    public function varian()
+    {
+        return $this->hasMany(Varian::class);
+    }
 }

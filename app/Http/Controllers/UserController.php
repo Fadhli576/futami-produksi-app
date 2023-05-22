@@ -32,7 +32,6 @@ class UserController extends Controller
     {
         $user = $request->validate([
             'name' => 'required',
-            'email'=>'required',
             'no_hp'=>'required',
             'address' => 'required',
             'role_id' => 'required',
@@ -45,7 +44,7 @@ class UserController extends Controller
         User::create($user);
         toast('Berhasil menembahkan User!','success');
         return redirect('/dashboard/user-data');
-        
+
     }
 
     /**

@@ -15,7 +15,7 @@
                     <label for="">Email</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
-                        <input placeholder="Email" class="form-control" type="email" name="email" id="">
+                        <input placeholder="Email (Optional)" class="form-control" type="email" name="email" id="">
                     </div>
                     <label for="">No HP</label>
                     <div class="input-group">
@@ -37,7 +37,7 @@
                             <option value="1">User</option>
                             <option value="2">Admin</option>
                             <option value="3">Super Admin</option>
-                        </select>                    </div>  
+                        </select>                    </div>
                     <label for="">Password</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>

@@ -82,7 +82,7 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        Label::where('id', $label)->delete();
+        $label->delete();
         return redirect('dashboard/jenis-label');
     }
 }

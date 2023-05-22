@@ -83,7 +83,7 @@ class KartonController extends Controller
      */
     public function destroy(Karton $karton)
     {
-        Karton::where('id', $karton)->delete();
+        $karton->delete();
         return redirect('dashboard/jenis-karton');
     }
 }

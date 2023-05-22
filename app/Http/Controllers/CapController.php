@@ -83,7 +83,7 @@ class CapController extends Controller
      */
     public function destroy(Cap $cap)
     {
-        Cap::where('id', $cap)->delete();
+        $cap->delete();
         return redirect('dashboard/jenis-cap');
     }
 }

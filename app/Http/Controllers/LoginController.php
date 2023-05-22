@@ -33,7 +33,7 @@ class LoginController extends Controller
             }
         }
         Alert::error('Gagal', 'Login gagal, cek no hp atau password anda');
-        return redirect()->back();
+        return redirect('/login');
     }
 
     public function logout(Request $request)
@@ -41,7 +41,7 @@ class LoginController extends Controller
     Auth::logout();
     Alert::success('Sukses', 'Logout sukses');
     $request->session()->invalidate();
- 
+
     $request->session()->regenerateToken();
 
     return redirect('/');

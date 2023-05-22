@@ -26,7 +26,7 @@
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text"><i class="fa-solid fa-phone fa-lg"></i></span>
                                                     <input placeholder="Nomor HP" type="number" name="no_hp" id="form3Example3c"
-                                                    class="form-control" />                                                  
+                                                    class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -35,7 +35,7 @@
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text"> <i class="fas fa-lock fa-lg"></i></span>
                                                     <input placeholder="Password" type="password" name="password"
-                                                    id="form3Example4c" class="form-control" />                                           
+                                                    id="form3Example4c" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>

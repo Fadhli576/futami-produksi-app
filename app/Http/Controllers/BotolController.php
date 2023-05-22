@@ -83,7 +83,7 @@ class BotolController extends Controller
      */
     public function destroy(Botol $botol)
     {
-        Botol::where('id', $botol)->delete();
+        $botol->delete();
         return redirect('dashboard/jenis-botol');
     }
 }

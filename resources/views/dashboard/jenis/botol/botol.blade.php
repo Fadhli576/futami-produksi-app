@@ -8,11 +8,11 @@
                 @csrf
                 <div class="col-12 col-md-6">
                     <label for="">Jenis Botol</label>
-                    <input class="form-control" type="text" name="name" id="">
+                    <input class="form-control" type="text" name="name" id="" placeholder="Jenis Botol">
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="">Spesifikasi</label>
-                    <input class="form-control" type="text" name="spesifikasi" id="">
+                    <input class="form-control" type="text" name="spesifikasi" id="" placeholder="Spesifikasi">
                 </div>
                 <div class="col-12 mt-3">
                     <button class="btn text-white" style="background-color:#98c1d9 ">Submit</button>

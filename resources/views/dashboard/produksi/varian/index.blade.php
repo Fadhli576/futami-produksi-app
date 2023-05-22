@@ -7,16 +7,21 @@
             <form class="row" action="{{ route('varian-store') }}" method="POST">
                 @csrf
                 <div class=" col-sm-12 col-md-6">
-                    <label for="">Nama Varian</label>
+                    <label for="">Parameter Varian</label>
                     <div class="input-group">
-                        <input placeholder="Nama" class="form-control" type="text" name="name" id="">
+                        <select name="parameter_id" id="" class="form-select">
+                            <option selected disabled value="">Pilih Parameter Varian</option>
+                            @foreach ($parameters as $parameter)
+                                <option value="{{ $parameter->id }}">{{ $parameter->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <label for="">Jenis Botol</label>
                     <div class="input-group">
                         <select name="botol_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Botol</option>
                             @foreach ($botols as $botol)
-                                <option value="{{$botol->id}}">{{$botol->name}}</option>
+                                <option value="{{ $botol->id }}">{{ $botol->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -24,9 +29,9 @@
                     <div class="input-group">
                         <select name="cap_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Cap</option>
-                        @foreach ($caps as $cap)
-                            <option value="{{$cap->id}}">{{$cap->name}}</option>
-                        @endforeach
+                            @foreach ($caps as $cap)
+                                <option value="{{ $cap->id }}">{{ $cap->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -35,9 +40,9 @@
                     <div class="input-group">
                         <select name="label_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Label</option>
-                        @foreach ($labels as $label)
-                            <option value="{{$label->id}}">{{$label->name}}</option>
-                        @endforeach
+                            @foreach ($labels as $label)
+                                <option value="{{ $label->id }}">{{ $label->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <label for="">Jenis Karton</label>
@@ -45,7 +50,16 @@
                         <select name="karton_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Karton</option>
                             @foreach ($kartons as $karton)
-                                <option value="{{$karton->id}}">{{$karton->name}}</option>
+                                <option value="{{ $karton->id }}">{{ $karton->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label for="">Jenis Lakban</label>
+                    <div class="input-group">
+                        <select name="lakban_id" id="" class="form-select">
+                            <option selected disabled value="">Pilih Jenis Lakban</option>
+                            @foreach ($lakbans as $lakban)
+                                <option value="{{ $lakban->id }}">{{ $lakban->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -57,30 +71,32 @@
             </form>
         </div>
     @endif
-    {{-- <table
+    <table
         class="text-center justify-content-center align-items-center table table-hover table-responsive-sm shadow-sm rounded-4">
         <thead class="table text-white font-bold fw-bold" style="background-color: #98c1d9">
             <td>No</td>
             <td>Nama</td>
-            <td>Email</td>
-            <td>No HP</td>
-            <td>Address</td>
-            <td>Role</td>
+            <td>Jenis Botol</td>
+            <td>Jenis Cap</td>
+            <td>Jenis Label</td>
+            <td>Jenis Karton</td>
+            <td>Jenis Lakban</td>
             <td>Action</td>
         </thead>
-        @forelse ($users as $user)
-            <tr class="bg-white">
+        @forelse ($varians as $varian)
+            <tr class="bg-white" data-href="{{ route('varian-detail', $varian->id) }}" style="cursor: pointer;" >
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->no_hp }}</td>
-                <td>{{ $user->address }}</td>
-                <td>{{ $user->role->name }}</td>
+                <td>{{ $varian->parameter->name }}</td>
+                <td>{{ $varian->botol->name }}</td>
+                <td>{{ $varian->cap->name }}</td>
+                <td>{{ $varian->label->name }}</td>
+                <td>{{ $varian->karton->name }}</td>
+                <td>{{ $varian->lakban->name }}</td>
                 <td>
-                    <form action="{{ route('delete-user', $user->id) }}" method="POST">
+                    <form action="{{ route('varian-delete', $varian->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <a class="btn" style="color:#98c1d9" href="{{ route('edit-user', $user->id) }}"><i
+                        <a class="btn" style="color:#98c1d9" href="{{ route('varian-edit', $varian->id) }}"><i
                                 class="fa-solid fa-pen fa-lg"></i></a>
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
@@ -89,10 +105,20 @@
             </tr>
         @empty
             <tr>
-                <td class="text-center h5 bg-white" colspan="7">Result not found.</td>
+                <td class="text-center h5 bg-white" colspan="8">Result not found.</td>
             </tr>
         @endforelse
-    </table> --}}
+    </table>
 
-    {{-- {{ $users->links('pagination::bootstrap-4') }} --}}
+    <script>
+        var rows = document.querySelectorAll('tr[data-href]');
+
+        rows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                window.location.href = row.dataset.href;
+                console.log(row.dataset);
+            });
+        });
+    </script>
+
 @endsection
