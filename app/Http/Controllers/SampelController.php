@@ -9,6 +9,7 @@ use App\Models\SpesifikTempat;
 use App\Models\TempatReject;
 use App\Models\TempatSampel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SampelController extends Controller
 {
@@ -22,7 +23,19 @@ class SampelController extends Controller
         $tempat_samples = TempatReject::get();
         $spesifik_samples = SpesifikTempat::get();
         $samples = Sampel::where([['id_jenis_sampel', '1'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
-        return view('dashboard.produksi.sampel.botol.index', compact('produksi_id','batch_id','jenis_samples','parameter_samples','tempat_samples','spesifik_samples','samples'));
+        $previousData = [];
+
+        foreach ($samples as $sample) {
+            $parameterId = $sample->id_paramater_sampel;
+            $spesifikTempatId = $sample->id_spesifik_tempat;
+
+            if (!isset($previousData[$parameterId])) {
+                $previousData[$parameterId] = [];
+            }
+
+            $previousData[$parameterId][$spesifikTempatId] = $sample->jumlah_botol;
+        }
+        return view('dashboard.produksi.sampel.botol.index', compact('previousData','produksi_id','batch_id','jenis_samples','parameter_samples','tempat_samples','spesifik_samples','samples'));
     }
 
     /**
@@ -38,25 +51,46 @@ class SampelController extends Controller
      */
     public function storeBotol(Request $request, $produksi_id, $batch_id)
     {
-         $request->validate([
-            'id_tempat_sampel'=>'required',
-            'id_spesifik_tempat'=>'required',
-            'id_paramater_sampel'=>'required',
-            'jumlah_botol'=>'required'
-        ]);
 
-        Sampel::create([
-            'produksi_id'=>$produksi_id,
-            'batch_id'=>$batch_id,
-            'id_jenis_sampel'=>1,
-            'id_tempat_sampel'=>$request->id_tempat_sampel,
-            'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-            'id_paramater_sampel'=>$request->id_paramater_sampel,
-            'jumlah_botol'=>$request->jumlah_botol
+        foreach($request->input('sampel.*.produksi') as $key => $value){
+            if ($value == '') {
+
+            } elseif(!$value == '') {
+                 DB::table('sampels')->insert([
+                'produksi_id' => $produksi_id,
+                'batch_id' => $batch_id,
+                'id_jenis_sampel' => 1,
+                'id_tempat_sampel' => $request->id_tempat_reject,
+                'id_spesifik_tempat' => 1,
+                'id_paramater_sampel'=>$key + 1,
+                'jumlah_botol' => $value,
+            ]);
+            }
+
+        }
+
+
+    foreach($request->input('sampel.*.hci') as $key => $value){
+        if ($value == '') {
+
+        } elseif(!$value == '') {
+             DB::table('sampels')->insert([
+            'produksi_id' => $produksi_id,
+            'batch_id' => $batch_id,
+            'id_jenis_sampel' => 1,
+            'id_tempat_sampel' => $request->id_tempat_reject,
+            'id_spesifik_tempat' => 2,
+            'id_paramater_sampel'=>$key + 1,
+            'jumlah_botol' => $value,
         ]);
-        toast('Berhasil!','success');
+        }
+
+        }
+        toast('Berhasil menambahkan!','success');
         return redirect()->back();
+
     }
+
 
     /**
      * Display the specified resource.

@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet">
-    {{-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -86,8 +86,13 @@
                 </div>
             </li> --}}
 
-            @if (request()->is('dashboard/produksi/*/batch-list') || request()->is('dashboard/reject-produksi/*/botol/*') || request()->is('dashboard/sampel-produksi/*/botol/*')
-                || request()->is('dashboard/*/botol/*/trial') || request()->is('dashboard/*/cap/*/trial') || request()->is('dashboard/*/batch') || request()->is('dashboard/*/loss-liquid'))
+            @if (request()->is('dashboard/produksi/*/batch-list') ||
+                    request()->is('dashboard/reject-produksi/*/botol/*') ||
+                    request()->is('dashboard/sampel-produksi/*/botol/*') ||
+                    request()->is('dashboard/*/botol/*/trial') ||
+                    request()->is('dashboard/*/cap/*/trial') ||
+                    request()->is('dashboard/*/batch') ||
+                    request()->is('dashboard/*/loss-liquid'))
                 <li class="nav-item {{ request()->is('dashboard/produksi') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="/dashboard/produksi">
                         <i class="fa-solid fa-universal-access"></i>
@@ -332,7 +337,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     {{-- <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 
     <script src="{{ asset('js/main.js') }}"></script>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BatchListController;
 use App\Http\Controllers\BotolController;
 use App\Http\Controllers\CapController;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DensityController;
 use App\Http\Controllers\FinishGoodController;
@@ -186,6 +187,13 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::delete('/dashboard/parameter-varian-delete/{parameterVarian}', [ParameterVarianController::class, 'destroy'])->name('parameter-varian-delete');
     Route::get('/dashboard/parameter-varian-edit/{parameterVarian}', [ParameterVarianController::class, 'edit'])->name('parameter-varian-edit');
     Route::put('/dashboard/parameter-varian-update/{parameterVarian}', [ParameterVarianController::class, 'update'])->name('parameter-varian-update');
+
+     Route::get('/dashboard/{produksi_id}/counter/{batch_id}/{param_id}', [CounterController::class, 'index'])->name('counter-index');
+    Route::post('/dashboard/{produksi_id}/counter/{batch_id}/{param_id}/store', [CounterController::class, 'store'])->name('counter-store');
+
+    Route::get('/dashboard/{produksi_id}/counter/{batch_id}/{id}/edit', [CounterController::class, 'edit'])->name('counter-edit');
+    Route::put('/dashboard/{produksi_id}/counter/{batch_id}/{id}/update', [CounterController::class, 'update'])->name('counter-update');
+    Route::delete('/dashboard/trial/{id}/delete', [CounterController::class, 'delete'])->name('trial-delete');
 
 });
 

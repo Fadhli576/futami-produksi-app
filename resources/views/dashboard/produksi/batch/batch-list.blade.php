@@ -25,20 +25,24 @@
     @endif
     <div class="d-flex flex-wrap gap-4">
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 25px">Total Reject</strong>
-            <strong style="font-size: 25px">{{ $reject }}</strong>
+            <strong style="font-size: 20px">Total Reject</strong>
+            <strong style="font-size: 20px">{{ $reject }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 25px">Total Sampel</strong>
-            <strong style="font-size: 25px">{{ $sampel }}</strong>
+            <strong style="font-size: 20px">Total Sampel</strong>
+            <strong style="font-size: 20px">{{ $sampel }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 25px">Total Trial</strong>
-            <strong style="font-size: 25px">{{ $trial }}</strong>
+            <strong style="font-size: 20px">Total Trial Cap</strong>
+            <strong style="font-size: 20px">{{ $trial_cap }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 25px">Total Finish Good</strong>
-            <strong style="font-size: 25px">{{ $finish_good }}</strong>
+            <strong style="font-size: 20px">Total Trial Botol</strong>
+            <strong style="font-size: 20px">{{ $trial_botol }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Total Finish Good</strong>
+            <strong style="font-size: 20px">{{ $finish_good }}</strong>
         </div>
     </div>
 
@@ -70,10 +74,40 @@
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
                     </form> --}}
-                    <a href="{{ route('reject-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
-                        class="btn btn-primary">Reject</a>
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
+                        Counter
+                    </button>
+
+                    <div class="modal fade" id="staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
+                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Pilih Counter
+                                        {{ $batch_list->batch->name }} yang akan dilakukan
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>1]) }}"
+                                        class="btn btn-primary">Counter Filling</a>
+                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>2]) }}"
+                                        class="btn btn-primary">Counter Coding</a>
+                                        <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>3]) }}"
+                                            class="btn btn-primary">Counter Label</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Modal -->
+
+                    <a href="{{ route('reject-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
+                        class="btn btn-primary">Reject</a>
 
                     <a href="{{ route('sampel-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
                         class="btn btn-primary">Sampel</a>
@@ -126,7 +160,8 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="row" action="{{ route('finish-store', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
+                                    <form class="row"
+                                        action="{{ route('finish-store', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
                                         method="POST">
                                         @csrf
                                         <div class="col-12">
@@ -134,7 +169,8 @@
                                             <input class="form-control" type="number" name="pcs" id="pcs">
                                         </div>
                                         <div class="col-12 mt-3">
-                                            <button class="btn text-white" style="background-color:#98c1d9 ">Submit</button>
+                                            <button class="btn text-white"
+                                                style="background-color:#98c1d9 ">Submit</button>
                                         </div>
                                     </form>
                                 </div>

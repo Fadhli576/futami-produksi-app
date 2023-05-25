@@ -25,7 +25,6 @@ class BatchListController extends Controller
 
         $trial_botol = Trial::where('produksi_id', $id)->sum('trial_botol');
         $trial_cap = Trial::where('produksi_id', $id)->sum('trial_cap');
-        $trial= $trial_botol + $trial_cap;
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
 
@@ -34,7 +33,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial','finish_good'));
+        return view('dashboard.produksi.batch.batch-list', compact('batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**

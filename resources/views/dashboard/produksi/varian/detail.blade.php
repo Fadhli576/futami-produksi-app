@@ -14,19 +14,19 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Counter Filling</label>
                                 <div class="input-group">
-                                    <input placeholder="Counter Filling" value="{{ $varian->counter_filling }}"
+                                    <input disabled placeholder="Counter Filling" value="{{ $counter_filling }}"
                                         class="form-control" type="number" name="counter_filling" id="">
                                 </div>
                                 <label for="">Counter Coding</label>
                                 <div class="input-group">
-                                    <input placeholder="Counter Coding" value="{{ $varian->counter_coding }}"
+                                    <input disabled placeholder="Counter Coding" value="{{ $counter_coding }}"
                                         class="form-control" type="number" name="counter_coding" id="">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Counter Label</label>
                                 <div class="input-group">
-                                    <input placeholder="Counter Label" value="{{ $varian->counter_label }}"
+                                    <input disabled placeholder="Counter Label" value="{{ $counter_label }}"
                                         class="form-control" type="number" name="counter_label" id="">
                                 </div>
                             </div>
@@ -57,12 +57,14 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Pakai" value="{{ $varian->pakai_cap }}" class="form-control"
-                                        type="number" name="pakai_cap" id="" autocomplete="off">
+                                    <input disabled placeholder="Pakai" value="{{ $varian->pakai_cap }}"
+                                        class="form-control" type="number" name="pakai_cap" id=""
+                                        autocomplete="off">
                                 </div>
                                 <label for="">Varians</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Varians" value="{{ $varian->pakai_cap == '' ? '' : $varian->pakai_cap - $finish_good }}"
+                                    <input disabled placeholder="Varians"
+                                        value="{{ $varian->pakai_cap == '' ? '' : $varian->pakai_cap - $finish_good }}"
                                         class="form-control" type="number" id="">
                                 </div>
                             </div>
@@ -81,8 +83,9 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Masuk</label>
                                 <div class="input-group">
-                                    <input step="any" placeholder="Masuk" value="{{ $varian->masuk_label }}" class="form-control"
-                                        type="number" name="masuk_label" id="" autocomplete="off">
+                                    <input step="any" placeholder="Masuk" value="{{ $varian->masuk_label }}"
+                                        class="form-control" type="number" name="masuk_label" id=""
+                                        autocomplete="off">
                                 </div>
                                 <label for="">Saldo Akhir</label>
                                 <div class="input-group">
@@ -93,13 +96,18 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input step="any" disabled placeholder="Pakai" value="{{ $varian->pakai_label }}" class="form-control"
-                                        type="number" name="pakai_label" id="">
+                                    <input step="any" disabled placeholder="Pakai"
+                                        value="{{ $varian->pakai_label }}" class="form-control" type="number"
+                                        name="pakai_label" id="">
                                 </div>
                                 <label for="">Varians</label>
                                 <div class="input-group">
-                                    <input step="any" disabled placeholder="Varians" value="{{ $varian->pakai_label == '' ? '' : $varian->pakai_label * 8475 - $finish_good }}"
+                                    <input step="any" disabled placeholder="Varians"
+                                        value="{{ $varian->pakai_label == '' ? '' : ($varians = $varian->pakai_label * 8475 - $finish_good) }}"
                                         class="form-control" type="number" name="sisa_label" id="">
+                                    <span class="input-group-text"
+                                        id="basic-addon2">{{ number_format(($varians / ($varian->pakai_label * 8475)) * 100, 2) }}
+                                        %</span>
                                 </div>
                             </div>
 
@@ -142,8 +150,13 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Varians</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Varians" value="{{ $varian->terpakai_karton == '' ? '' :  $varian->terpakai_karton - $finish_good }}"
+                                    <input disabled placeholder="Varians"
+                                        value="{{ $varian->terpakai_karton == '' ? '' : $varians_karton = $varian->masuk_karton - $varian->terpakai_karton - $varian->saldo_karton }}"
                                         class="form-control" type="number" name="terpakai_karton" id="">
+                                    <span class="input-group-text"
+                                        id="basic-addon2">{{ number_format(($varians_karton / $varian->pakai_label) * 100, 2) }}
+                                        %</span>
+
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
@@ -185,8 +198,13 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Varians</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Varians" value="{{  $varian->terpakai_lakban == '' ? '' : $varian->terpakai_lakban - $finish_good }}"
-                                        class="form-control" type="number" name="terpakai_lakban" id="">
+                                    <input disabled placeholder="Varians"
+                                        value="{{ $varian->terpakai_lakban == '' ? '' : $varians_lakban = $varian->masuk_lakban - $varian->terpakai_lakban - $varian->saldo_lakban }}"
+                                        class="form-control" type="number" name="" id="">
+                                    <span class="input-group-text"
+                                        id="basic-addon2">{{ number_format(($varians_lakban / $varian->terpakai_lakban) * 100, 2) }}
+                                        %</span>
+
                                 </div>
                             </div>
                             <div class="col-12 mt-2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Botol;
 use App\Models\Cap;
+use App\Models\Counter;
 use App\Models\FinishGood;
 use App\Models\JenisReject;
 use App\Models\Karton;
@@ -16,6 +17,7 @@ use App\Models\SpesifikTempat;
 use App\Models\TempatReject;
 use App\Models\Varian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Mockery\Generator\Parameter;
 
 class VarianController extends Controller
@@ -118,7 +120,10 @@ class VarianController extends Controller
     {
         $varian = Varian::where('id', $id)->first();
         $finish_good = FinishGood::where('produksi_id', $varian->produksi_id)->sum('pcs');
-        return view('dashboard.produksi.varian.detail', compact('id', 'varian','finish_good'));
+        $counter_filling = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_filling');
+        $counter_coding = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_coding');
+        $counter_label = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_label');
+        return view('dashboard.produksi.varian.detail', compact('id', 'varian','finish_good', 'counter_filling','counter_coding','counter_label'));
     }
 
     public function botolStore($id, Request $request)
@@ -315,14 +320,33 @@ class VarianController extends Controller
     //     return redirect('/dashboard/reject-produksi');
     // }
 
-    public function rejectBotol($produksi_id, $batch_id)
+    public function rejectBotol(Request $request, $produksi_id, $batch_id)
     {
         $jenis_rejects = JenisReject::get();
         $parameter_rejects = ParameterReject::get();
         $tempat_rejects = TempatReject::get();
         $spesifik_rejects = SpesifikTempat::get();
+        $submittedValues = $request->input('reject');
+
+    // Merge the submitted values with the original parameter rejects collection
         $rejects = Reject::where([['id_jenis_reject', '1'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
-        return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects'));
+
+        $previousData = [];
+
+        foreach ($rejects as $reject) {
+            $parameterId = $reject->id_paramater_reject;
+            $spesifikTempatId = $reject->id_spesifik_tempat;
+
+            if (!isset($previousData[$parameterId])) {
+                $previousData[$parameterId] = [];
+            }
+
+            $previousData[$parameterId][$spesifikTempatId] = $reject->jumlah_botol;
+        }
+
+
+        // dd($previousData);
+        return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
     }
 
     public function rejectCap($produksi_id, $batch_id)
@@ -332,27 +356,69 @@ class VarianController extends Controller
         $tempat_rejects = TempatReject::get();
         $spesifik_rejects = SpesifikTempat::get();
         $rejects = Reject::where([['id_jenis_reject', '2'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
-        return view('dashboard.produksi.reject.cap.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects'));
+        return view('dashboard.produksi.reject.cap.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
     }
 
     public function rejectBotolStore(Request $request, $produksi_id, $batch_id)
     {
-        $request->validate([
-            'jumlah_botol'=>'required'
-        ]);
+        // $request->validate([
+        //     'reject' => 'required|array|min:1',
 
-        Reject::create([
-            'produksi_id'=>$produksi_id,
-            'batch_id'=>$batch_id,
-            'id_jenis_reject'=>'1',
-            'id_tempat_reject'=>$request->id_tempat_reject,
-            'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-            'id_paramater_reject'=>$request->id_paramater_reject,
-            'jumlah_botol'=>$request->jumlah_botol,
-        ]);
+        //     // 'inputSampel.*.keterangan' => 'required|min:5',
+        // ]);
 
-        toast('Berhasil menambahkan!','success');
-        return redirect()->back();
+        foreach($request->input('reject.*.produksi') as $key => $value){
+                if ($value == '') {
+
+                } elseif(!$value == '') {
+                     DB::table('rejects')->insert([
+                    'produksi_id' => $produksi_id,
+                    'batch_id' => $batch_id,
+                    'id_jenis_reject' => 1,
+                    'id_tempat_reject' => $request->id_tempat_reject,
+                    'id_spesifik_tempat' => 1,
+                    'id_paramater_reject'=>$key + 1,
+                    'jumlah_botol' => $value,
+                ]);
+                }
+
+            }
+
+
+        foreach($request->input('reject.*.hci') as $key => $value){
+            if ($value == '') {
+
+            } elseif(!$value == '') {
+                 DB::table('rejects')->insert([
+                'produksi_id' => $produksi_id,
+                'batch_id' => $batch_id,
+                'id_jenis_reject' => 1,
+                'id_tempat_reject' => $request->id_tempat_reject,
+                'id_spesifik_tempat' => 2,
+                'id_paramater_reject'=>$key + 1,
+                'jumlah_botol' => $value,
+            ]);
+            }
+
+            }
+            toast('Berhasil menambahkan!','success');
+            return redirect()->back();
+
+
+        // $request->validate([
+        //     'jumlah_botol'=>'required'
+        // ]);
+
+        // Reject::create([
+        //     'produksi_id'=>$produksi_id,
+        //     'batch_id'=>$batch_id,
+        //     'id_jenis_reject'=>'1',
+        //     'id_tempat_reject'=>$request->id_tempat_reject,
+        //     'id_spesifik_tempat'=>$request->id_spesifik_tempat,
+        //     'id_paramater_reject'=>$request->id_paramater_reject,
+        //     'jumlah_botol'=>$request->jumlah_botol,
+        // ]);
+
     }
 
     public function rejectCapStore(Request $request, $produksi_id, $batch_id)
