@@ -145,62 +145,62 @@ class SampelController extends Controller
         return redirect()->back();
     }
 
-    public function indexCap($produksi_id, $batch_id)
-    {
-        $jenis_samples = JenisSampel::get();
-        $parameter_samples = ParameterSampel::get();
-        $spesifik_samples = SpesifikTempat::get();
-        $samples = Sampel::where([['id_jenis_sampel', '2'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
-        return view('dashboard.produksi.sampel.cap.index', compact('produksi_id','batch_id','jenis_samples','parameter_samples','spesifik_samples','samples'));
-    }
+    // public function indexCap($produksi_id, $batch_id)
+    // {
+    //     $jenis_samples = JenisSampel::get();
+    //     $parameter_samples = ParameterSampel::get();
+    //     $spesifik_samples = SpesifikTempat::get();
+    //     $samples = Sampel::where([['id_jenis_sampel', '2'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
+    //     return view('dashboard.produksi.sampel.cap.index', compact('produksi_id','batch_id','jenis_samples','parameter_samples','spesifik_samples','samples'));
+    // }
 
 
-    public function storeCap(Request $request, $produksi_id, $batch_id)
-    {
-        $samples = $request->validate([
-            'id_tempat_sampel'=>'required',
-            'id_paramater_sampel'=>'required',
-            'jumlah_botol'=>'required'
-        ]);
+    // public function storeCap(Request $request, $produksi_id, $batch_id)
+    // {
+    //     $samples = $request->validate([
+    //         'id_tempat_sampel'=>'required',
+    //         'id_paramater_sampel'=>'required',
+    //         'jumlah_botol'=>'required'
+    //     ]);
 
-        Sampel::create([
-            'produksi_id'=>$produksi_id,
-            'batch_id'=>$batch_id,
-            'id_jenis_sampel'=>2,
-            'id_tempat_sampel'=>$request->id_tempat_sampel,
-            'id_parameter_sampel'=>$request->id_parameter_sampel,
-            'jumlah_botol'=>$request->jumlah_botol
-        ]);
-        toast('Berhasil!','success');
-        return redirect()->back();
-    }
+    //     Sampel::create([
+    //         'produksi_id'=>$produksi_id,
+    //         'batch_id'=>$batch_id,
+    //         'id_jenis_sampel'=>2,
+    //         'id_tempat_sampel'=>$request->id_tempat_sampel,
+    //         'id_parameter_sampel'=>$request->id_parameter_sampel,
+    //         'jumlah_botol'=>$request->jumlah_botol
+    //     ]);
+    //     toast('Berhasil!','success');
+    //     return redirect()->back();
+    // }
 
-    public function editCap($sampel)
-    {
-        return view('dashboard.produksi.sampel.cap.index', compact('sampel'));
-    }
+    // public function editCap($sampel)
+    // {
+    //     return view('dashboard.produksi.sampel.cap.index', compact('sampel'));
+    // }
 
-    public function updateCap(Request $request, $sampel)
-    {
-        $samples = $request->validate([
-            'id_tempat_sampel'=>'required',
-            'id_paramater_sampel'=>'required',
-            'jumlah_botol'=>'required'
-        ]);
+    // public function updateCap(Request $request, $sampel)
+    // {
+    //     $samples = $request->validate([
+    //         'id_tempat_sampel'=>'required',
+    //         'id_paramater_sampel'=>'required',
+    //         'jumlah_botol'=>'required'
+    //     ]);
 
-        Sampel::where('id', $sampel)->update([
-            'id_jenis_sampel'=>2,
-            'id_tempat_sampel'=>$request->id_tempat_sampel,
-            'id_parameter_sampel'=>$request->id_parameter_sampel,
-            'jumlah_botol'=>$request->jumlah_botol
-        ]);
-        toast('Berhasil!','success');
-        return redirect()->back();
-    }
+    //     Sampel::where('id', $sampel)->update([
+    //         'id_jenis_sampel'=>2,
+    //         'id_tempat_sampel'=>$request->id_tempat_sampel,
+    //         'id_parameter_sampel'=>$request->id_parameter_sampel,
+    //         'jumlah_botol'=>$request->jumlah_botol
+    //     ]);
+    //     toast('Berhasil!','success');
+    //     return redirect()->back();
+    // }
 
-    public function destroyCap($sampel)
-    {
-        Sampel::where('id', $sampel)->delete();
-        return redirect()->back();
-    }
+    // public function destroyCap($sampel)
+    // {
+    //     Sampel::where('id', $sampel)->delete();
+    //     return redirect()->back();
+    // }
 }

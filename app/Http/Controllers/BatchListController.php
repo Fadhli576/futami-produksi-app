@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\BatchList;
+use App\Models\Counter;
 use App\Models\FinishGood;
+use App\Models\Processing;
 use App\Models\Produksi;
 use App\Models\Reject;
 use App\Models\Sampel;
@@ -28,12 +30,30 @@ class BatchListController extends Controller
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
 
+        $counter_coding = Counter::where('produksi_id', $id)->sum('counter_coding');
+        $counter_filling = Counter::where('produksi_id', $id)->sum('counter_filling');
+        $counter_label = Counter::where('produksi_id', $id)->sum('counter_label');
+
         $batch_lists = BatchList::join('produksis', 'batch_lists.produksi_id', '=', 'produksis.id')->where('produksis.id', $id)
                                 ->select('batch_lists.id as id','batch_lists.batch_id as batch_id','batch_lists.created_at as created_at_batch','batch_lists.produksi_id as produksi_id','produksis.keterangan as keterangan')->get();
+
+        $liquid = Processing::where('produksi_id', $id)->first();
+        if (!$liquid == '') {
+            $volume_mixing = $liquid->volume_mixing / $liquid->density->name;
+            $finish_good_liter = $finish_good * (((float) $liquid->volume)  / 1000);
+
+            // dd(floatval($liquid->volume)  / 1000);
+            $loss_liquid = $volume_mixing -$finish_good_liter;
+        } else {
+            $volume_mixing = '';
+            $loss_liquid = '';
+        }
+
+
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**

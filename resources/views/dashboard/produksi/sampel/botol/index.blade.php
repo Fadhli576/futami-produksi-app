@@ -32,16 +32,16 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $reject['name'] }}</td>
                         <td>
-                            <input {{ isset($previousData[$reject['id']][1]) ? 'disabled' : '' }}
+                            <input
                                 id="produksi_{{ $reject['id'] }}" class="form-control" type="number"
                                 name="sampel[{{ $key }}][produksi]"
-                                value="{{ isset($previousData[$reject['id']][1]) ? $previousData[$reject['id']][1] : '' }}">
+                                >
                         </td>
                         <td>
-                            <input {{ isset($previousData[$reject['id']][2]) ? 'disabled' : '' }}
+                            <input
                                 id="hci_{{ $reject['id'] }}" class="form-control" type="number"
                                 name="sampel[{{ $key }}][hci]"
-                                value="{{ isset($previousData[$reject['id']][2]) ? $previousData[$reject['id']][2] : '' }}">
+                                >
                         </td>
                     </tr>
                 @endforeach

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('densities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->float('name');
             $table->string('spesifikasi')->nullable();
             $table->timestamps();
         });

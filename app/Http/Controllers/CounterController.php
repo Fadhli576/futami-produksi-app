@@ -51,7 +51,7 @@ class CounterController extends Controller
                 'counter_label'=>$request->counter
             ]);
         }
-
+        toast('Berhasil menambahkan!', 'success');
         return redirect()->route('batch-list-index', $produksi_id);
 
     }

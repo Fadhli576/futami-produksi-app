@@ -64,8 +64,11 @@
                                 <label for="">Varians</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Varians"
-                                        value="{{ $varian->pakai_cap == '' ? '' : $varian->pakai_cap - $finish_good }}"
+                                        value="{{ $varian->saldo_cap == '' ? '' : $varians_cap = $varian->pakai_cap - $finish_good }}"
                                         class="form-control" type="number" id="">
+                                    <span class="input-group-text"
+                                        id="basic-addon2">{{ $varian->saldo_cap == '' ? 0 : number_format(($varians_cap / $varian->pakai_cap) * 100, 2) }}
+                                        %</span>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
@@ -103,10 +106,10 @@
                                 <label for="">Varians</label>
                                 <div class="input-group">
                                     <input step="any" disabled placeholder="Varians"
-                                        value="{{ $varian->pakai_label == '' ? '' : ($varians = $varian->pakai_label * 8475 - $finish_good) }}"
+                                        value="{{ $varian->saldo_label == '' ? '' : ($varians = $varian->pakai_label * 8475 - $finish_good) }}"
                                         class="form-control" type="number" name="sisa_label" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ number_format(($varians / ($varian->pakai_label * 8475)) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->saldo_label == '' ? 0 : number_format(($varians / ($varian->pakai_label * 8475)) * 100, 2) }}
                                         %</span>
                                 </div>
                             </div>
@@ -151,10 +154,10 @@
                                 <label for="">Varians</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Varians"
-                                        value="{{ $varian->terpakai_karton == '' ? '' : $varians_karton = $varian->masuk_karton - $varian->terpakai_karton - $varian->saldo_karton }}"
+                                        value="{{ $varian->saldo_karton == '' ? '' : ($varians_karton = $varian->masuk_karton - $varian->terpakai_karton - $varian->saldo_karton) }}"
                                         class="form-control" type="number" name="terpakai_karton" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ number_format(($varians_karton / $varian->pakai_label) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->saldo_karton == '' ? 0 : number_format(($varians_karton / $varian->pakai_label) * 100, 2) }}
                                         %</span>
 
                                 </div>
@@ -199,10 +202,10 @@
                                 <label for="">Varians</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Varians"
-                                        value="{{ $varian->terpakai_lakban == '' ? '' : $varians_lakban = $varian->masuk_lakban - $varian->terpakai_lakban - $varian->saldo_lakban }}"
+                                        value="{{ $varian->saldo_lakban == '' ? '' : ($varians_lakban = $varian->masuk_lakban - $varian->terpakai_lakban - $varian->saldo_lakban) }}"
                                         class="form-control" type="number" name="" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ number_format(($varians_lakban / $varian->terpakai_lakban) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->saldo_lakban == '' ? 0 : number_format(($varians_lakban / $varian->terpakai_lakban) * 100, 2) }}
                                         %</span>
 
                                 </div>

@@ -18,6 +18,7 @@ use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\ParameterVarianController;
 use App\Http\Controllers\ProcessingController;
 use App\Http\Controllers\ProduksiController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SampelController;
 use App\Http\Controllers\TempatController;
 use App\Http\Controllers\TrialController;
@@ -120,11 +121,11 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::put('/dashboard/reject/produksi/botol-update/{reject}', [VarianController::class, 'rejectBotolUpdate'])->name('reject-botol-update');
     Route::delete('/dashboard/reject/produksi/botol-delete/{reject}', [VarianController::class, 'rejectBotolDestroy'])->name('reject-botol-delete');
 
-    Route::get('/dashboard/reject-produksi/{produksi_id}/cap/{batch_id}', [VarianController::class, 'rejectCap'])->name('reject-cap-index');
-    Route::post('/dashboard/reject-produksi/{produksi_id}/cap/{batch_id}/store', [VarianController::class, 'rejectCapStore'])->name('reject-cap-store');
-    Route::get('/dashboard/reject-produksi/cap-edit/{reject}', [VarianController::class, 'rejectCapEdit'])->name('reject-cap-edit');
-    Route::put('/dashboard/reject/produksi/cap-update/{reject}', [VarianController::class, 'rejectCapUpdate'])->name('reject-cap-update');
-    Route::delete('/dashboard/reject/produksi/cap-delete/{reject}', [VarianController::class, 'rejectCapDestroy'])->name('reject-cap-delete');
+    // Route::get('/dashboard/reject-produksi/{produksi_id}/cap/{batch_id}', [VarianController::class, 'rejectCap'])->name('reject-cap-index');
+    // Route::post('/dashboard/reject-produksi/{produksi_id}/cap/{batch_id}/store', [VarianController::class, 'rejectCapStore'])->name('reject-cap-store');
+    // Route::get('/dashboard/reject-produksi/cap-edit/{reject}', [VarianController::class, 'rejectCapEdit'])->name('reject-cap-edit');
+    // Route::put('/dashboard/reject/produksi/cap-update/{reject}', [VarianController::class, 'rejectCapUpdate'])->name('reject-cap-update');
+    // Route::delete('/dashboard/reject/produksi/cap-delete/{reject}', [VarianController::class, 'rejectCapDestroy'])->name('reject-cap-delete');
 
     Route::get('/dashboard/sampel-produksi/{produksi_id}/botol/{batch_id}', [SampelController::class, 'indexBotol'])->name('sampel-botol-index');
     Route::post('/dashboard/sampel-produksi/{produksi_id}/botol/{batch_id}/store', [SampelController::class, 'storeBotol'])->name('sampel-botol-store');
@@ -132,11 +133,11 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::put('/dashboard/sampel/produksi/botol-update/{sampel}', [SampelController::class, 'updateBotol'])->name('sampel-botol-update');
     Route::delete('/dashboard/sampel/produksi/botol-delete/{sampel}', [SampelController::class, 'destroyBotol'])->name('sampel-botol-delete');
 
-    Route::get('/dashboard/sampel-produksi/{produksi_id}/cap/{batch_id}', [SampelController::class, 'indexCap'])->name('sampel-cap-index');
-    Route::post('/dashboard/sampel-produksi/{produksi_id}/cap/{batch_id}/store', [SampelController::class, 'storeCap'])->name('sampel-cap-store');
-    Route::get('/dashboard/sampel-produksi/cap-edit/{sampel}', [SampelController::class, 'editCap'])->name('sampel-cap-edit');
-    Route::put('/dashboard/sampel/produksi/cap-update/{sampel}', [SampelController::class, 'updateCap'])->name('sampel-cap-update');
-    Route::delete('/dashboard/sampel/produksi/cap-delete/{sampel}', [SampelController::class, 'destroyCap'])->name('sampel-cap-delete');
+    // Route::get('/dashboard/sampel-produksi/{produksi_id}/cap/{batch_id}', [SampelController::class, 'indexCap'])->name('sampel-cap-index');
+    // Route::post('/dashboard/sampel-produksi/{produksi_id}/cap/{batch_id}/store', [SampelController::class, 'storeCap'])->name('sampel-cap-store');
+    // Route::get('/dashboard/sampel-produksi/cap-edit/{sampel}', [SampelController::class, 'editCap'])->name('sampel-cap-edit');
+    // Route::put('/dashboard/sampel/produksi/cap-update/{sampel}', [SampelController::class, 'updateCap'])->name('sampel-cap-update');
+    // Route::delete('/dashboard/sampel/produksi/cap-delete/{sampel}', [SampelController::class, 'destroyCap'])->name('sampel-cap-delete');
 
     Route::get('/dashboard/{id}/loss-liquid', [ProcessingController::class, 'index'])->name('processing-index');
     Route::post('/dashboard/{id}/loss-liquid/store', [ProcessingController::class, 'store'])->name('processing-store');
@@ -155,8 +156,6 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/{produksi_id}/botol/{batch_id}/trial/{id}/edit', [TrialController::class, 'edit'])->name('trial-edit');
     Route::put('/dashboard/{produksi_id}/botol/{batch_id}/trial/{id}/update', [TrialController::class, 'update'])->name('trial-update');
     Route::delete('/dashboard/trial/{id}/delete', [TrialController::class, 'delete'])->name('trial-delete');
-
-
 
     Route::get('/dashboard/spesifik-tempat', [TempatController::class, 'indexSpesifik'])->name('spesifik-tempat-index');
     Route::post('/dashboard/spesifik-tempat/store', [TempatController::class, 'storeSpesifik'])->name('spesifik-tempat-store');
@@ -195,6 +194,15 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::put('/dashboard/{produksi_id}/counter/{batch_id}/{id}/update', [CounterController::class, 'update'])->name('counter-update');
     Route::delete('/dashboard/trial/{id}/delete', [CounterController::class, 'delete'])->name('trial-delete');
 
+    Route::get('/dashboard/profile', [UserController::class, 'index'])->name('profile-index');
+    Route::put('/dashboard/update-profile', [UserController::class, 'update'])->name('update-profile');
+
+    Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile-index');
+    Route::put('/dashboard/update-profile', [ProfileController::class, 'update'])->name('update-profile');
+
+    Route::get('/dashboard/edit-password', [ProfileController::class, 'edit'])->name('edit-password');
+    Route::put('/dashboard/update-password', [ProfileController::class, 'passwordUpdate'])->name('update-password');
+
 });
 
 
@@ -211,8 +219,6 @@ Route::middleware(['Login'])->prefix('dashboard')->group(function () {
     Route::put('/varian/detail/{id}/label', [VarianController::class, 'labelStore'])->name('label-detail-store');
     Route::put('/varian/detail/{id}/karton', [VarianController::class, 'kartonStore'])->name('karton-detail-store');
     Route::put('/varian/detail/{id}/lakban', [VarianController::class, 'lakbanStore'])->name('lakban-detail-store');
-
-
 });
 
 

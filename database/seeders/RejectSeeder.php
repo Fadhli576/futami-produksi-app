@@ -29,6 +29,10 @@ class RejectSeeder extends Seeder
         ]);
 
         TempatReject::create([
+            'name'=>'Filling'
+        ]);
+
+        TempatReject::create([
             'name'=>'Inspect Lamp'
         ]);
 
@@ -49,7 +53,7 @@ class RejectSeeder extends Seeder
         ]);
 
         Density::create([
-            'name'=>'1,030',
+            'name'=>1.030,
             'spesifikasi'=>'spesifikasi'
         ]);
 

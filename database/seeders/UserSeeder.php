@@ -27,21 +27,21 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Admin',
-            'role_id' => 2,
-            'address' => 'Bogor',
-            'email' => 'irwan.ruswandi@futami.co.id',
-            'password' => bcrypt('123456'),
-            'no_hp' => '085697600696'
+            'name'=>'admin',
+            'role_id'=> 2,
+            'address'=>'Bogor',
+            'email'=>'admin@gmail.com',
+            'password' => bcrypt('admin123'),
+            'no_hp'=>'1234567890'
         ]);
 
         User::create([
-            'name' => 'Ilham',
-            'role_id' => 1,
-            'address' => 'Bogor',
-            'email' => 'admin.engineering@futami.co.id',
-            'password' => bcrypt('123456'),
-            'no_hp' => '085723020340'
+            'name'=>'user',
+            'role_id'=>1,
+            'address'=>'Caringin',
+            'email'=>'user@gmail.com',
+            'password'=>bcrypt('user123'),
+            'no_hp'=>'0987654321'
         ]);
     }
 }

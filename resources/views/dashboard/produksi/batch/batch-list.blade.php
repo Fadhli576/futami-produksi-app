@@ -44,6 +44,26 @@
             <strong style="font-size: 20px">Total Finish Good</strong>
             <strong style="font-size: 20px">{{ $finish_good }}</strong>
         </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Total Coding</strong>
+            <strong style="font-size: 20px">{{ $counter_coding }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Total Filling</strong>
+            <strong style="font-size: 20px">{{ $counter_filling }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Total Label</strong>
+            <strong style="font-size: 20px">{{ $counter_label }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Volume Mixing</strong>
+            <strong style="font-size: 20px">{{  $volume_mixing == '' ? '0' : number_format($volume_mixing, 2) }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Loss Liquid</strong>
+            <strong style="font-size: 20px">{{  $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
+        </div>
     </div>
 
     <a href={{ route('batch-index', $id) }} class="btn btn-primary my-2" style="float: right"><i

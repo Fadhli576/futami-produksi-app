@@ -142,7 +142,6 @@ class VarianController extends Controller
     public function capStore($id, Request $request)
     {
         $request->validate([
-            'saldo_cap'=>'required',
             'masuk_cap'=>'required',
         ]);
 
@@ -163,7 +162,6 @@ class VarianController extends Controller
     public function labelStore($id, Request $request)
     {
         $request->validate([
-            'saldo_label'=>'required',
             'masuk_label'=>'required',
         ]);
 
@@ -184,7 +182,6 @@ class VarianController extends Controller
     public function kartonStore($id, Request $request)
     {
         $request->validate([
-            'saldo_karton'=>'required',
             'masuk_karton'=>'required',
         ]);
 
@@ -204,7 +201,6 @@ class VarianController extends Controller
     public function lakbanStore($id, Request $request)
     {
         $request->validate([
-            'saldo_lakban'=>'required',
             'masuk_lakban'=>'required',
         ]);
 
@@ -349,15 +345,15 @@ class VarianController extends Controller
         return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
     }
 
-    public function rejectCap($produksi_id, $batch_id)
-    {
-        $jenis_rejects = JenisReject::get();
-        $parameter_rejects = ParameterReject::get();
-        $tempat_rejects = TempatReject::get();
-        $spesifik_rejects = SpesifikTempat::get();
-        $rejects = Reject::where([['id_jenis_reject', '2'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
-        return view('dashboard.produksi.reject.cap.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
-    }
+    // public function rejectCap($produksi_id, $batch_id)
+    // {
+    //     $jenis_rejects = JenisReject::get();
+    //     $parameter_rejects = ParameterReject::get();
+    //     $tempat_rejects = TempatReject::get();
+    //     $spesifik_rejects = SpesifikTempat::get();
+    //     $rejects = Reject::where([['id_jenis_reject', '2'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
+    //     return view('dashboard.produksi.reject.cap.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
+    // }
 
     public function rejectBotolStore(Request $request, $produksi_id, $batch_id)
     {
@@ -421,24 +417,24 @@ class VarianController extends Controller
 
     }
 
-    public function rejectCapStore(Request $request, $produksi_id, $batch_id)
-    {
-        $request->validate([
-            'jumlah_cap'=>'required',
-        ]);
+    // public function rejectCapStore(Request $request, $produksi_id, $batch_id)
+    // {
+    //     $request->validate([
+    //         'jumlah_cap'=>'required',
+    //     ]);
 
-        Reject::create([
-            'produksi_id'=> $produksi_id,
-            'batch_id'=>$batch_id,
-            'id_jenis_reject'=>'2',
-            'id_tempat_reject'=>$request->id_tempat_reject,
-            'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-            'id_paramater_reject'=>$request->id_paramater_reject,
-            'jumlah_cap'=>$request->jumlah_cap,
-        ]);
+    //     Reject::create([
+    //         'produksi_id'=> $produksi_id,
+    //         'batch_id'=>$batch_id,
+    //         'id_jenis_reject'=>'2',
+    //         'id_tempat_reject'=>$request->id_tempat_reject,
+    //         'id_spesifik_tempat'=>$request->id_spesifik_tempat,
+    //         'id_paramater_reject'=>$request->id_paramater_reject,
+    //         'jumlah_cap'=>$request->jumlah_cap,
+    //     ]);
 
-        return redirect()->back();
-    }
+    //     return redirect()->back();
+    // }
 
     public function rejectBotolEdit($reject)
     {
@@ -451,16 +447,16 @@ class VarianController extends Controller
 
     }
 
-    public function rejectCapEdit($reject)
-    {
-        $jenis_rejects = JenisReject::get();
-        $parameter_rejects = ParameterReject::get();
-        $tempat_rejects = TempatReject::get();
-        $spesifik_rejects = SpesifikTempat::get();
-        $rejek = Reject::where('id', $reject)->first();
-        return view('dashboard.produksi.reject.cap.edit', compact('rejek','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects', 'reject'));
+    // public function rejectCapEdit($reject)
+    // {
+    //     $jenis_rejects = JenisReject::get();
+    //     $parameter_rejects = ParameterReject::get();
+    //     $tempat_rejects = TempatReject::get();
+    //     $spesifik_rejects = SpesifikTempat::get();
+    //     $rejek = Reject::where('id', $reject)->first();
+    //     return view('dashboard.produksi.reject.cap.edit', compact('rejek','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects', 'reject'));
 
-    }
+    // }
 
     public function rejectBotolUpdate(Request $request, $reject)
     {
@@ -479,22 +475,22 @@ class VarianController extends Controller
         return redirect()->back();
     }
 
-    public function rejectCapUpdate(Request $request, $reject)
-    {
-        $request->validate([
-            'jumlah_cap'=>'required',
-        ]);
+    // public function rejectCapUpdate(Request $request, $reject)
+    // {
+    //     $request->validate([
+    //         'jumlah_cap'=>'required',
+    //     ]);
 
-        Reject::where('id', $reject)->update([
-            'id_jenis_reject'=>'2',
-            'id_tempat_reject'=>$request->id_tempat_reject,
-            'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-            'id_paramater_reject'=>$request->id_paramater_reject,
-            'jumlah_cap'=>$request->jumlah_cap,
-        ]);
+    //     Reject::where('id', $reject)->update([
+    //         'id_jenis_reject'=>'2',
+    //         'id_tempat_reject'=>$request->id_tempat_reject,
+    //         'id_spesifik_tempat'=>$request->id_spesifik_tempat,
+    //         'id_paramater_reject'=>$request->id_paramater_reject,
+    //         'jumlah_cap'=>$request->jumlah_cap,
+    //     ]);
 
-        return redirect()->back();
-    }
+    //     return redirect()->back();
+    // }
 
     public function rejectBotolDestroy($reject)
     {
@@ -502,11 +498,11 @@ class VarianController extends Controller
         return redirect()->back();
     }
 
-    public function rejectCapDestroy($reject)
-    {
-        Reject::where('id', $reject)->delete();
-        return redirect()->back();
-    }
+    // public function rejectCapDestroy($reject)
+    // {
+    //     Reject::where('id', $reject)->delete();
+    //     return redirect()->back();
+    // }
 
 
 }
