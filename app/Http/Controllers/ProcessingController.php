@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchList;
 use App\Models\Density;
 use App\Models\Processing;
+use App\Models\VolumeMixing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProcessingController extends Controller
 {
@@ -15,7 +18,9 @@ class ProcessingController extends Controller
     {
         $densities = Density::all();
         $processing = Processing::all();
-        return view('dashboard.produksi.liquid.index', compact('processing','densities','id'));
+        $batch_lists = BatchList::where('produksi_id', $id)->get();
+        $volume_mixing = VolumeMixing::where('produksi_id', $id)->get();
+        return view('dashboard.produksi.liquid.index', compact('volume_mixing','batch_lists','processing','densities','id'));
     }
 
     /**
@@ -32,7 +37,6 @@ class ProcessingController extends Controller
     public function store(Request $request, $id)
     {
         $proses =  $request->validate([
-            'volume_mixing'=>'required',
             'drain_out'=>'required',
             'volume'=>'required',
             'density_id'=>'required'
@@ -40,7 +44,7 @@ class ProcessingController extends Controller
 
         Processing::create([
             'produksi_id'=>$id,
-            'volume_mixing'=>$request->volume_mixing,
+            'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
             'drain_out'=>$request->drain_out,
             'volume'=>$request->volume,
             'density_id'=>$request->density_id
@@ -48,6 +52,29 @@ class ProcessingController extends Controller
         toast('Berhasil!','success');
         return redirect()->back();
     }
+
+    public function storeVolumeMixing(Request $request, $id)
+    {
+        $request->validate([
+            'volume_mixing.*'=>'required',
+        ]);
+
+        foreach ($request->input('volume_mixing.*') as $key => $value) {
+            if ($value == '') {
+
+            } elseif(!$value == '') {
+                 DB::table('volume_mixings')->insert([
+                'produksi_id' => $id,
+                'batch_id' => $key + 1,
+                'volume_mixing' => $value,
+            ]);
+            }
+        }
+        toast('Berhasil!','success');
+        return redirect()->back();
+    }
+
+
 
     /**
      * Display the specified resource.

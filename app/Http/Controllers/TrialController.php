@@ -58,9 +58,10 @@ class TrialController extends Controller
         return redirect()->back();
     }
 
-    public function edit($id)
+    public function edit( $id)
     {
-        return view('dashboard.produksi.trial.edit', compact('id'));
+        $trial = Trial::where('id', $id)->first();
+        return view('dashboard.produksi.trial.edit-produksi', compact('id','trial'));
     }
 
     public function update(Request $request, $id)

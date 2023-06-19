@@ -6,10 +6,11 @@
             <h5>Varian</h5>
             <form class="row" action="{{ route('varian-update', $varian->id) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class=" col-sm-12 col-md-6">
                     <label for="">Nama Varian</label>
                    <div class="input-group">
-                        <select name="botol_id" value="{{$varian->parameter_id}}" id="" class="form-select">
+                        <select name="parameter_id" value="{{$varian->parameter_id}}" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Botol</option>
                             @foreach ($parameters as $parameter)
                                 <option value="{{$parameter->id}}" {{$parameter->id == $varian->parameter_id ? 'selected' : ''}}>{{$parameter->name}}</option>
@@ -54,6 +55,27 @@
                             @endforeach
                         </select>
                     </div>
+                    <label for="">Jenis Lakban</label>
+                    <div class="input-group">
+                        <select name="lakban_id" id=""  value="{{$varian->lakban_id}}" class="form-select">
+                            <option selected disabled value="">Pilih Jenis Lakban</option>
+                            @foreach ($lakbans as $lakban)
+                                <option value="{{$lakban->id}}" {{$lakban->id == $varian->lakban_id ? 'selected' : ''}}>{{$lakban->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if ($varian->lakban2_id != null)
+                        <label for="">Jenis Lakban 2</label>
+                        <div class="input-group">
+                            <select name="lakban2_id" id=""  value="{{$varian->lakban2_id}}" class="form-select">
+                                <option selected disabled value="">Pilih Jenis Lakban</option>
+                                @foreach ($lakbans as $lakban)
+                                    <option value="{{$lakban->id}}" {{$lakban->id == $varian->lakban2_id ? 'selected' : ''}}>{{$lakban->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    @endif
                 </div>
                 <div class="col-12 mt-2">
                     <a href="/dashboard/produksi" class="btn text-white" style="background-color: #98c1d9">Back</a>

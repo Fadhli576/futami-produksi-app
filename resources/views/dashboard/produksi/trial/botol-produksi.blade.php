@@ -27,14 +27,14 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $trial->trial_botol }}</td>
                 <td>
-                    {{-- <form action="{{ route('trial-delete', $trial->id) }}" method="POST">
+                    <form action="{{ route('trial-delete', $trial->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <a class="btn" style="color:#98c1d9" href="{{ route('trial-edit', $trial->id) }}"><i
                                 class="fa-solid fa-pen fa-lg"></i></a>
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
-                    </form> --}}
+                    </form>
                 </td>
             </tr>
         @empty

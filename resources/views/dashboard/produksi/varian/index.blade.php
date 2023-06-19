@@ -54,9 +54,25 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <label for="">Pilih Berapa Lakban</label>
+                    <select name="" id="label_penentu" required class="form-select" onchange="selectGanti()">
+                        <option selected disabled value="">Pilih berapa Lakban</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+
                     <label for="">Jenis Lakban</label>
-                    <div class="input-group">
+                    <div class="input-group mb-3">
                         <select name="lakban_id" id="" class="form-select">
+                            <option selected disabled value="">Pilih Jenis Lakban</option>
+                            @foreach ($lakbans as $lakban)
+                                <option value="{{ $lakban->id }}">{{ $lakban->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group d-gaada lakban2">
+                        <select name="lakban2_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Jenis Lakban</option>
                             @foreach ($lakbans as $lakban)
                                 <option value="{{ $lakban->id }}">{{ $lakban->name }}</option>
@@ -84,14 +100,14 @@
             <td>Action</td>
         </thead>
         @forelse ($varians as $varian)
-            <tr class="bg-white" data-href="{{ route('varian-detail', $varian->id) }}" style="cursor: pointer;" >
+            <tr class="bg-white" data-href="{{ route('varian-detail', $varian->id) }}" style="cursor: pointer;">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $varian->parameter->name }}</td>
                 <td>{{ $varian->botol->name }}</td>
                 <td>{{ $varian->cap->name }}</td>
                 <td>{{ $varian->label->name }}</td>
                 <td>{{ $varian->karton->name }}</td>
-                <td>{{ $varian->lakban->name }}</td>
+                <td>{{ $varian->lakban->name }}{{$varian->lakban2 == '' ? '' : ','}} {{ $varian->lakban2 == '' ? '' : $varian->lakban2->name}}</td>
                 <td>
                     <form action="{{ route('varian-delete', $varian->id) }}" method="POST">
                         @csrf
@@ -119,6 +135,16 @@
                 console.log(row.dataset);
             });
         });
+
+        function selectGanti() {
+            var lakban2 = document.querySelector('.lakban2')
+            var label = document.getElementById('label_penentu')
+            if (label.value == 1) {
+                lakban2.classList.add("d-gaada")
+            } else if (label.value == 2) {
+                lakban2.classList.remove("d-gaada")
+            }
+        }
     </script>
 
 @endsection

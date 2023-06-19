@@ -51,7 +51,7 @@ class VarianController extends Controller
      */
     public function store(Request $request)
     {
-        $varian = $request->validate([
+        $request->validate([
             'parameter_id'=>'required',
             'botol_id'=>'required',
             'cap_id'=>'required',
@@ -60,7 +60,7 @@ class VarianController extends Controller
             'lakban_id'=>'required'
         ]);
 
-
+        $varian = $request->all();
         $id = Varian::create($varian);
         toast('Berhasil!','success');
         // return redirect('/dashboard/'.Varian::latest()->first()->id.'/botol-produksi');
@@ -84,8 +84,9 @@ class VarianController extends Controller
         $caps = Cap::all();
         $kartons = Karton::all();
         $labels = Label::all();
+        $lakbans = Lakban::all();
         $parameters = ParameterVarian::all();
-        return view('dashboard.produksi.varian.edit', compact('varian','botols','caps','kartons','labels','parameters'));
+        return view('dashboard.produksi.varian.edit', compact('varian','botols','caps','kartons','labels','lakbans','parameters'));
     }
 
     /**
@@ -93,17 +94,39 @@ class VarianController extends Controller
      */
     public function update(Request $request, Varian $varian)
     {
-        $varianOld = $request->validate([
+        $request->validate([
             'parameter_id'=>'required',
             'botol_id'=>'required',
             'cap_id'=>'required',
             'label_id'=>'required',
-            'karton_id'=>'required'
+            'karton_id'=>'required',
+            'lakban_id'=>'required'
         ]);
 
-        Varian::where('id', $varian->id)->update($varianOld);
+        if ($request->lakban2_id == null) {
+            $varians = [
+                'parameter_id'=>$request->parameter_id,
+                'botol_id'=>$request->botol_id,
+                'cap_id'=>$request->cap_id,
+                'label_id'=>$request->label_id,
+                'karton_id'=>$request->karton_id,
+                'lakban_id'=>$request->lakban_id,
+            ];
+        } else {
+            $varians = [
+                'parameter_id'=>$request->parameter_id,
+                'botol_id'=>$request->botol_id,
+                'cap_id'=>$request->cap_id,
+                'label_id'=>$request->label_id,
+                'karton_id'=>$request->karton_id,
+                'lakban_id'=>$request->lakban_id,
+                'lakban2_id'=>$request->lakban2_id,
+            ];
+        }
+
+        Varian::where('id', $varian->id)->update($varians);
         toast('Berhasil mengupdate!','success');
-        return redirect('/dashboard/produksi');
+        return redirect('/dashboard/varian');
     }
 
     /**
@@ -123,7 +146,8 @@ class VarianController extends Controller
         $counter_filling = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_filling');
         $counter_coding = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_coding');
         $counter_label = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_label');
-        return view('dashboard.produksi.varian.detail', compact('id', 'varian','finish_good', 'counter_filling','counter_coding','counter_label'));
+        $conversi_label = Varian::where('id', $id)->first()->conversi_label;
+        return view('dashboard.produksi.varian.detail', compact('id', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
     }
 
     public function botolStore($id, Request $request)
@@ -163,6 +187,7 @@ class VarianController extends Controller
     {
         $request->validate([
             'masuk_label'=>'required',
+            'conversi_label'=>'required'
         ]);
 
         $pakai_label = $request->masuk_label - $request->saldo_label;
@@ -172,6 +197,7 @@ class VarianController extends Controller
             'saldo_label'=>$request->saldo_label,
             'masuk_label'=>$request->masuk_label,
             'pakai_label'=>$pakai_label,
+            'conversi_label'=>$request->conversi_label
         ];
 
         Varian::where('id', $id)->update($label);
@@ -210,6 +236,25 @@ class VarianController extends Controller
             'saldo_lakban'=>$request->saldo_lakban,
             'masuk_lakban'=>$request->masuk_lakban,
             'terpakai_lakban'=>$pakai_lakban
+        ];
+
+        Varian::where('id', $id)->update($lakban);
+        toast('Berhasil!','success');
+        return redirect()->back();
+    }
+
+    public function lakbanStore2($id, Request $request)
+    {
+        $request->validate([
+            'masuk_lakban'=>'required',
+        ]);
+
+        $pakai_lakban = $request->masuk_lakban - $request->saldo_lakban;
+
+        $lakban = [
+            'saldo_lakban2'=>$request->saldo_lakban,
+            'masuk_lakban2'=>$request->masuk_lakban,
+            'terpakai_lakban2'=>$pakai_lakban
         ];
 
         Varian::where('id', $id)->update($lakban);
@@ -327,22 +372,10 @@ class VarianController extends Controller
     // Merge the submitted values with the original parameter rejects collection
         $rejects = Reject::where([['id_jenis_reject', '1'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
 
-        $previousData = [];
-
-        foreach ($rejects as $reject) {
-            $parameterId = $reject->id_paramater_reject;
-            $spesifikTempatId = $reject->id_spesifik_tempat;
-
-            if (!isset($previousData[$parameterId])) {
-                $previousData[$parameterId] = [];
-            }
-
-            $previousData[$parameterId][$spesifikTempatId] = $reject->jumlah_botol;
-        }
 
 
         // dd($previousData);
-        return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','previousData'));
+        return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects'));
     }
 
     // public function rejectCap($produksi_id, $batch_id)
@@ -357,6 +390,7 @@ class VarianController extends Controller
 
     public function rejectBotolStore(Request $request, $produksi_id, $batch_id)
     {
+
         // $request->validate([
         //     'reject' => 'required|array|min:1',
 
@@ -379,7 +413,6 @@ class VarianController extends Controller
                 }
 
             }
-
 
         foreach($request->input('reject.*.hci') as $key => $value){
             if ($value == '') {
@@ -472,6 +505,7 @@ class VarianController extends Controller
             'jumlah_botol'=>$request->jumlah_botol,
         ]);
 
+        toast('Berhasil diupdate!','success');
         return redirect()->back();
     }
 
@@ -495,6 +529,7 @@ class VarianController extends Controller
     public function rejectBotolDestroy($reject)
     {
         Reject::where('id', $reject)->delete();
+        toast('Berhasil dihapus!','success');
         return redirect()->back();
     }
 

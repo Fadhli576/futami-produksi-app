@@ -25,8 +25,20 @@
     @endif
     <div class="d-flex flex-wrap gap-4">
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Unidentified</strong>
+            <strong style="font-size: 20px">{{ $counter_filling == null ? '0' : ($reject + $sampel + $finish_good) - ($counter_filling) }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Total Reject</strong>
             <strong style="font-size: 20px">{{ $reject }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Reject Produksi</strong>
+            <strong style="font-size: 20px">{{ $reject_produksi }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Reject HCI</strong>
+            <strong style="font-size: 20px">{{ $reject_hci }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Total Sampel</strong>
@@ -58,11 +70,11 @@
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Volume Mixing</strong>
-            <strong style="font-size: 20px">{{  $volume_mixing == '' ? '0' : number_format($volume_mixing, 2) }}</strong>
+            <strong style="font-size: 20px">{{ $volume_mixing == '' ? '0' : number_format($volume_mixing, 2) }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Loss Liquid</strong>
-            <strong style="font-size: 20px">{{  $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
+            <strong style="font-size: 20px">{{ $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
         </div>
     </div>
 
@@ -70,6 +82,8 @@
             class="fa-solid fa-plus"></i> Tambah Batch</a>
     <a href={{ route('processing-index', $id) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
             class="fa-solid fa-prescription-bottle"></i></i> Loss Liquid</a>
+    <a href={{ route('finish-good-edit', ['produksi_id' => $id]) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
+            class="fa-solid fa-thumbs-up"></i> Edit Finish Good</a>
     <table
         class="text-center justify-content-center align-items-center table table-hover table-responsive-sm shadow-sm rounded-4">
         <thead class="table text-white font-bold fw-bold" style="background-color: #98c1d9">
@@ -113,12 +127,12 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>1]) }}"
+                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id' => 1]) }}"
                                         class="btn btn-primary">Counter Filling</a>
-                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>2]) }}"
+                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id' => 2]) }}"
                                         class="btn btn-primary">Counter Coding</a>
-                                        <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id'=>3]) }}"
-                                            class="btn btn-primary">Counter Label</a>
+                                    <a href="{{ route('counter-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id, 'param_id' => 3]) }}"
+                                        class="btn btn-primary">Counter Label</a>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +154,8 @@
                         Trial
                     </button>
 
-                    <div class="modal fade" id="staticBackdrop3{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
+                    <div class="modal fade"
+                        id="staticBackdrop3{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -167,7 +182,8 @@
                         Finish Good
                     </button>
 
-                    <div class="modal fade" id="staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
+                    <div class="modal fade"
+                        id="staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">

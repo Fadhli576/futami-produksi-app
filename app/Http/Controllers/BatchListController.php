@@ -23,8 +23,9 @@ class BatchListController extends Controller
     {
 
         $reject = Reject::where('produksi_id', $id)->sum('jumlah_botol');
+        $reject_produksi = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 1]])->sum('jumlah_botol');
+        $reject_hci = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 2]])->sum('jumlah_botol');
         $sampel = Sampel::where('produksi_id', $id)->sum('jumlah_botol');
-
         $trial_botol = Trial::where('produksi_id', $id)->sum('trial_botol');
         $trial_cap = Trial::where('produksi_id', $id)->sum('trial_cap');
 
@@ -53,7 +54,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('reject_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**

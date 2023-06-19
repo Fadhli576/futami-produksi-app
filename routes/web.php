@@ -141,11 +141,15 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
 
     Route::get('/dashboard/{id}/loss-liquid', [ProcessingController::class, 'index'])->name('processing-index');
     Route::post('/dashboard/{id}/loss-liquid/store', [ProcessingController::class, 'store'])->name('processing-store');
+    Route::post('/dashboard/{id}/loss-liquid/volume-mixing/store', [ProcessingController::class, 'storeVolumeMixing'])->name('processing-volume-mixing-store');
     Route::get('/dashboard/{id}/loss-liquid/{processing}/edit', [ProcessingController::class, 'edit'])->name('processing-edit');
     Route::put('/dashboard/{id}/loss-liquid/{processing}/update', [ProcessingController::class, 'update'])->name('processing-update');
     Route::delete('/dashboard/{id}/loss-liquid/{processing}/delete', [ProcessingController::class, 'destroy'])->name('processing-delete');
 
     Route::post('/dashboard/{produksi_id}/finish-good/{batch_id}/store', [FinishGoodController::class, 'store'])->name('finish-store');
+    Route::get('/dashboard/{produksi_id}/finish-good/edit', [FinishGoodController::class, 'edit'])->name('finish-good-edit');
+    Route::put('/dashboard/{produksi_id}/finish-good/update', [FinishGoodController::class, 'update'])->name('finish-good-update');
+
 
     Route::get('/dashboard/{produksi_id}/cap/{batch_id}/trial', [TrialController::class, 'indexCap'])->name('trial-cap');
     Route::post('/dashboard/{produksi_id}/cap/{batch_id}/trial/store', [TrialController::class, 'capStore'])->name('trial-cap-store');
@@ -153,8 +157,8 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/{produksi_id}/botol/{batch_id}/trial', [TrialController::class, 'indexBotol'])->name('trial-botol');
     Route::post('/dashboard/{produksi_id}/botol/{batch_id}/trial/store', [TrialController::class, 'botolStore'])->name('trial-botol-store');
 
-    Route::get('/dashboard/{produksi_id}/botol/{batch_id}/trial/{id}/edit', [TrialController::class, 'edit'])->name('trial-edit');
-    Route::put('/dashboard/{produksi_id}/botol/{batch_id}/trial/{id}/update', [TrialController::class, 'update'])->name('trial-update');
+    Route::get('/dashboard/trial/{id}/edit', [TrialController::class, 'edit'])->name('trial-edit');
+    Route::put('/dashboard/trial/{id}/update', [TrialController::class, 'update'])->name('trial-update');
     Route::delete('/dashboard/trial/{id}/delete', [TrialController::class, 'delete'])->name('trial-delete');
 
     Route::get('/dashboard/spesifik-tempat', [TempatController::class, 'indexSpesifik'])->name('spesifik-tempat-index');
@@ -219,13 +223,16 @@ Route::middleware(['Login'])->prefix('dashboard')->group(function () {
     Route::put('/varian/detail/{id}/label', [VarianController::class, 'labelStore'])->name('label-detail-store');
     Route::put('/varian/detail/{id}/karton', [VarianController::class, 'kartonStore'])->name('karton-detail-store');
     Route::put('/varian/detail/{id}/lakban', [VarianController::class, 'lakbanStore'])->name('lakban-detail-store');
+    Route::put('/varian/detail/{id}/lakban2', [VarianController::class, 'lakbanStore2'])->name('lakban2-detail-store');
+});
+
+Route::middleware(['Login'])->group(function() {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard-index');
 });
 
 
 Route::get('/', function () {
     return view('home.index');
 });
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard-index');
 
 

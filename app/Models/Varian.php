@@ -42,6 +42,11 @@ public function lakban()
     return $this->belongsTo(Lakban::class);
 }
 
+public function lakban2()
+{
+    return $this->belongsTo(Lakban::class, 'lakban2_id');
+}
+
 public function produksi()
 {
     return $this->hasMany(Produksi::class);

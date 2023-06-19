@@ -14,4 +14,9 @@ class Batch extends Model
     {
         return $this->hasMany(BatchList::class);
     }
+
+    public function finishGood()
+    {
+        return $this->hasMany(FinishGood::class);
+    }
 }

@@ -52,17 +52,29 @@ class FinishGoodController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FinishGood $finishGood)
+    public function edit($produksi_id)
     {
-        //
+        $finishgoods = FinishGood::where('produksi_id', $produksi_id)->get();
+        return view('dashboard.produksi.finishgood.edit', compact('finishgoods', 'produksi_id'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FinishGood $finishGood)
+    public function update(Request $request, $produksi_id)
     {
-        //
+        $request->validate([
+            'pcs'=>'required'
+        ]);
+
+        $finishgood = FinishGood::where('produksi_id', $produksi_id)->get();
+        foreach ($finishgood as  $fg) {
+            $fg->update([
+                'pcs'=>$request->pcs[$fg->id]
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**

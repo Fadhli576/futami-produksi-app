@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('label_id');
             $table->string('karton_id');
             $table->string('lakban_id');
+            $table->string('lakban2_id')->nullable();
 
             $table->integer('counter_filling')->nullable();
             $table->integer('counter_coding')->nullable();
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->float('saldo_label')->nullable();
             $table->float('masuk_label')->nullable();
             $table->float('pakai_label')->nullable();
+            $table->integer('conversi_label')->nullable();
 
             $table->integer('saldo_karton')->nullable();
             $table->integer('masuk_karton')->nullable();
@@ -43,6 +45,11 @@ return new class extends Migration
             $table->integer('masuk_lakban')->nullable();
             $table->integer('terpakai_lakban')->nullable();
             $table->integer('reject_lakban')->nullable();
+
+            $table->integer('saldo_lakban2')->nullable();
+            $table->integer('masuk_lakban2')->nullable();
+            $table->integer('terpakai_lakban2')->nullable();
+            $table->integer('reject_lakban2')->nullable();
 
         });
     }
