@@ -18,7 +18,7 @@ class LoginController extends Controller
     {
 
         $login = $request->validate([
-            'no_hp' => 'required',
+            'alias' => 'required',
             'password' => 'required'
         ]);
 

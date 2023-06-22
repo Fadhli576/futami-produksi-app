@@ -226,8 +226,9 @@
                 <nav class="navbar navbar-expand topbar mb-4 static-top shadow-sm" style="background-color:#fff">
 
 
-                    <a href="{{ url()->previous() }}" class="btn text-dark"><i
-                            class="fa-solid fa-arrow-left fa-2x"></i></a>
+                    <a href="{{ url()->previous() }}" class="btn text-dark">
+                        <i class="fa-solid fa-arrow-left fa-2x"></i>
+                    </a>
 
 
                     <label for="pilih"><i
@@ -264,7 +265,8 @@
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                     </button>
                                 </div>
-                                <a class="btn btn-danger" href="/dashboard/user-data">RESET</a>
+                                <a class="btn btn-danger" href="/dashboard/user-data"><i
+                                        class="fa-solid fa-arrow-rotate-right"></i></a>
                             </div>
                         </form>
                     @elseif(request()->is('dashboard/stok-langsung'))

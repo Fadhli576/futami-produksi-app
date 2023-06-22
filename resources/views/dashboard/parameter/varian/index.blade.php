@@ -47,3 +47,4 @@
 
     {{-- {{ $lakbans->links('pagination::bootstrap-4') }} --}}
 @endsection
+

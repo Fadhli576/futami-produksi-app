@@ -142,9 +142,9 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/{id}/loss-liquid', [ProcessingController::class, 'index'])->name('processing-index');
     Route::post('/dashboard/{id}/loss-liquid/store', [ProcessingController::class, 'store'])->name('processing-store');
     Route::post('/dashboard/{id}/loss-liquid/volume-mixing/store', [ProcessingController::class, 'storeVolumeMixing'])->name('processing-volume-mixing-store');
-    Route::get('/dashboard/{id}/loss-liquid/{processing}/edit', [ProcessingController::class, 'edit'])->name('processing-edit');
-    Route::put('/dashboard/{id}/loss-liquid/{processing}/update', [ProcessingController::class, 'update'])->name('processing-update');
-    Route::delete('/dashboard/{id}/loss-liquid/{processing}/delete', [ProcessingController::class, 'destroy'])->name('processing-delete');
+    Route::get('/dashboard/{id}/loss-liquid/{processing_id}/edit', [ProcessingController::class, 'edit'])->name('processing-edit');
+    Route::put('/dashboard/{id}/loss-liquid/{processing_id}/update', [ProcessingController::class, 'update'])->name('processing-update');
+    Route::delete('/dashboard/{id}/loss-liquid/{processing_id}/delete', [ProcessingController::class, 'destroy'])->name('processing-delete');
 
     Route::post('/dashboard/{produksi_id}/finish-good/{batch_id}/store', [FinishGoodController::class, 'store'])->name('finish-store');
     Route::get('/dashboard/{produksi_id}/finish-good/edit', [FinishGoodController::class, 'edit'])->name('finish-good-edit');

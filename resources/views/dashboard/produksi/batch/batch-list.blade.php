@@ -26,7 +26,8 @@
     <div class="d-flex flex-wrap gap-4">
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Unidentified</strong>
-            <strong style="font-size: 20px">{{ $counter_filling == null ? '0' : ($reject + $sampel + $finish_good) - ($counter_filling) }}</strong>
+            <strong
+                style="font-size: 20px">{{ $counter_filling == null ? '0' : $reject + $sampel + $finish_good - $counter_filling }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Total Reject</strong>
@@ -82,8 +83,8 @@
             class="fa-solid fa-plus"></i> Tambah Batch</a>
     <a href={{ route('processing-index', $id) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
             class="fa-solid fa-prescription-bottle"></i></i> Loss Liquid</a>
-    <a href={{ route('finish-good-edit', ['produksi_id' => $id]) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
-            class="fa-solid fa-thumbs-up"></i> Edit Finish Good</a>
+    <a href={{ route('finish-good-edit', ['produksi_id' => $id]) }} class="btn btn-primary my-2 mx-1"
+        style="float: right"><i class="fa-solid fa-thumbs-up"></i> Edit Finish Good</a>
     <table
         class="text-center justify-content-center align-items-center table table-hover table-responsive-sm shadow-sm rounded-4">
         <thead class="table text-white font-bold fw-bold" style="background-color: #98c1d9">

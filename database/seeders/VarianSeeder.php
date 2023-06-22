@@ -38,6 +38,10 @@ class VarianSeeder extends Seeder
             'name' => 'Lakban'
         ]);
 
+        Lakban::create([
+            'name' => 'Lakban2'
+        ]);
+
         ParameterVarian::create([
             'name'=>'YUZU ISOTONIC 350 ml x 12',
         ]);

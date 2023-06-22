@@ -4,7 +4,7 @@
     @if (Auth::user()->role_id == 3)
         <div class="card p-3 mb-5 shadow-sm" style="border:none; border-left: 40px solid #98c1d9;">
             <h5>Processing</h5>
-            <form class="row" action="{{ route('processing-update', ['id'=>$id, 'processing'=>$processing->id]) }}" method="POST">
+            <form class="row" action="{{ route('processing-update', ['id'=>$id, 'processing_id'=>$processing_id]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class=" col-sm-12 col-md-6">
@@ -28,13 +28,6 @@
                                     {{ $density->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 ">
-                    <label for="">Counter Filling</label>
-                    <div class="input-group">
-                        <input placeholder="Counter Filling" value="{{ $processing->counter_filling }}" class="form-control"
-                            type="text" name="counter_filling" id="">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 ">

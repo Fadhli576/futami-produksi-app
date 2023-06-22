@@ -41,8 +41,7 @@ class BatchListController extends Controller
         $liquid = Processing::where('produksi_id', $id)->first();
         if (!$liquid == '') {
             $volume_mixing = $liquid->volume_mixing / $liquid->density->name;
-            $finish_good_liter = $finish_good * (((float) $liquid->volume)  / 1000);
-
+            $finish_good_liter = $finish_good * number_format(floatval($liquid->volume) / 1000, 5, '.', '');
             // dd(floatval($liquid->volume)  / 1000);
             $loss_liquid = $volume_mixing -$finish_good_liter;
         } else {

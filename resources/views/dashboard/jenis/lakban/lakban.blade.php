@@ -3,7 +3,7 @@
 @section('content')
     @if (Auth::user()->role_id == 3)
         <div class="card p-3 mb-5 shadow-sm">
-            <h5>Jenis label</h5>
+            <h5>Jenis Lakban</h5>
             <form class="row" action="{{ route('jenis-lakban-store') }}" method="POST">
                 @csrf
                 <div class="col-12 col-md-6">

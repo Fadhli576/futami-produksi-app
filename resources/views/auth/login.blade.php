@@ -24,8 +24,8 @@
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
                                                 <div class="input-group mb-3">
-                                                    <span class="input-group-text"><i class="fa-solid fa-phone fa-lg"></i></span>
-                                                    <input placeholder="Nomor HP" type="number" name="no_hp" id="form3Example3c"
+                                                    <span class="input-group-text"><i class="fa-solid fa-file-signature"></i></span>
+                                                    <input placeholder="Alias" type="text" name="alias" id="form3Example3c"
                                                     class="form-control" />
                                                 </div>
                                             </div>

@@ -34,14 +34,14 @@
                 <td>{{ $density->name }}</td>
                 <td>{{ $density->spesifikasi }}</td>
                 <td>
-                    {{-- <form action="{{ route('jenis-cap-delete', $cap->id) }}" method="POST">
+                    <form action="{{ route('density-delete', $density->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <a class="btn" style="color:#98c1d9" href="{{ route('jenis-cap-edit', $cap->id) }}"><i
+                        <a class="btn" style="color:#98c1d9" href="{{ route('density-edit', $density->id) }}"><i
                                 class="fa-solid fa-pen fa-lg"></i></a>
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
-                    </form> --}}
+                    </form>
                 </td>
             </tr>
         @empty

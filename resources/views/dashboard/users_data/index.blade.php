@@ -12,6 +12,11 @@
                         <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                         <input placeholder="Nama" class="form-control" type="text" name="name" id="">
                     </div>
+                    <label for="">Alias</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-file-signature"></i></span>
+                        <input placeholder="Alias" class="form-control" type="text" name="alias" id="">
+                    </div>
                     <label for="">Email</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-at"></i></span>

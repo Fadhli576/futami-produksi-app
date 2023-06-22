@@ -15,6 +15,7 @@ use App\Models\ParameterVarian;
 use App\Models\Reject;
 use App\Models\SpesifikTempat;
 use App\Models\TempatReject;
+use App\Models\Trial;
 use App\Models\Varian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -147,7 +148,10 @@ class VarianController extends Controller
         $counter_coding = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_coding');
         $counter_label = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_label');
         $conversi_label = Varian::where('id', $id)->first()->conversi_label;
-        return view('dashboard.produksi.varian.detail', compact('id', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
+        $trial_botol = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_botol');
+        $trial_cap = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_cap');
+
+        return view('dashboard.produksi.varian.detail', compact('id', 'trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
     }
 
     public function botolStore($id, Request $request)
@@ -176,6 +180,9 @@ class VarianController extends Controller
             'saldo_cap'=>$request->saldo_cap,
             'masuk_cap'=>$request->masuk_cap,
             'pakai_cap'=>$pakai_cap,
+            'jatuh_filling_cap'=>$request->jatuh_filling_cap,
+            'sampel_cap'=>$request->sampel_cap,
+            'trial_cap'=>$request->trial_cap,
         ];
 
         Varian::where('id', $id)->update($cap);
@@ -211,14 +218,17 @@ class VarianController extends Controller
             'masuk_karton'=>'required',
         ]);
 
-        $pakai_karton = $request->masuk_karton - $request->saldo_karton;
+        $pakai_karton = $request->masuk_karton - $request->saldo_karton - $request->reject_karton - $request->reject_supplier_karton;
 
         $karton = [
             'saldo_karton'=>$request->saldo_karton,
             'masuk_karton'=>$request->masuk_karton,
-            'terpakai_karton'=>$pakai_karton
+            'terpakai_karton'=>$pakai_karton,
+            'reject_karton'=>$request->reject_karton,
+            'reject_supplier_karton'=>$request->reject_supplier_karton
         ];
 
+        
         Varian::where('id', $id)->update($karton);
         toast('Berhasil!','success');
         return redirect()->back();
@@ -235,7 +245,8 @@ class VarianController extends Controller
         $lakban = [
             'saldo_lakban'=>$request->saldo_lakban,
             'masuk_lakban'=>$request->masuk_lakban,
-            'terpakai_lakban'=>$pakai_lakban
+            'terpakai_lakban'=>$pakai_lakban,
+            'reject_supplier_lakban'=>$request->reject_supplier_lakban
         ];
 
         Varian::where('id', $id)->update($lakban);
@@ -254,7 +265,8 @@ class VarianController extends Controller
         $lakban = [
             'saldo_lakban2'=>$request->saldo_lakban,
             'masuk_lakban2'=>$request->masuk_lakban,
-            'terpakai_lakban2'=>$pakai_lakban
+            'terpakai_lakban2'=>$pakai_lakban,
+            'reject_supplier_lakban2'=>$request->reject_supplier_lakban
         ];
 
         Varian::where('id', $id)->update($lakban);

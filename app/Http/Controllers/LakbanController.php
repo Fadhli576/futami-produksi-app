@@ -57,7 +57,7 @@ class LakbanController extends Controller
      */
     public function edit(Lakban $lakban)
     {
-        //
+        return view('dashboard.jenis.lakban.lakban-edit', compact('lakban'));
     }
 
     /**
@@ -65,7 +65,17 @@ class LakbanController extends Controller
      */
     public function update(Request $request, Lakban $lakban)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+        ]);
+
+        $lakban->update([
+            'name'=> $request->name,
+            'spesifikasi'=> $request->spesifikasi
+        ]);
+
+        toast('Berhasil!','success');
+        return redirect('/dashboard/jenis-lakban');
     }
 
     /**
@@ -74,6 +84,7 @@ class LakbanController extends Controller
     public function destroy(Lakban $lakban)
     {
         $lakban->delete();
+        toast('Berhasil!','success');
         return redirect('/dashboard/jenis-lakban');
     }
 }

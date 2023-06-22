@@ -21,7 +21,7 @@
                                             <div class="input-group">
                                                 <input placeholder="Volume Mixing" class="form-control" type="number"
                                                     name="volume_mixing[{{ $key }}]" id=""
-                                                    value="">
+                                                    value="{{ $batch_list->volume_mixing }}">
                                             </div>
                                         </td>
                                     </tr>
@@ -44,24 +44,37 @@
                     @csrf
                     <label for="">Drain Out</label>
                     <div class="input-group">
-                        <input placeholder="Drain Out" class="form-control" type="text" name="drain_out" id="">
+                        <input value="{{ $processing_self == '' ? '' : $processing_self->drain_out }}"
+                            placeholder="Drain Out" class="form-control" type="text" name="drain_out" id="">
                     </div>
                     <label for="">Density</label>
                     <div class="input-group">
                         <select name="density_id" id="" class="form-select">
                             <option selected disabled value="">Pilih Density</option>
                             @foreach ($densities as $density)
-                                <option value="{{ $density->id }}">{{ $density->name }}</option>
+                                <option value="{{ $density->id }}"
+                                    {{ $processing_self == '' ? '' : ($processing_self->density_id == $density->id ? 'selected' : '') }}>
+                                    {{ $density->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <label for="">Volume</label>
                     <div class="input-group">
-                        <input placeholder="Volume" class="form-control" type="text" name="volume" id="">
+                        <input placeholder="Volume (Gunakan . untuk desimal)"
+                            value="{{ $processing_self == '' ? '' : $processing_self->volume }}" class="form-control"
+                            type="text" name="volume" id="">
                         <span class="input-group-text">ml</span>
                     </div>
                     <div class="col-12 mt-2">
-                        <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
+                        @if ($processing_self == null)
+                            <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
+                        @endif
+                        @if ($processing_self)
+                        <a href={{ route('processing-edit', ['id' => $id, 'processing_id' => $processing_self->id]) }}
+                            class="btn btn-primary my-2 mx-1" style="float: right"><i class="fa-solid fa-thumbs-up"></i>
+                            Edit Loss Liquid</a>
+                        @endif
+
                     </div>
                 </form>
             </div>

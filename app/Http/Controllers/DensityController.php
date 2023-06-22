@@ -37,6 +37,7 @@ class DensityController extends Controller
         ]);
 
         Density::create($density);
+        toast('Berhasil!','success');
         return redirect('/dashboard/density');
     }
 
@@ -53,7 +54,7 @@ class DensityController extends Controller
      */
     public function edit(Density $density)
     {
-        return view('dashboard.density.edit', compact('density'));
+        return view('dashboard.jenis.density.edit', compact('density'));
     }
 
     /**
@@ -63,9 +64,11 @@ class DensityController extends Controller
     {
         $densityOld =  $request->validate([
             'name'=>'required',
+            'spesifikasi'=>'required',
         ]);
 
-        Density::where('id', $density->id)->update([$densityOld]);
+        Density::where('id', $density->id)->update($densityOld);
+        toast('Berhasil!','success');
         return redirect('/dashboard/density');
     }
 
@@ -75,6 +78,7 @@ class DensityController extends Controller
     public function destroy(Density $density)
     {
         $density->delete();
+        toast('Berhasil!','success');
         return redirect()->back();
     }
 }
