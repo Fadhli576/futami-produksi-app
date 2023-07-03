@@ -8,11 +8,6 @@
                 @csrf
                 @method('PUT')
                 <div class=" col-sm-12 col-md-6">
-                    <label for="">Volume Mixing</label>
-                    <div class="input-group">
-                        <input placeholder="Volume Mixing" value="{{ $processing->volume_mixing }}" class="form-control"
-                            type="text" name="volume_mixing" id="">
-                    </div>
                     <label for="">Drain Out</label>
                     <div class="input-group">
                         <input placeholder="Drain Out" value="{{ $processing->drain_out }}" class="form-control"

@@ -36,6 +36,10 @@
                             </table>
                             @if (!$batch_lists->count() == 0)
                                 <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
+                                <a href={{ route('processing-volume-mixing-edit', ['id' => $id]) }}
+                                    class="btn btn-primary my-2 mx-1" style="float: right"><i
+                                        class="fa-solid fa-thumbs-up"></i>
+                                    Edit Volume Mixing</a>
                             @endif
                         </form>
                     @endif
@@ -54,7 +58,8 @@
                             @foreach ($densities as $density)
                                 <option value="{{ $density->id }}"
                                     {{ $processing_self == '' ? '' : ($processing_self->density_id == $density->id ? 'selected' : '') }}>
-                                    {{ $density->name }}</option>
+                                    {{ $density->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -70,9 +75,9 @@
                             <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
                         @endif
                         @if ($processing_self)
-                        <a href={{ route('processing-edit', ['id' => $id, 'processing_id' => $processing_self->id]) }}
-                            class="btn btn-primary my-2 mx-1" style="float: right"><i class="fa-solid fa-thumbs-up"></i>
-                            Edit Loss Liquid</a>
+                            <a href={{ route('processing-edit', ['id' => $id, 'processing_id' => $processing_self->id]) }}
+                                class="btn btn-primary my-2 mx-1" style="float: right"><i class="fa-solid fa-thumbs-up"></i>
+                                Edit Loss Liquid</a>
                         @endif
 
                     </div>

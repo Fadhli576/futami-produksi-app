@@ -11,6 +11,7 @@ use App\Models\Produksi;
 use App\Models\Reject;
 use App\Models\Sampel;
 use App\Models\Trial;
+use App\Models\Varian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -26,8 +27,10 @@ class BatchListController extends Controller
         $reject_produksi = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 1]])->sum('jumlah_botol');
         $reject_hci = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 2]])->sum('jumlah_botol');
         $sampel = Sampel::where('produksi_id', $id)->sum('jumlah_botol');
-        $trial_botol = Trial::where('produksi_id', $id)->sum('trial_botol');
-        $trial_cap = Trial::where('produksi_id', $id)->sum('trial_cap');
+        $trial_botol = Varian::where('produksi_id', $id)->first()->trial_botol;
+        $trial_cap = Varian::where('produksi_id', $id)->first()->trial_cap;
+        $jatuh_botol = Varian::where('produksi_id', $id)->first()->jatuh_botol;
+        $jatuh_filling_cap = Varian::where('produksi_id', $id)->first()->jatuh_filling_cap;
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
 
@@ -53,7 +56,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('reject_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('jatuh_filling_cap','jatuh_botol','reject_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**

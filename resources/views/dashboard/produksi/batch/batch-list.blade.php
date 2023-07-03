@@ -46,12 +46,28 @@
             <strong style="font-size: 20px">{{ $sampel }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Trial Cap</strong>
-            <strong style="font-size: 20px">{{ $trial_cap }}</strong>
+            <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
+            <strong style="font-size: 20px">{{ $trial_cap || $jatuh_filling_cap ? $trial_cap + $jatuh_filling_cap : '0' }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Trial Botol</strong>
-            <strong style="font-size: 20px">{{ $trial_botol }}</strong>
+            <strong style="font-size: 20px">Trial Botol & Jatuh</strong>
+            <strong style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Trial Cap</strong>
+            <strong style="font-size: 20px">{{ $trial_cap ? $trial_cap : '0' }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Jatuh Filling Cap</strong>
+            <strong style="font-size: 20px">{{ $jatuh_filling_cap ? $jatuh_filling_cap : '0' }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Trial Botol</strong>
+            <strong style="font-size: 20px">{{ $trial_botol ? $trial_botol : '0' }}</strong>
+        </div>
+        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+            <strong style="font-size: 20px">Jatuh Botol</strong>
+            <strong style="font-size: 20px">{{ $jatuh_botol ? $jatuh_botol : '0' }}</strong>
         </div>
         <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
             <strong style="font-size: 20px">Total Finish Good</strong>
@@ -85,6 +101,63 @@
             class="fa-solid fa-prescription-bottle"></i></i> Loss Liquid</a>
     <a href={{ route('finish-good-edit', ['produksi_id' => $id]) }} class="btn btn-primary my-2 mx-1"
         style="float: right"><i class="fa-solid fa-thumbs-up"></i> Edit Finish Good</a>
+
+    {{-- Modal --}}
+
+    <button type="button" class="btn btn-primary my-2 mx-1" style="float: right" data-bs-toggle="modal"
+        data-bs-target="#counter{{ $id }}"> <i class="fa-regular fa-pen-to-square"></i>
+        Edit Counter
+    </button>
+
+    <div class="modal fade" id="counter{{ $id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Pilih Counter Edit yang akan dilakukan
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{ route('counter-edit', ['id' => $id, 'param_id' => 1]) }}" class="btn btn-primary">Counter
+                        Filling</a>
+                    <a href="{{ route('counter-edit', ['id' => $id, 'param_id' => 2]) }}" class="btn btn-primary">Counter
+                        Coding</a>
+                    <a href="{{ route('counter-edit', ['id' => $id, 'param_id' => 3]) }}" class="btn btn-primary">Counter
+                        Label</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary my-2 mx-1" data-bs-toggle="modal" style="float: right"
+        data-bs-target="#countertambah{{ $id }}"><i class="fa-solid fa-plus"></i>
+        Tambah Counter
+    </button>
+
+
+    <div class="modal fade" id="countertambah{{ $id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Pilih Counter Tambah
+                        yang akan dilakukan
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 1]) }}"
+                        class="btn btn-primary">Counter Filling</a>
+                    <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 2]) }}"
+                        class="btn btn-primary">Counter Coding</a>
+                    <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 3]) }}"
+                        class="btn btn-primary">Counter Label</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table
         class="text-center justify-content-center align-items-center table table-hover table-responsive-sm shadow-sm rounded-4">
         <thead class="table text-white font-bold fw-bold" style="background-color: #98c1d9">
@@ -115,7 +188,8 @@
                         Counter
                     </button>
 
-                    <div class="modal fade" id="staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
+                    <div class="modal fade"
+                        id="staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -150,7 +224,7 @@
                     <!-- Modal -->
 
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop3{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
                         Trial
                     </button>
@@ -176,7 +250,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">

@@ -22,6 +22,44 @@
                                     <input disabled placeholder="Counter Coding" value="{{ $counter_coding }}"
                                         class="form-control" type="number" name="counter_coding" id="">
                                 </div>
+                                <label for="">Pemakaian Botol</label>
+                                <div class="input-group">
+                                    <input disabled placeholder="Counter Label"
+                                        value="{{ $counter_filling + $trial_botol }}" class="form-control" type="number"
+                                        name="counter_label" id="">
+                                </div>
+
+                                <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
+
+                                <button type="button" class="btn btn-primary my-2 mx-1" data-bs-toggle="modal"
+                                    data-bs-target="#counter{{ $id }}"><i class="fa-solid fa-plus"></i>
+                                    Tambah Counter
+                                </button>
+
+
+                                <div class="modal fade" id="counter{{ $id }}" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Pilih Counter Tambah
+                                                    yang akan dilakukan
+                                                </h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 1]) }}"
+                                                    class="btn btn-primary">Counter Filling</a>
+                                                <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 2]) }}"
+                                                    class="btn btn-primary">Counter Coding</a>
+                                                <a href="{{ route('counter-create-multi', ['produksi_id' => $id, 'param_id' => 3]) }}"
+                                                    class="btn btn-primary">Counter Label</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Counter Label</label>
@@ -29,18 +67,19 @@
                                     <input disabled placeholder="Counter Label" value="{{ $counter_label }}"
                                         class="form-control" type="number" name="counter_label" id="">
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="">Pemakaian Botol</label>
+                                <label for="">Trial</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Counter Label"
-                                        value="{{ $counter_filling + $trial_botol }}" class="form-control" type="number"
-                                        name="counter_label" id="">
+                                    <input placeholder="Trial" value="{{ $varian->trial_botol }}" class="form-control"
+                                        type="number" name="trial_botol" id="">
                                 </div>
+                                <label for="">Jatuh</label>
+                                <div class="input-group">
+                                    <input placeholder="Jatuh" value="{{ $varian->jatuh_botol }}" class="form-control"
+                                        type="number" name="jatuh_botol" id="">
+                                </div>
+
                             </div>
-                            <div class="col-12 mt-2">
-                                <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
-                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -58,34 +97,37 @@
                                 </div>
                                 <label for="">Saldo Akhir</label>
                                 <div class="input-group">
-                                    <input placeholder="Saldo Akhir" value="{{ $varian->saldo_cap }}" class="form-control"
-                                        type="number" name="saldo_cap" id="" autocomplete="off">
+                                    <input disabled placeholder="Saldo Akhir" value="{{ $varian->masuk_cap - $pakai_cap }}"
+                                        class="form-control" type="number" name="saldo_cap" id=""
+                                        autocomplete="off">
                                 </div>
                                 <label for="">Jatuh di Filling & Sisa</label>
                                 <div class="input-group">
-                                    <input placeholder="Jatuh & Sisa di jalur" value="{{$varian->jatuh_filling_cap}}" class="form-control"
-                                        type="number" name="jatuh_filling_cap" id="" autocomplete="off">
+                                    <input placeholder="Jatuh & Sisa di jalur" value="{{ $varian->jatuh_filling_cap }}"
+                                        class="form-control" type="number" name="jatuh_filling_cap" id=""
+                                        autocomplete="off">
                                 </div>
                                 <label for="">Trial</label>
                                 <div class="input-group">
-                                    <input placeholder="Saldo Akhir" value="{{ $varian->trial_cap }}" class="form-control"
-                                        type="number" name="trial_cap" id="" autocomplete="off">
+                                    <input placeholder="Saldo Akhir" value="{{ $varian->trial_cap }}"
+                                        class="form-control" type="number" name="trial_cap" id=""
+                                        autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Pakai" value="{{ $varian->pakai_cap }}"
+                                    <input disabled placeholder="Pakai" value="{{ $pakai_cap }}"
                                         class="form-control" type="number" name="pakai_cap" id=""
                                         autocomplete="off">
                                 </div>
                                 <label for="">Varians</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Varians"
-                                        value="{{ $varian->saldo_cap == '' ? '' : ($varians_cap = $varian->pakai_cap - $finish_good) }}"
+                                        value="{{ $varian->masuk_cap == '' ? '' : ($varians_cap = $pakai_cap - $finish_good) }}"
                                         class="form-control" type="number" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ $varian->saldo_cap == '' ? 0 : number_format(($varians_cap / $varian->pakai_cap) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->masuk_cap == '' ? 0 : number_format(($varians_cap / $pakai_cap) * 100, 2) }}
                                         %</span>
                                 </div>
                                 <label for="">Sampel</label>
@@ -231,13 +273,15 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_lakban }}"
+                                    <input disabled placeholder="Terpakai"
+                                        value="{{ $varian->terpakai_lakban - $varian->reject_supplier_lakban }}"
                                         class="form-control" type="number" name="terpakai_lakban" id="">
                                 </div>
                                 <label for="">Reject Supplier</label>
                                 <div class="input-group">
                                     <input placeholder="Reject Supplier" value="{{ $varian->reject_supplier_lakban }}"
-                                        class="form-control" type="number" name="reject_supplier_lakban" id="">
+                                        class="form-control" type="number" name="reject_supplier_lakban"
+                                        id="">
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -280,13 +324,15 @@
                                 <div class="col-sm-12 col-md-6">
                                     <label for="">Pakai</label>
                                     <div class="input-group">
-                                        <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_lakban2 }}"
+                                        <input disabled placeholder="Terpakai"
+                                            value="{{ $varian->terpakai_lakban2 - $varian->reject_supplier_lakban2 }}"
                                             class="form-control" type="number" name="terpakai_lakban" id="">
                                     </div>
                                     <label for="">Reject Supplier</label>
                                     <div class="input-group">
-                                        <input placeholder="Reject Supplier" value="{{ $varian->reject_supplier_lakban2 }}"
-                                            class="form-control" type="number" name="reject_supplier_lakban2" id="">
+                                        <input placeholder="Reject Supplier"
+                                            value="{{ $varian->reject_supplier_lakban2 }}" class="form-control"
+                                            type="number" name="reject_supplier_lakban2" id="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">

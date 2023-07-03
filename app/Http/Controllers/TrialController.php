@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TrialController extends Controller
 {
@@ -13,6 +14,7 @@ class TrialController extends Controller
     public function indexBotol($produksi_id, $batch_id)
     {
         $trials = Trial::where([['trial_cap', null],['produksi_id',$produksi_id],['batch_id',$batch_id]])->get();
+        session()->put('previous_url', url()->previous());
         return view('dashboard.produksi.trial.botol-produksi', compact('produksi_id', 'batch_id', 'trials'));
     }
 
@@ -22,7 +24,7 @@ class TrialController extends Controller
     public function indexCap($produksi_id, $batch_id)
     {
         $trials = Trial::where([['trial_botol', null],['produksi_id',$produksi_id],['batch_id',$batch_id]])->get();
-
+        session()->put('previous_url', url()->previous());
         return view('dashboard.produksi.trial.cap-produksi', compact('produksi_id', 'batch_id', 'trials'));
     }
 
@@ -40,7 +42,9 @@ class TrialController extends Controller
             'produksi_id'=>$produksi_id,
             'batch_id'=>$batch_id
         ]);
-        return redirect()->back();
+
+
+        return redirect(session()->get('previous_url'));
     }
 
 
@@ -55,8 +59,8 @@ class TrialController extends Controller
             'produksi_id'=>$produksi_id,
             'batch_id'=>$batch_id
         ]);
-        return redirect()->back();
-    }
+        return redirect(session()->get('previous_url'));
+        }
 
     public function edit( $id)
     {
@@ -66,11 +70,17 @@ class TrialController extends Controller
 
     public function update(Request $request, $id)
     {
-        $trial = $request->validate([
-            'trial'=>'required'
-        ]);
 
-        Trial::where('id', $id)->update($trial);
+        if ($request->trial_botol) {
+            Trial::where('id', $id)->update([
+                'trial_botol'=>$request->trial_botol
+            ]);
+        }
+        if ($request->trial_cap) {
+            Trial::where('id', $id)->update([
+                'trial_cap'=>$request->trial_cap
+            ]);
+        }
 
         return redirect()->back();
     }

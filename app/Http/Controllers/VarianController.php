@@ -13,6 +13,7 @@ use App\Models\Lakban;
 use App\Models\ParameterReject;
 use App\Models\ParameterVarian;
 use App\Models\Reject;
+use App\Models\Sampel;
 use App\Models\SpesifikTempat;
 use App\Models\TempatReject;
 use App\Models\Trial;
@@ -143,7 +144,20 @@ class VarianController extends Controller
     public function detail($id)
     {
         $varian = Varian::where('id', $id)->first();
+
         $finish_good = FinishGood::where('produksi_id', $varian->produksi_id)->sum('pcs');
+        $reject_supplier = Reject::where('produksi_id', $varian->produksi_id)->where('id_spesifik_tempat', 2)->sum('jumlah_botol');
+        $sampel = Sampel::where('produksi_id', $varian->produksi_id)->sum('jumlah_botol');
+        // $reject_filling_inspectlamp = Reject::where('produksi_id', $varian->produksi_id)->where('id_spesifik_tempat', 1)->where('id_tempat_reject', '<', 3)->sum('jumlah_botol');
+        // $reject_cooling_conveyor = Reject::where('produksi_id', $varian->produksi_id)->where('id_spesifik_tempat', 1)->where('id_tempat_reject','>', 2)->whereIn('id_paramater_reject', [2,3,4,9,11,15,16,19,26,27,33,34])->sum('jumlah_botol');
+
+        // $reject_produksi = $reject_filling_inspectlamp + $reject_cooling_conveyor;
+        $reject_produksi = Reject::where('produksi_id', $varian->produksi_id)->where('id_spesifik_tempat', 1)->sum('jumlah_botol');
+        $reject_cap = Reject::where('produksi_id', $varian->produksi_id)->whereIn('id_paramater_reject', [33])->sum('jumlah_botol');
+
+        $reject = $reject_produksi - $reject_cap;
+
+        $pakai_cap =  $finish_good + $sampel + $reject_supplier + $varian->trial_cap + $reject + $varian->jatuh_filling_cap;
         $counter_filling = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_filling');
         $counter_coding = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_coding');
         $counter_label = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_label');
@@ -151,16 +165,15 @@ class VarianController extends Controller
         $trial_botol = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_botol');
         $trial_cap = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_cap');
 
-        return view('dashboard.produksi.varian.detail', compact('id', 'trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
+        return view('dashboard.produksi.varian.detail', compact('pakai_cap', 'id', 'trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
     }
 
     public function botolStore($id, Request $request)
     {
-        $botol = $request->validate([
-            'counter_filling'=>'required',
-            'counter_coding'=>'required',
-            'counter_label'=>'required'
-        ]);
+        $botol = [
+            'trial_botol'=>$request->trial_botol,
+            'jatuh_botol'=>$request->jatuh_botol,
+        ];
 
         Varian::where('id', $id)->update($botol);
         toast('Berhasil!','success');
@@ -228,7 +241,7 @@ class VarianController extends Controller
             'reject_supplier_karton'=>$request->reject_supplier_karton
         ];
 
-        
+
         Varian::where('id', $id)->update($karton);
         toast('Berhasil!','success');
         return redirect()->back();
@@ -257,16 +270,16 @@ class VarianController extends Controller
     public function lakbanStore2($id, Request $request)
     {
         $request->validate([
-            'masuk_lakban'=>'required',
+            'masuk_lakban2'=>'required',
         ]);
 
-        $pakai_lakban = $request->masuk_lakban - $request->saldo_lakban;
+        $pakai_lakban2 = $request->masuk_lakban2 - $request->saldo_lakban2;
 
         $lakban = [
-            'saldo_lakban2'=>$request->saldo_lakban,
-            'masuk_lakban2'=>$request->masuk_lakban,
-            'terpakai_lakban2'=>$pakai_lakban,
-            'reject_supplier_lakban2'=>$request->reject_supplier_lakban
+            'saldo_lakban2'=>$request->saldo_lakban2,
+            'masuk_lakban2'=>$request->masuk_lakban2,
+            'terpakai_lakban2'=>$pakai_lakban2,
+            'reject_supplier_lakban2'=>$request->reject_supplier_lakban2
         ];
 
         Varian::where('id', $id)->update($lakban);

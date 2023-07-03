@@ -24,7 +24,7 @@
     @forelse ($trials as $trial)
         <tr class="bg-white">
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $trial->trial_botol }}</td>
+            <td>{{ $trial->trial_cap }}</td>
             <td>
                 <form action="{{ route('trial-delete', $trial->id) }}" method="POST">
                     @csrf

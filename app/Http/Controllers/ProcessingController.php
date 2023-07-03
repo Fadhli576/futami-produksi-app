@@ -66,25 +66,23 @@ class ProcessingController extends Controller
     public function storeVolumeMixing(Request $request, $id)
     {
 
+        $batch_lists = BatchList::where('produksi_id', $id)->get();
 
-        foreach ($request->input('volume_mixing.*') as $key => $value) {
-            if ($value == '') {
-
-            } elseif(!$value == '') {
-                if (VolumeMixing::where('batch_id', $key + 1)->where('produksi_id', $id)->first() == null) {
+        foreach ($batch_lists as $key => $value) {
+                if (VolumeMixing::where('batch_id', $value->batch_id)->where('produksi_id', $id)->first() == null) {
                     DB::table('volume_mixings')->insert([
                         'produksi_id' => $id,
-                        'batch_id' => $key + 1,
-                        'volume_mixing' => $value,
+                        'batch_id' => $value->batch_id,
+                        'volume_mixing' => $request->volume_mixing[$key],
                     ]);
                     Processing::where('produksi_id', $id)->update([
                         'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
                     ]);
                     toast('Berhasil!','success');
                     return redirect()->back();
-            } else {
-                toast('Volume Mixing sudah diisi pada batch ini!','error');
-                return redirect()->back();}
+                }else{
+                    toast('Gagal!','error');
+                    return redirect()->back();
         }
     }
 }
@@ -115,14 +113,13 @@ class ProcessingController extends Controller
     public function update(Request $request, $processing_id)
     {
         $proses =  $request->validate([
-            'volume_mixing'=>'required',
             'drain_out'=>'required',
             'volume'=>'required',
             'density_id'=>'required'
         ]);
 
         Processing::where('id', $processing_id)->update($proses);
-        return redirect('/dashboard/loss-liquid');
+        return redirect()->route('processing-index', $processing_id);
     }
 
     /**
@@ -132,6 +129,34 @@ class ProcessingController extends Controller
     {
         $processing = Processing::find($processing_id);
         $processing->delete();
-        return redirect('/dashboard/loss-liquid');
+        return redirect()->route('processing-index', $processing_id);
+    }
+
+    public function editVolumeMixing($id)
+    {
+        $batch_lists = VolumeMixing::join('batch_lists', 'volume_mixings.batch_id', '=', 'batch_lists.batch_id')->join('batches', 'batch_lists.batch_id', '=', 'batches.id')->where('batch_lists.produksi_id', $id)
+        ->where('volume_mixings.produksi_id', $id)->select('volume_mixings.id as id', 'volume_mixings.produksi_id as produksi_id', 'volume_mixings.batch_id as batch_id',
+        'volume_mixings.volume_mixing as volume_mixing', 'batches.name as name', 'volume_mixings.created_at as created_at', 'volume_mixings.updated_at as updated_at')
+        ->get();
+
+        return view('dashboard.produksi.liquid.volume-edit', compact('id','batch_lists'));
+    }
+
+    public function updateVolumeMixing($id, Request $request) {
+        // $batch_lists = BatchList::where('produksi_id', $id)->get();
+        $volume_mixings = VolumeMixing::where('produksi_id', $id)->get();
+
+        foreach ($volume_mixings as $volume_mixing) {
+           $volume_mixing->update([
+                'volume_mixing' => $request->volume_mixing[$volume_mixing->id],
+            ]);
+
+            Processing::where('produksi_id', $id)->update([
+                'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
+            ]);
+
+        }
+        toast('Berhasil!','success');
+        return redirect()->back();
     }
 }

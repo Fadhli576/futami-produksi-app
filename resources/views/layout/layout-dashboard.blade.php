@@ -92,7 +92,10 @@
                     request()->is('dashboard/*/botol/*/trial') ||
                     request()->is('dashboard/*/cap/*/trial') ||
                     request()->is('dashboard/*/batch') ||
-                    request()->is('dashboard/*/loss-liquid'))
+                    request()->is('dashboard/*/loss-liquid')||
+                    request()->is('dashboard/varian/detail/*') ||
+                    request()->is('dashboard/varian/*/edit') ||
+                    preg_match('/^dashboard\/\d/', request()->path()))
                 <li class="nav-item {{ request()->is('dashboard/produksi') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="/dashboard/produksi">
                         <i class="fa-solid fa-universal-access"></i>
@@ -226,9 +229,16 @@
                 <nav class="navbar navbar-expand topbar mb-4 static-top shadow-sm" style="background-color:#fff">
 
 
-                    <a href="{{ url()->previous() }}" class="btn text-dark">
-                        <i class="fa-solid fa-arrow-left fa-2x"></i>
-                    </a>
+                    @if (request()->is('dashboard/varian/detail/*'))
+                        <a href="/dashboard/varian" class="btn text-dark">
+                            <i class="fa-solid fa-arrow-left fa-2x"></i>
+                        </a>
+                    @else
+                        <a href="{{ url()->previous() }}" class="btn text-dark">
+                            <i class="fa-solid fa-arrow-left fa-2x"></i>
+                        </a>
+                    @endif
+
 
 
                     <label for="pilih"><i

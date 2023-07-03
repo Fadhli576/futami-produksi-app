@@ -142,6 +142,10 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/{id}/loss-liquid', [ProcessingController::class, 'index'])->name('processing-index');
     Route::post('/dashboard/{id}/loss-liquid/store', [ProcessingController::class, 'store'])->name('processing-store');
     Route::post('/dashboard/{id}/loss-liquid/volume-mixing/store', [ProcessingController::class, 'storeVolumeMixing'])->name('processing-volume-mixing-store');
+    Route::get('/dashboard/{id}/loss-liquid/volume-mixing/edit', [ProcessingController::class, 'editVolumeMixing'])->name('processing-volume-mixing-edit');
+    Route::put('/dashboard/{id}/loss-liquid/volume-mixing/update', [ProcessingController::class, 'updateVolumeMixing'])->name('processing-volume-mixing-update');
+
+
     Route::get('/dashboard/{id}/loss-liquid/{processing_id}/edit', [ProcessingController::class, 'edit'])->name('processing-edit');
     Route::put('/dashboard/{id}/loss-liquid/{processing_id}/update', [ProcessingController::class, 'update'])->name('processing-update');
     Route::delete('/dashboard/{id}/loss-liquid/{processing_id}/delete', [ProcessingController::class, 'destroy'])->name('processing-delete');
@@ -191,12 +195,15 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/parameter-varian-edit/{parameterVarian}', [ParameterVarianController::class, 'edit'])->name('parameter-varian-edit');
     Route::put('/dashboard/parameter-varian-update/{parameterVarian}', [ParameterVarianController::class, 'update'])->name('parameter-varian-update');
 
-     Route::get('/dashboard/{produksi_id}/counter/{batch_id}/{param_id}', [CounterController::class, 'index'])->name('counter-index');
+    Route::get('/dashboard/{produksi_id}/counter/{batch_id}/{param_id}', [CounterController::class, 'index'])->name('counter-index');
     Route::post('/dashboard/{produksi_id}/counter/{batch_id}/{param_id}/store', [CounterController::class, 'store'])->name('counter-store');
 
-    Route::get('/dashboard/{produksi_id}/counter/{batch_id}/{id}/edit', [CounterController::class, 'edit'])->name('counter-edit');
-    Route::put('/dashboard/{produksi_id}/counter/{batch_id}/{id}/update', [CounterController::class, 'update'])->name('counter-update');
-    Route::delete('/dashboard/trial/{id}/delete', [CounterController::class, 'delete'])->name('trial-delete');
+    Route::get('/dashboard/{produksi_id}/counter/{param_id}', [CounterController::class, 'create'])->name('counter-create-multi');
+    Route::post('/dashboard/{produksi_id}/counter/{param_id}/store-multi', [CounterController::class, 'storeMultiple'])->name('counter-store-multi');
+
+
+    Route::get('/dashboard/{id}/counter-edit/{param_id}', [CounterController::class, 'edit'])->name('counter-edit');
+    Route::put('/dashboard/{id}/counter-edit/{param_id}/update', [CounterController::class, 'update'])->name('counter-update');
 
     Route::get('/dashboard/profile', [UserController::class, 'index'])->name('profile-index');
     Route::put('/dashboard/update-profile', [UserController::class, 'update'])->name('update-profile');

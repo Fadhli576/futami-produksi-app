@@ -92,4 +92,5 @@ class UserController extends Controller
         Alert::warning('Sukses', 'User telah dihapus');
         return redirect()->back();
     }
+
 }
