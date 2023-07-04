@@ -83,6 +83,7 @@ class LabelController extends Controller
     public function destroy(Label $label)
     {
         $label->delete();
+        toast('Berhasil!','success');
         return redirect('dashboard/jenis-label');
     }
 }
