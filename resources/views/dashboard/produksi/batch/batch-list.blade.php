@@ -23,75 +23,108 @@
             </form>
         </div>
     @endif
-    <div class="d-flex flex-wrap gap-4">
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Unidentified</strong>
-            <strong
-                style="font-size: 20px">{{ $counter_filling == null ? '0' : $reject + $sampel + $finish_good - $counter_filling }}</strong>
+    <div class="d-flex flex-column flex-wrap gap-4">
+        <div class="global d-flex flex-wrap gap-3">
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Unidentified</strong>
+                <strong
+                    style="font-size: 20px">{{ $counter_filling == null ? '0' : $reject + $sampel + $finish_good - $counter_filling }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Total Sampel</strong>
+                <strong style="font-size: 20px">{{ $sampel }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Total Finish Good</strong>
+                <strong style="font-size: 20px">{{ $finish_good }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Total Coding</strong>
+                <strong style="font-size: 20px">{{ $counter_coding }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Total Filling</strong>
+                <strong style="font-size: 20px">{{ $counter_filling }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Total Label</strong>
+                <strong style="font-size: 20px">{{ $counter_label }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Reject HCI</strong>
+                <strong style="font-size: 20px">{{ $reject_hci }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Defect HCI</strong>
+                <strong style="font-size: 20px">{{ $defect_hci }}</strong>
+            </div>
+            <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                <strong style="font-size: 20px">Reject Supplier</strong>
+                <strong style="font-size: 20px">{{ $reject_hci + $defect_hci }}</strong>
+            </div>
         </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Reject</strong>
-            <strong style="font-size: 20px">{{ $reject }}</strong>
+        <div class="botol">
+            <h4 class="fw-bold text-black">Botol</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Total Reject</strong>
+                    <strong style="font-size: 20px">{{ $reject }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Produksi Botol</strong>
+                    <strong style="font-size: 20px">{{ $reject_produksi }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Trial Botol</strong>
+                    <strong style="font-size: 20px">{{ $trial_botol ? $trial_botol : '0' }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Jatuh Botol</strong>
+                    <strong style="font-size: 20px">{{ $jatuh_botol ? $jatuh_botol : '0' }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Trial Botol & Jatuh</strong>
+                    <strong
+                        style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
+                </div>
+            </div>
         </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Reject Produksi</strong>
-            <strong style="font-size: 20px">{{ $reject_produksi }}</strong>
+        <div class="cap">
+            <h4 class="fw-bold text-black">Cap</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
+                    <strong
+                        style="font-size: 20px">{{ $trial_cap || $jatuh_filling_cap ? $trial_cap + $jatuh_filling_cap : '0' }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Trial Cap</strong>
+                    <strong style="font-size: 20px">{{ $trial_cap ? $trial_cap : '0' }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Jatuh Filling Cap</strong>
+                    <strong style="font-size: 20px">{{ $jatuh_filling_cap ? $jatuh_filling_cap : '0' }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Produksi Cap</strong>
+                    <strong style="font-size: 20px">{{ $reject_produksi_cap ? $reject_produksi_cap : '0' }}</strong>
+                </div>
+            </div>
         </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Reject HCI</strong>
-            <strong style="font-size: 20px">{{ $reject_hci }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Sampel</strong>
-            <strong style="font-size: 20px">{{ $sampel }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
-            <strong style="font-size: 20px">{{ $trial_cap || $jatuh_filling_cap ? $trial_cap + $jatuh_filling_cap : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Trial Botol & Jatuh</strong>
-            <strong style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Trial Cap</strong>
-            <strong style="font-size: 20px">{{ $trial_cap ? $trial_cap : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Jatuh Filling Cap</strong>
-            <strong style="font-size: 20px">{{ $jatuh_filling_cap ? $jatuh_filling_cap : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Trial Botol</strong>
-            <strong style="font-size: 20px">{{ $trial_botol ? $trial_botol : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Jatuh Botol</strong>
-            <strong style="font-size: 20px">{{ $jatuh_botol ? $jatuh_botol : '0' }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Finish Good</strong>
-            <strong style="font-size: 20px">{{ $finish_good }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Coding</strong>
-            <strong style="font-size: 20px">{{ $counter_coding }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Filling</strong>
-            <strong style="font-size: 20px">{{ $counter_filling }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Total Label</strong>
-            <strong style="font-size: 20px">{{ $counter_label }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Volume Mixing</strong>
-            <strong style="font-size: 20px">{{ $volume_mixing == '' ? '0' : number_format($volume_mixing, 2) }}</strong>
-        </div>
-        <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-            <strong style="font-size: 20px">Loss Liquid</strong>
-            <strong style="font-size: 20px">{{ $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
+        <div class="loss-liquid">
+            <h4 class="fw-bold text-black">Loss Liquid</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Volume Mixing</strong>
+                    <strong
+                        style="font-size: 20px">{{ $volume_mixing == '' ? '0' : number_format($volume_mixing, 2) }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Loss Liquid</strong>
+                    <strong
+                        style="font-size: 20px">{{ $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -183,11 +216,53 @@
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
                     </form> --}}
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
-                        Counter
-                    </button>
+                    <div class="d-md-flex justify-content-center gap-2 d-none">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
+                            Counter
+                        </button>
 
+                        <a href="{{ route('reject-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
+                            class="btn btn-primary">Reject</a>
+
+                        <a href="{{ route('sampel-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
+                            class="btn btn-primary">Sampel</a>
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
+                            Finish Good
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-md-none">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Action
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button type="button" class="btn" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
+                                    Counter
+                                </button>
+                            </li>
+                            <li> <a class="btn"
+                                    href="{{ route('reject-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}">Reject</a>
+                            </li>
+                            <li> <a class="btn"
+                                    href="{{ route('sampel-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}">Sampel</a>
+                            </li>
+                            <li>
+                                <button type="button" data-bs-toggle="modal" class="btn"
+                                    data-bs-target="#staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
+                                    Finish Good
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    {{-- Modal --}}
                     <div class="modal fade"
                         id="staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -212,50 +287,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Modal -->
-
-                    <a href="{{ route('reject-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
-                        class="btn btn-primary">Reject</a>
-
-                    <a href="{{ route('sampel-botol-index', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
-                        class="btn btn-primary">Sampel</a>
-
-                    <!-- Modal -->
-
-
-                    {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop3{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
-                        Trial
-                    </button>
-
-                    <div class="modal fade"
-                        id="staticBackdrop3{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
-                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Pilih Trial
-                                        {{ $batch_list->batch->name }} yang akan dilakukan
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <a href="{{ route('trial-botol', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
-                                        class="btn btn-primary">Botol</a>
-                                    <a href="{{ route('trial-cap', ['produksi_id' => $batch_list->produksi_id, 'batch_id' => $batch_list->batch_id]) }}"
-                                        class="btn btn-primary">Cap</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
-                        Finish Good
-                    </button>
 
                     <div class="modal fade"
                         id="staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}"
@@ -288,6 +319,7 @@
                             </div>
                         </div>
                     </div>
+
                 </td>
             </tr>
         @empty
@@ -296,5 +328,6 @@
             </tr>
         @endforelse
     </table>
+
 
 @endsection

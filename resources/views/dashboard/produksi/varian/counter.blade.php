@@ -10,7 +10,7 @@
                     @if ($batch_lists->count() == 0)
                         <p>Belum ada batch yang dipilih</p>
                     @else
-                        <form class="col-"
+                        <form class=""
                             action="{{ route('counter-store-multi', ['produksi_id' => $produksi_id, 'param_id' => $param_id]) }}"
                             method="POST">
                             @csrf

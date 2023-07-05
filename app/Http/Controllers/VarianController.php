@@ -157,7 +157,9 @@ class VarianController extends Controller
 
         $reject = $reject_produksi - $reject_cap;
 
-        $pakai_cap =  $finish_good + $sampel + $reject_supplier + $varian->trial_cap + $reject + $varian->jatuh_filling_cap;
+        $rejectProduksi = $sampel + $reject_supplier + $reject + $varian->jatuh_filling_cap + $varian->trial_cap;
+        $pakai_cap =  $finish_good + $rejectProduksi;
+
         $counter_filling = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_filling');
         $counter_coding = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_coding');
         $counter_label = Counter::where('produksi_id', $varian->produksi_id)->sum('counter_label');
@@ -165,7 +167,7 @@ class VarianController extends Controller
         $trial_botol = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_botol');
         $trial_cap = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_cap');
 
-        return view('dashboard.produksi.varian.detail', compact('pakai_cap', 'id', 'trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
+        return view('dashboard.produksi.varian.detail', compact('rejectProduksi','pakai_cap', 'id','trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
     }
 
     public function botolStore($id, Request $request)
@@ -177,7 +179,7 @@ class VarianController extends Controller
 
         Varian::where('id', $id)->update($botol);
         toast('Berhasil!','success');
-    return redirect()->back();
+        return redirect()->back();
     }
 
     public function capStore($id, Request $request)

@@ -32,11 +32,16 @@ class FinishGoodController extends Controller
             'pcs'=>'required'
         ]);
 
-        FinishGood::create([
-            'pcs'=>$request->pcs,
-            'produksi_id'=>$produksi_id,
-            'batch_id'=>$batch_id
-        ]);
+        if (FinishGood::where('produksi_id', $produksi_id)->where('batch_id', $batch_id)->exists()) {
+            toast('Data sudah ada!', 'error');
+        } else {
+            FinishGood::create([
+                'pcs'=>$request->pcs,
+                'produksi_id'=>$produksi_id,
+                'batch_id'=>$batch_id
+            ]);
+            toast('Berhasil!','success');
+        }
 
         return redirect()->back();
     }
@@ -74,6 +79,7 @@ class FinishGoodController extends Controller
             ]);
         }
 
+        toast('Berhasil update!','success');
         return redirect()->back();
     }
 

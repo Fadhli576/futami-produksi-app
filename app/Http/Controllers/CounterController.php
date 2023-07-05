@@ -35,27 +35,35 @@ class CounterController extends Controller
     {
         $batch_lists = BatchList::where('produksi_id', $produksi_id)->get();
         foreach ($batch_lists as $key => $batch_list) {
-            if ($param_id == 1) {
-                Counter::create([
-                    'produksi_id'=>$batch_list->produksi_id,
-                    'batch_id'=>$batch_list->id,
-                    'counter_filling'=>$request->counter[$key]
-                ]);
-            } elseif($param_id == 2) {
-                Counter::create([
-                    'produksi_id'=>$batch_list->produksi_id,
-                    'batch_id'=>$batch_list->id,
-                    'counter_coding'=>$request->counter[$key]
-                ]);
-            } elseif ($param_id == 3) {
-                Counter::create([
-                    'produksi_id'=>$batch_list->produksi_id,
-                    'batch_id'=>$batch_list->id,
-                    'counter_label'=>$request->counter[$key]
-                ]);
+            if (Counter::where('batch_id', $batch_list->batch_id)->where('produksi_id', $produksi_id)->first() == null) {
+                if ($param_id == 1) {
+                    Counter::create([
+                        'produksi_id'=>$batch_list->produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_filling'=>$request->counter[$key]
+                    ]);
+                    toast('Berhasil menambahkan!', 'success');
+                } elseif($param_id == 2) {
+                    Counter::create([
+                        'produksi_id'=>$batch_list->produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_coding'=>$request->counter[$key]
+                    ]);
+                    toast('Berhasil menambahkan!', 'success');
+                } elseif ($param_id == 3) {
+                    Counter::create([
+                        'produksi_id'=>$batch_list->produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_label'=>$request->counter[$key]
+                    ]);
+                    toast('Berhasil menambahkan!', 'success');
+                }
+            } else {
+                toast('Data sudah ada!', 'error');
             }
+
         }
-        return redirect()->intended(url()->previous(2));
+        return redirect()->back();
     }
 
 
@@ -156,6 +164,7 @@ class CounterController extends Controller
 
         }
 
+        toast('Berhasil update!', 'success');
         return redirect()->back();
     }
 
@@ -165,6 +174,7 @@ class CounterController extends Controller
     public function destroy(Counter $counter)
     {
         $counter->delete();
+        toast('Berhasil dihapus!', 'success');
         return redirect()->back();
     }
 }

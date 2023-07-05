@@ -79,12 +79,12 @@ class ProcessingController extends Controller
                         'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
                     ]);
                     toast('Berhasil!','success');
-                    return redirect()->back();
+
                 }else{
                     toast('Gagal!','error');
-                    return redirect()->back();
         }
     }
+        return redirect()->back();
 }
 
 
@@ -119,6 +119,7 @@ class ProcessingController extends Controller
         ]);
 
         Processing::where('id', $processing_id)->update($proses);
+        toast('Berhasil!','success');
         return redirect()->route('processing-index', $processing_id);
     }
 
@@ -129,6 +130,7 @@ class ProcessingController extends Controller
     {
         $processing = Processing::find($processing_id);
         $processing->delete();
+        toast('Berhasil menghapus!','success');
         return redirect()->route('processing-index', $processing_id);
     }
 

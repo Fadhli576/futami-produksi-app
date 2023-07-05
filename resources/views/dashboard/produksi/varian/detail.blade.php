@@ -25,7 +25,7 @@
                                 <label for="">Pemakaian Botol</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Counter Label"
-                                        value="{{ $counter_filling + $trial_botol }}" class="form-control" type="number"
+                                        value="{{ $counter_filling + $varian->trial_botol + $varian->jatuh_botol }}" class="form-control" type="number"
                                         name="counter_label" id="">
                                 </div>
 
@@ -97,9 +97,9 @@
                                 </div>
                                 <label for="">Saldo Akhir</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Saldo Akhir" value="{{ $varian->masuk_cap - $pakai_cap }}"
-                                        class="form-control" type="number" name="saldo_cap" id=""
-                                        autocomplete="off">
+                                    <input disabled placeholder="Saldo Akhir"
+                                        value="{{ $varian->masuk_cap - $pakai_cap }}" class="form-control"
+                                        type="number" name="saldo_cap" id="" autocomplete="off">
                                 </div>
                                 <label for="">Jatuh di Filling & Sisa</label>
                                 <div class="input-group">
@@ -117,9 +117,8 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Pakai" value="{{ $pakai_cap }}"
-                                        class="form-control" type="number" name="pakai_cap" id=""
-                                        autocomplete="off">
+                                    <input disabled placeholder="Pakai" value="{{ $pakai_cap }}" class="form-control"
+                                        type="number" name="pakai_cap" id="" autocomplete="off">
                                 </div>
                                 <label for="">Varians</label>
                                 <div class="input-group">

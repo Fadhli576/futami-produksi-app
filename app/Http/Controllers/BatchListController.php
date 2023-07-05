@@ -25,12 +25,18 @@ class BatchListController extends Controller
 
         $reject = Reject::where('produksi_id', $id)->sum('jumlah_botol');
         $reject_produksi = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 1]])->sum('jumlah_botol');
-        $reject_hci = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 2]])->sum('jumlah_botol');
+        $reject_hci = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 2]])->whereIn('id_tempat_reject', [1,2])->sum('jumlah_botol');
+        $defect_hci = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 2]])->whereIn('id_tempat_reject', [3,4])->sum('jumlah_botol');
+        $reject_cap = Reject::where('produksi_id', $id)->whereIn('id_paramater_reject', [33])->sum('jumlah_botol');
+
         $sampel = Sampel::where('produksi_id', $id)->sum('jumlah_botol');
         $trial_botol = Varian::where('produksi_id', $id)->first()->trial_botol;
         $trial_cap = Varian::where('produksi_id', $id)->first()->trial_cap;
         $jatuh_botol = Varian::where('produksi_id', $id)->first()->jatuh_botol;
         $jatuh_filling_cap = Varian::where('produksi_id', $id)->first()->jatuh_filling_cap;
+
+
+        $reject_produksi_cap = $reject_produksi - $reject_cap + $jatuh_filling_cap;
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
 
@@ -56,7 +62,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('jatuh_filling_cap','jatuh_botol','reject_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**
