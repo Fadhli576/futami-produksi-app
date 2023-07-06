@@ -24,6 +24,7 @@
         </div>
     @endif
     <div class="d-flex flex-column flex-wrap gap-4">
+        <a href="{{route('varian-detail', $id)}}" class="btn btn-primary">Varian <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         <div class="global d-flex flex-wrap gap-3">
             <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                 <strong style="font-size: 20px">Unidentified</strong>
@@ -71,6 +72,10 @@
                     <strong style="font-size: 20px">{{ $reject }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Botol</strong>
+                    <strong style="font-size: 20px">{{ $pakai_botol }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Produksi Botol</strong>
                     <strong style="font-size: 20px">{{ $reject_produksi }}</strong>
                 </div>
@@ -87,11 +92,21 @@
                     <strong
                         style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
                 </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Botol</strong>
+                    <strong
+                        style="font-size: 20px">{{ $pakai_botol - $finish_good }}</strong>
+                    <strong>{{number_format((($pakai_botol - $finish_good) / $pakai_botol) * 100, 2)}} %</strong>
+                </div>
             </div>
         </div>
         <div class="cap">
             <h4 class="fw-bold text-black">Cap</h4>
             <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Cap</strong>
+                    <strong style="font-size: 20px">{{ $pakai_cap }}</strong>
+                </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
                     <strong
@@ -109,8 +124,110 @@
                     <strong style="font-size: 20px">Reject Produksi Cap</strong>
                     <strong style="font-size: 20px">{{ $reject_produksi_cap ? $reject_produksi_cap : '0' }}</strong>
                 </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Botol</strong>
+                    <strong
+                        style="font-size: 20px">{{ $pakai_cap - $finish_good }}</strong>
+                    <strong>{{number_format((($pakai_cap - $finish_good) / $pakai_cap) * 100, 2)}} %</strong>
+                </div>
             </div>
         </div>
+        <div class="label">
+            <h4 class="fw-bold text-black">Label</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Masuk Label</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_label }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Label</strong>
+                    <strong
+                        style="font-size: 20px">{{ $varian->pakai_label }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Akhir</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_label }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Produksi Label</strong>
+                    <strong style="font-size: 20px"> {{ $varian->saldo_label == '' ? '' : number_format(($varians = $varian->pakai_label - $finish_good / $varian->conversi_label) * 1, 2) }} </strong>
+                    <strong> {{$varian->saldo_label == '' ? 0 : number_format(($varians / $varian->pakai_label) * 100, 2)}} %</strong>
+                </div>
+            </div>
+        </div>
+        <div class="karton">
+            <h4 class="fw-bold text-black">Karton</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Masuk Karton</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_karton }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Karton</strong>
+                    <strong
+                        style="font-size: 20px">{{ $varian->terpakai_karton }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Akhir</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_karton }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Karton</strong>
+                    <strong style="font-size: 20px">{{ $varian->reject_karton ? $varian->reject_karton : 0 }}</strong>
+                    <strong>{{ $varian->reject_karton ? number_format(($varian->reject_karton / $varian->pakai_karton) * 100, 2) : 0 }} %</strong>
+             </div>
+            </div>
+        </div>
+        <div class="lakban1">
+            <h4 class="fw-bold text-black">Lakban 1</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Masuk Lakban</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_lakban }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Lakban</strong>
+                    <strong
+                        style="font-size: 20px">{{ $varian->terpakai_lakban }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Akhir</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_lakban }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Lakban</strong>
+                    <strong style="font-size: 20px">{{ $varian->reject_lakban ? $varian->reject_lakban : 0 }}</strong>
+                    <strong>{{ $varian->reject_lakban2 ? number_format(($varian->reject_lakban / $varian->pakai_lakban) * 100, 2) : 0 }} %</strong>
+                </div>
+            </div>
+        </div>
+        @if ($varian->lakban2_id)
+        <div class="lakban2">
+            <h4 class="fw-bold text-black">Lakban 2</h4>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Masuk Lakban</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_lakban2 }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Pakai Lakban</strong>
+                    <strong
+                        style="font-size: 20px">{{ $varian->terpakai_lakban2 }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Saldo Akhir</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_lakban2 }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Reject Lakban</strong>
+                    <strong style="font-size: 20px">{{ $varian->reject_lakban2 ? $varian->reject_lakban2 : 0 }}</strong>
+                    <strong>{{ $varian->reject_lakban2 ? number_format(($varian->reject_lakban2 / $varian->pakai_lakban2) * 100, 2) : 0 }} %</strong>
+                </div>
+            </div>
+        </div>
+        @endif
+
+
         <div class="loss-liquid">
             <h4 class="fw-bold text-black">Loss Liquid</h4>
             <div class="d-flex flex-wrap gap-3">
@@ -123,6 +240,7 @@
                     <strong style="font-size: 20px">Loss Liquid</strong>
                     <strong
                         style="font-size: 20px">{{ $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
+                    <strong>{{number_format(($loss_liquid / $volume_mixing) * 100, 2)}} %</strong>
                 </div>
             </div>
         </div>
@@ -207,15 +325,6 @@
                 <td>{{ $batch_list->keterangan }}</td>
                 <td>{{ \Carbon\Carbon::parse($batch_list->created_at_batch)->format('d/m/Y') }}</td>
                 <td>
-                    {{-- <form action="{{ route('processing-delete', $batch_list->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <a class="btn" style="color:#98c1d9" href="{{ route('processing-edit', $processing->id) }}"><i
-                                class="fa-solid fa-pen fa-lg"></i></a>
-                        <button class="btn" type="submit"><i
-                                class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
-                    </form> --}}
-
                     <div class="d-md-flex justify-content-center gap-2 d-none">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop2{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
@@ -232,6 +341,12 @@
                             data-bs-target="#staticBackdrop4{{ $batch_list->produksi_id }}{{ $batch_list->batch_id }}">
                             Finish Good
                         </button>
+                        <form action="{{ route('batch-list-delete', ['batch_id'=>$batch_list->batch_id, 'produksi_id'=>$batch_list->produksi_id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit"><i
+                                    class="fa-solid fa-trash-can fa-lg text-white"></i></button>
+                        </form>
                     </div>
 
                     <div class="dropdown d-md-none">
@@ -260,6 +375,12 @@
                             </li>
                         </ul>
                     </div>
+                    <form class="d-md-none d-inline" action="{{ route('batch-list-delete', ['batch_id'=>$batch_list->batch_id, 'produksi_id'=>$batch_list->produksi_id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger" type="submit"><i
+                                class="fa-solid fa-trash-can fa-lg text-white"></i></button>
+                    </form>
 
 
                     {{-- Modal --}}

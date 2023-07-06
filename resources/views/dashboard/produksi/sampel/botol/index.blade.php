@@ -34,13 +34,13 @@
                         <td>
                             <input
                                 id="produksi_{{ $reject['id'] }}" class="form-control" type="number"
-                                name="sampel[{{ $key }}][produksi]"
+                                name="sampel[{{ $key }}][produksi]" placeholder="{{$reject['name']}}"
                                 >
                         </td>
                         <td>
                             <input
                                 id="hci_{{ $reject['id'] }}" class="form-control" type="number"
-                                name="sampel[{{ $key }}][hci]"
+                                name="sampel[{{ $key }}][hci]" placeholder="{{$reject['name']}}"
                                 >
                         </td>
                     </tr>

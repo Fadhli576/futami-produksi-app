@@ -4,6 +4,7 @@
     @if (Auth::user()->role_id == 3)
         <div class="card p-3 mb-5 shadow-sm">
             <h1>{{ $varian->name }}</h1>
+            <a href="{{route('batch-list-index', $id)}}" class="btn btn-primary">Produksi - Trial <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <div class="row">
                 <div class="col-6">
                     <div class="card p-3 mb-5 shadow-sm">

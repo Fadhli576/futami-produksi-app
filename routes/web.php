@@ -108,6 +108,7 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
 
     Route::get('/dashboard/produksi/{id}/batch-list', [BatchListController::class, 'index'])->name('batch-list-index');
     Route::post('/dashboard/produksi/{id}/batch-list/store', [BatchListController::class, 'store'])->name('batch-list-store');
+    Route::delete('/dashboard/produksi/{produksi_id}/batch-list/delete/{batch_id}', [BatchListController::class, 'destroy'])->name('batch-list-delete');
     // Route::get('/dashboard/density/{density}/edit', [DensityController::class, 'edit'])->name('density-edit');
     // Route::put('/dashboard/density/{density}/update', [DensityController::class, 'update'])->name('density-update');
     // Route::delete('/produksi/density/{density}/delete', [DensityController::class, 'destroy'])->name('density-delete');

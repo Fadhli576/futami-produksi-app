@@ -12,6 +12,7 @@ use App\Models\Reject;
 use App\Models\Sampel;
 use App\Models\Trial;
 use App\Models\Varian;
+use App\Models\VolumeMixing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -22,6 +23,7 @@ class BatchListController extends Controller
      */
     public function index($id)
     {
+        $varian = Varian::where('id', $id)->first();
 
         $reject = Reject::where('produksi_id', $id)->sum('jumlah_botol');
         $reject_produksi = Reject::where([['produksi_id', $id],['id_spesifik_tempat', 1]])->sum('jumlah_botol');
@@ -35,10 +37,11 @@ class BatchListController extends Controller
         $jatuh_botol = Varian::where('produksi_id', $id)->first()->jatuh_botol;
         $jatuh_filling_cap = Varian::where('produksi_id', $id)->first()->jatuh_filling_cap;
 
-
         $reject_produksi_cap = $reject_produksi - $reject_cap + $jatuh_filling_cap;
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
+        $pakai_botol = $finish_good + $reject_produksi + $trial_botol + $sampel + $reject_hci + $defect_hci;
+        $pakai_cap = $finish_good + $reject_produksi_cap + $trial_cap + $sampel + $reject_hci + $defect_hci;
 
         $counter_coding = Counter::where('produksi_id', $id)->sum('counter_coding');
         $counter_filling = Counter::where('produksi_id', $id)->sum('counter_filling');
@@ -62,7 +65,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('varian','pakai_cap','pakai_botol','reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**
@@ -121,8 +124,17 @@ class BatchListController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BatchList $batchList)
+    public function destroy($produksi_id, $batch_id)
     {
-        //
+
+        BatchList::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        Reject::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        Sampel::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        FinishGood::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        Counter::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        Trial::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        VolumeMixing::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
+        toast('Berhasil!','success');
+        return redirect()->back();
     }
 }
