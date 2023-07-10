@@ -20,13 +20,15 @@
                 <div class=" col-sm-12 col-md-4">
                     <label for="">Tanggal Produksi</label>
                     <div class="input-group">
-                        <input placeholder="Keterangan" class="form-control" type="date" name="tgl_produksi" id="">
+                        <input placeholder="Keterangan" class="form-control" type="date" name="tgl_produksi"
+                            id="">
                     </div>
                 </div>
                 <div class=" col-sm-12 col-md-4">
                     <label for="">Keterangan</label>
                     <div class="input-group">
-                        <input placeholder="Keterangan" class="form-control" type="text" name="keterangan" id="">
+                        <input placeholder="Keterangan" class="form-control" type="text" name="keterangan"
+                            id="">
                     </div>
                 </div>
                 <div class="col-12 mt-2">
@@ -49,7 +51,7 @@
             <tr class="bg-white">
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $produksi->varian->parameter->name }}</td>
-                <td>{{ \Carbon\Carbon::parse($produksi->tgl_produksi)->format('d/m/Y')}}</td>
+                <td>{{ \Carbon\Carbon::parse($produksi->tgl_produksi)->format('d/m/Y') }}</td>
                 <td>{{ $produksi->keterangan }}</td>
                 <td>
                     {{-- <form action="{{ route('processing-delete', $processing->id) }}" method="POST">
@@ -60,6 +62,7 @@
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
                     </form> --}}
+                    <a class="btn btn-primary" href="{{ route('varian-detail', $produksi->id) }}">Detail</a>
                     <a class="btn btn-primary" href="{{ route('batch-list-index', $produksi->id) }}">Batch List</a>
                 </td>
             </tr>

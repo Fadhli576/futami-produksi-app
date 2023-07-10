@@ -137,6 +137,9 @@ class VarianController extends Controller
     public function destroy(Varian $varian)
     {
         $varian->delete();
+        if ($varian->produksi) {
+            $varian->produksi->delete();    
+        }
         toast('Berhasil menghapus!','success');
         return redirect('/dashboard/varian');
     }
@@ -144,6 +147,8 @@ class VarianController extends Controller
     public function detail($id)
     {
         $varian = Varian::where('id', $id)->first();
+
+        $parameter_varian = ParameterVarian::where('id', $varian->parameter_id)->first();
 
         $finish_good = FinishGood::where('produksi_id', $varian->produksi_id)->sum('pcs');
         $reject_supplier = Reject::where('produksi_id', $varian->produksi_id)->where('id_spesifik_tempat', 2)->sum('jumlah_botol');
@@ -167,7 +172,7 @@ class VarianController extends Controller
         $trial_botol = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_botol');
         $trial_cap = Trial::where('produksi_id', $varian->produksi_id)->sum('trial_cap');
 
-        return view('dashboard.produksi.varian.detail', compact('rejectProduksi','pakai_cap', 'id','trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
+        return view('dashboard.produksi.varian.detail', compact('rejectProduksi','pakai_cap', 'parameter_varian','id','trial_botol','trial_cap', 'varian','finish_good', 'counter_filling','counter_coding','counter_label','conversi_label'));
     }
 
     public function botolStore($id, Request $request)

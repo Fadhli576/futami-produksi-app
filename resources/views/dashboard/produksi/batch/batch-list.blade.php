@@ -65,19 +65,19 @@
             </div>
         </div>
         <div class="botol">
-            <h4 class="fw-bold text-black">Botol</h4>
+            <h4 class="fw-bold text-black">{{$varian->botol->name}}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Total Reject</strong>
-                    <strong style="font-size: 20px">{{ $reject }}</strong>
+                    <strong style="font-size: 20px">{{ $reject ? $reject : 0}}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Botol</strong>
-                    <strong style="font-size: 20px">{{ $pakai_botol }}</strong>
+                    <strong style="font-size: 20px">{{ $pakai_botol ? $pakai_botol : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Produksi Botol</strong>
-                    <strong style="font-size: 20px">{{ $reject_produksi }}</strong>
+                    <strong style="font-size: 20px">{{ $reject_produksi ? $reject_produksi : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Botol</strong>
@@ -93,19 +93,23 @@
                         style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-                    <strong style="font-size: 20px">Saldo Botol</strong>
+                    <strong style="font-size: 20px">Loss Botol</strong>
                     <strong
-                        style="font-size: 20px">{{ $pakai_botol - $finish_good }}</strong>
-                    <strong>{{number_format((($pakai_botol - $finish_good) / $pakai_botol) * 100, 2)}} %</strong>
+                        style="font-size: 20px">{{ $pakai_botol && $finish_good ? $pakai_botol - $finish_good : 0 }}</strong>
+                    <strong>{{number_format((($trial_botol + $reject_produksi + $sampel - $unidentified) / $pakai_botol) * 100, 2)}} %</strong>
                 </div>
             </div>
         </div>
         <div class="cap">
-            <h4 class="fw-bold text-black">Cap</h4>
+            <h4 class="fw-bold text-black">{{$varian->cap->name}}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Masuk Cap</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_cap ? $varian->masuk_cap : 0 }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Cap</strong>
-                    <strong style="font-size: 20px">{{ $pakai_cap }}</strong>
+                    <strong style="font-size: 20px">{{ $pakai_cap ? $pakai_cap : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
@@ -125,28 +129,33 @@
                     <strong style="font-size: 20px">{{ $reject_produksi_cap ? $reject_produksi_cap : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
-                    <strong style="font-size: 20px">Saldo Botol</strong>
+                    <strong style="font-size: 20px">Saldo Cap</strong>
+                    <strong
+                        style="font-size: 20px">{{ $varian->masuk_cap - $pakai_cap }}</strong>
+                </div>
+                <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
+                    <strong style="font-size: 20px">Loss Cap</strong>
                     <strong
                         style="font-size: 20px">{{ $pakai_cap - $finish_good }}</strong>
-                    <strong>{{number_format((($pakai_cap - $finish_good) / $pakai_cap) * 100, 2)}} %</strong>
+                    <strong>{{number_format((($trial_cap + $reject_produksi_cap + $sampel) / $pakai_cap) * 100, 2)}} %</strong>
                 </div>
             </div>
         </div>
         <div class="label">
-            <h4 class="fw-bold text-black">Label</h4>
+            <h4 class="fw-bold text-black">{{$varian->label->name}}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Masuk Label</strong>
-                    <strong style="font-size: 20px">{{ $varian->masuk_label }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_label ? $varian->masuk_label : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Label</strong>
                     <strong
-                        style="font-size: 20px">{{ $varian->pakai_label }}</strong>
+                        style="font-size: 20px">{{ $varian->pakai_label ? $varian->pakai_label : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Saldo Akhir</strong>
-                    <strong style="font-size: 20px">{{ $varian->saldo_label }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_label ? $varian->saldo_label : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Produksi Label</strong>
@@ -156,43 +165,43 @@
             </div>
         </div>
         <div class="karton">
-            <h4 class="fw-bold text-black">Karton</h4>
+            <h4 class="fw-bold text-black">{{$varian->karton->name}}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Masuk Karton</strong>
-                    <strong style="font-size: 20px">{{ $varian->masuk_karton }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_karton ? $varian->masuk_karton : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Karton</strong>
                     <strong
-                        style="font-size: 20px">{{ $varian->terpakai_karton }}</strong>
+                        style="font-size: 20px">{{ $varian->terpakai_karton ? $varian->terpakai_karton : 0}}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Saldo Akhir</strong>
-                    <strong style="font-size: 20px">{{ $varian->saldo_karton }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_karton ? $varian->saldo_karton : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Karton</strong>
                     <strong style="font-size: 20px">{{ $varian->reject_karton ? $varian->reject_karton : 0 }}</strong>
-                    <strong>{{ $varian->reject_karton ? number_format(($varian->reject_karton / $varian->pakai_karton) * 100, 2) : 0 }} %</strong>
+                    <strong>{{ $varian->reject_karton && $varian->pakai_karton ? number_format(($varian->reject_karton / $varian->pakai_karton) * 100, 2) : 0 }} %</strong>
              </div>
             </div>
         </div>
         <div class="lakban1">
-            <h4 class="fw-bold text-black">Lakban 1</h4>
+            <h4 class="fw-bold text-black">{{$varian->lakban->name}}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Masuk Lakban</strong>
-                    <strong style="font-size: 20px">{{ $varian->masuk_lakban }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_lakban ? $varian->masuk_lakban : 0}}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Lakban</strong>
                     <strong
-                        style="font-size: 20px">{{ $varian->terpakai_lakban }}</strong>
+                        style="font-size: 20px">{{ $varian->terpakai_lakban ? $varian->terpakai_lakban : 0}}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Saldo Akhir</strong>
-                    <strong style="font-size: 20px">{{ $varian->saldo_lakban }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_lakban ? $varian->saldo_lakban : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Lakban</strong>
@@ -203,20 +212,20 @@
         </div>
         @if ($varian->lakban2_id)
         <div class="lakban2">
-            <h4 class="fw-bold text-black">Lakban 2</h4>
+            <h4 class="fw-bold text-black">{{ $varian->lakban2->name }}</h4>
             <div class="d-flex flex-wrap gap-3">
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Masuk Lakban</strong>
-                    <strong style="font-size: 20px">{{ $varian->masuk_lakban2 }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->masuk_lakban2 ? $varian->masuk_lakban2 : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Pakai Lakban</strong>
                     <strong
-                        style="font-size: 20px">{{ $varian->terpakai_lakban2 }}</strong>
+                        style="font-size: 20px">{{ $varian->terpakai_lakban2 ? $varian->terpakai_lakban : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Saldo Akhir</strong>
-                    <strong style="font-size: 20px">{{ $varian->saldo_lakban2 }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->saldo_lakban2 ? $varian->saldo_lakban2 : 0 }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Lakban</strong>
