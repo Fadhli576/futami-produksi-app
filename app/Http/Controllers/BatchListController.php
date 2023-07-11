@@ -64,11 +64,13 @@ class BatchListController extends Controller
             $loss_liquid = '';
         }
 
+        $yield = $counter_filling * ($liquid->volume / 1000);
+
 
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('yield','unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
     }
 
     /**

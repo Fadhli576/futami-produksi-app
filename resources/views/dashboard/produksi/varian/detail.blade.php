@@ -3,11 +3,8 @@
 @section('content')
     @if (Auth::user()->role_id == 3)
         <div class="card p-3 mb-5 shadow-sm">
-            @if ($varian->produksi)
-                <a href="{{ route('batch-list-index', $id) }}" class="btn btn-primary mb-5">Batch List <i
-                        class="fa-solid fa-arrow-up-right-from-square"></i></a>
-            @endif
-            <h4>{{ $parameter_varian->name }}</h4>
+            <h1>{{ $varian->name }}</h1>
+            <a href="{{route('batch-list-index', $id)}}" class="btn btn-primary">Produksi - Trial <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <div class="row">
                 <div class="col-6">
                     <div class="card p-3 mb-5 shadow-sm">
@@ -29,8 +26,8 @@
                                 <label for="">Pemakaian Botol</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Counter Label"
-                                        value="{{ $counter_filling + $varian->trial_botol + $varian->jatuh_botol }}"
-                                        class="form-control" type="number" name="counter_label" id="">
+                                        value="{{ $counter_filling + $varian->trial_botol + $varian->jatuh_botol }}" class="form-control" type="number"
+                                        name="counter_label" id="">
                                 </div>
 
                                 <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
