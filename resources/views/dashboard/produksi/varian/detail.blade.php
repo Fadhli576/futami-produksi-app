@@ -4,7 +4,10 @@
     @if (Auth::user()->role_id == 3)
         <div class="card p-3 mb-5 shadow-sm">
             <h1>{{ $varian->name }}</h1>
-            <a href="{{route('batch-list-index', $id)}}" class="btn btn-primary">Produksi - Trial <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            @if ($varian->produksi->count() > 0)
+                <a href="{{ route('batch-list-index', $id) }}" class="btn btn-primary">Produksi - Trial <i
+                        class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            @endif
             <div class="row">
                 <div class="col-6">
                     <div class="card p-3 mb-5 shadow-sm">
@@ -26,8 +29,8 @@
                                 <label for="">Pemakaian Botol</label>
                                 <div class="input-group">
                                     <input disabled placeholder="Counter Label"
-                                        value="{{ $counter_filling + $varian->trial_botol + $varian->jatuh_botol }}" class="form-control" type="number"
-                                        name="counter_label" id="">
+                                        value="{{ $counter_filling + $varian->trial_botol + $varian->jatuh_botol }}"
+                                        class="form-control" type="number" name="counter_label" id="">
                                 </div>
 
                                 <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
@@ -121,13 +124,13 @@
                                     <input disabled placeholder="Pakai" value="{{ $pakai_cap }}" class="form-control"
                                         type="number" name="pakai_cap" id="" autocomplete="off">
                                 </div>
-                                <label for="">Varians</label>
+                                <label for="">Loss</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Varians"
+                                    <input disabled placeholder="Loss"
                                         value="{{ $varian->masuk_cap == '' ? '' : ($varians_cap = $pakai_cap - $finish_good) }}"
                                         class="form-control" type="number" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ $varian->masuk_cap == '' ? 0 : number_format(($varians_cap / $pakai_cap) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->masuk_cap == '' ? 0 : number_format((($varian->trial_cap + $reject_produksi_cap + $sampel) / $pakai_cap) * 100, 2) }}
                                         %</span>
                                 </div>
                                 <label for="">Sampel</label>
@@ -180,9 +183,9 @@
                                     <span
                                         class="input-group-text">{{ $varian->pakai_label == '' ? '' : $varian->pakai_label * $conversi_label }}</span>
                                 </div>
-                                <label for="">Varians</label>
+                                <label for="">Loss</label>
                                 <div class="input-group">
-                                    <input step="any" disabled placeholder="Varians"
+                                    <input step="any" disabled placeholder="Loss"
                                         value="{{ $varian->saldo_label == '' ? '' : number_format(($varians = $varian->pakai_label - $finish_good / $conversi_label) * 1, 2) }}"
                                         class="form-control" type="number" name="sisa_label" id="">
                                     <span class="input-group-text"
@@ -273,8 +276,7 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Terpakai"
-                                        value="{{ $varian->terpakai_lakban - $varian->reject_supplier_lakban }}"
+                                    <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_lakban }}"
                                         class="form-control" type="number" name="terpakai_lakban" id="">
                                 </div>
                                 <label for="">Reject Supplier</label>
@@ -285,13 +287,13 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="">Varians</label>
+                                <label for="">Loss</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Varians"
+                                    <input disabled placeholder="Loss"
                                         value="{{ $varian->saldo_lakban == '' ? '' : ($varians_lakban = $varian->masuk_lakban - $varian->terpakai_lakban - $varian->saldo_lakban) }}"
                                         class="form-control" type="number" name="" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ $varian->saldo_lakban == '' ? 0 : number_format(($varians_lakban / $varian->terpakai_lakban) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->reject_supplier_lakban == '' ? 0 : number_format(($varian->reject_supplier_lakban / $varian->terpakai_lakban) * 100, 2) }}
                                         %</span>
 
                                 </div>
@@ -313,20 +315,19 @@
                                     <label for="">Masuk</label>
                                     <div class="input-group">
                                         <input placeholder="Masuk" value="{{ $varian->masuk_lakban2 }}"
-                                            class="form-control" type="number" name="masuk_lakban" id="">
+                                            class="form-control" type="number" name="masuk_lakban2" id="">
                                     </div>
                                     <label for="">Saldo Akhir</label>
                                     <div class="input-group">
                                         <input placeholder="Saldo Akhir" value="{{ $varian->saldo_lakban2 }}"
-                                            class="form-control" type="number" name="saldo_lakban" id="">
+                                            class="form-control" type="number" name="saldo_lakban2" id="">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <label for="">Pakai</label>
                                     <div class="input-group">
-                                        <input disabled placeholder="Terpakai"
-                                            value="{{ $varian->terpakai_lakban2 - $varian->reject_supplier_lakban2 }}"
-                                            class="form-control" type="number" name="terpakai_lakban" id="">
+                                        <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_lakban2 }}"
+                                            class="form-control" type="number" name="terpakai_lakban2" id="">
                                     </div>
                                     <label for="">Reject Supplier</label>
                                     <div class="input-group">
@@ -336,13 +337,13 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
-                                    <label for="">Varians</label>
+                                    <label for="">Loss</label>
                                     <div class="input-group">
-                                        <input disabled placeholder="Varians"
+                                        <input disabled placeholder="Loss"
                                             value="{{ $varian->saldo_lakban2 == '' ? '' : ($varians_lakban2 = $varian->masuk_lakban2 - $varian->terpakai_lakban2 - $varian->saldo_lakban2) }}"
                                             class="form-control" type="number" name="" id="">
                                         <span class="input-group-text"
-                                            id="basic-addon2">{{ $varian->saldo_lakban2 == '' ? 0 : number_format(($varians_lakban2 / $varian->terpakai_lakban2) * 100, 2) }}
+                                            id="basic-addon2">{{ $varian->reject_supplier_lakban2 == '' ? 0 : number_format(($varian->reject_supplier_lakban2 / $varian->terpakai_lakban2) * 100, 2) }}
                                             %</span>
 
                                     </div>

@@ -81,7 +81,7 @@
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Botol</strong>
-                    <strong style="font-size: 20px">{{ $trial_botol ? $trial_botol : '0' }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->trial_botol ? $varian->trial_botol : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Jatuh Botol</strong>
@@ -90,13 +90,13 @@
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Botol & Jatuh</strong>
                     <strong
-                        style="font-size: 20px">{{ $trial_botol || $jatuh_botol ? $trial_botol + $jatuh_botol : '0' }}</strong>
+                        style="font-size: 20px">{{ $varian->trial_botol || $jatuh_botol ? $varian->trial_botol + $jatuh_botol : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Loss Botol</strong>
                     <strong
                         style="font-size: 20px">{{ $pakai_botol && $finish_good ? $pakai_botol - $finish_good : 0 }}</strong>
-                    <strong>{{number_format((($trial_botol + $reject_produksi + $sampel - $unidentified) / $pakai_botol) * 100, 2)}} %</strong>
+                    <strong>{{ $pakai_botol ? number_format((($varian->trial_botol + $reject_produksi + $sampel - $unidentified) / $pakai_botol) * 100, 2) : 0}} %</strong>
                 </div>
             </div>
         </div>
@@ -114,15 +114,15 @@
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Cap & Jatuh</strong>
                     <strong
-                        style="font-size: 20px">{{ $trial_cap || $jatuh_filling_cap ? $trial_cap + $jatuh_filling_cap : '0' }}</strong>
+                        style="font-size: 20px">{{ $varian->trial_cap || $varian->jatuh_filling_cap ? $varian->trial_cap + $varian->jatuh_filling_cap : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Trial Cap</strong>
-                    <strong style="font-size: 20px">{{ $trial_cap ? $trial_cap : '0' }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->trial_cap ? $varian->trial_cap : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Jatuh Filling Cap</strong>
-                    <strong style="font-size: 20px">{{ $jatuh_filling_cap ? $jatuh_filling_cap : '0' }}</strong>
+                    <strong style="font-size: 20px">{{ $varian->jatuh_filling_cap ? $varian->jatuh_filling_cap : '0' }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Produksi Cap</strong>
@@ -137,7 +137,7 @@
                     <strong style="font-size: 20px">Loss Cap</strong>
                     <strong
                         style="font-size: 20px">{{ $pakai_cap - $finish_good }}</strong>
-                    <strong>{{number_format((($trial_cap + $reject_produksi_cap + $sampel) / $pakai_cap) * 100, 2)}} %</strong>
+                    <strong>{{ $pakai_cap ? number_format((($varian->trial_cap + $reject_produksi_cap + $sampel) / $pakai_cap) * 100, 2) : 0}} %</strong>
                 </div>
             </div>
         </div>
@@ -248,7 +248,7 @@
                     <strong style="font-size: 20px">Loss Liquid</strong>
                     <strong
                         style="font-size: 20px">{{ $loss_liquid == '' ? '0' : number_format($loss_liquid, 2) }}</strong>
-                    <strong>{{number_format(($loss_liquid / $volume_mixing) * 100, 2)}} %</strong>
+                    <strong>{{ $loss_liquid ? number_format(($loss_liquid / $volume_mixing) * 100, 2) : 0}} %</strong>
                 </div>
             </div>
         </div>
@@ -258,18 +258,18 @@
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Actual</strong>
                     <strong
-                        style="font-size: 20px">{{ $finish_good == '' ? '0' : $actual = $finish_good + $sampel + $reject_produksi }}</strong>
+                        style="font-size: 20px">{{ $finish_good == '0' ? '0' : $actual = $finish_good + $sampel + $reject_produksi }}</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Yield</strong>
                     <strong
                         style="font-size: 20px">{{ $yield == '' ? '0' : $yield }}</strong>
-                    <strong>{{ number_format(($yield / $volume_mixing) * 100, 2) }} %</strong>
+                    <strong>{{ $yield ? number_format(($yield / $volume_mixing) * 100, 2) : 0 }} %</strong>
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Rate</strong>
                     <strong
-                        style="font-size: 20px">{{ $finish_good == '' ? '0' : number_format((($actual - $finish_good) / $finish_good) * 100, 2)  }} %</strong>
+                        style="font-size: 20px">{{ $finish_good == '0' ? '0' : number_format((($actual - $finish_good) / $finish_good) * 100, 2)  }} %</strong>
                 </div>
             </div>
         </div>

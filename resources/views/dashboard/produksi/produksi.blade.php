@@ -60,6 +60,7 @@
                         <button class="btn" type="submit"><i
                                 class="fa-solid fa-trash-can fa-lg text-danger"></i></button>
                     </form> --}}
+                    <a class="btn btn-primary" href="{{ route('varian-detail', $produksi->id) }}">Detail</a>
                     <a class="btn btn-primary" href="{{ route('batch-list-index', $produksi->id) }}">Batch List</a>
                 </td>
             </tr>

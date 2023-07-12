@@ -64,7 +64,7 @@
     </header><!-- End Header -->
 
     <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex align-items-center justify-content-center" style="background-color: #e0fbfc">
+    <section id="hero" class="d-flex align-items-center justify-content-center" style="background-color: ">
         <div class="row mx-4">
             <div class="col-md-6 col-sm-12 align-self-center">
                 <h1>Welcome to</h1>

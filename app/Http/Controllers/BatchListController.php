@@ -33,12 +33,12 @@ class BatchListController extends Controller
         $reject_cap = Reject::where('produksi_id', $id)->whereIn('id_paramater_reject', [33])->sum('jumlah_botol');
 
         $sampel = Sampel::where('produksi_id', $id)->sum('jumlah_botol');
-        $trial_botol = Varian::where('produksi_id', $id)->first()->trial_botol;
-        $trial_cap = Varian::where('produksi_id', $id)->first()->trial_cap;
+        // $trial_botol = Varian::where('produksi_id', $id)->first()->trial_botol;
+        // $trial_cap = Varian::where('produksi_id', $id)->first()->trial_cap;
         $jatuh_botol = Varian::where('produksi_id', $id)->first()->jatuh_botol;
-        $jatuh_filling_cap = Varian::where('produksi_id', $id)->first()->jatuh_filling_cap;
+        // $jatuh_filling_cap = Varian::where('produksi_id', $id)->first()->jatuh_filling_cap;
 
-        $reject_produksi_cap = $reject_produksi - $reject_cap + $jatuh_filling_cap;
+        $reject_produksi_cap = $reject_produksi - $reject_cap + $varian->jatuh_filling_cap;
 
         $finish_good = FinishGood::where('produksi_id', $id)->sum('pcs');
 
@@ -47,8 +47,8 @@ class BatchListController extends Controller
         $counter_label = Counter::where('produksi_id', $id)->sum('counter_label');
 
         $unidentified = $reject + $sampel + $finish_good - $counter_filling;
-        $pakai_botol = $finish_good + $reject_produksi + $trial_botol + $varian->jatuh_botol + $sampel + $reject_hci + $defect_hci - $unidentified;
-        $pakai_cap = $finish_good + $reject_produksi_cap + $trial_cap + $sampel + $reject_hci + $defect_hci;
+        $pakai_botol = $finish_good + $reject_produksi + $varian->trial_botol + $varian->jatuh_botol + $sampel + $reject_hci + $defect_hci - $unidentified;
+        $pakai_cap = $finish_good + $reject_produksi_cap + $varian->trial_cap + $sampel + $reject_hci + $defect_hci;
 
         $batch_lists = BatchList::join('produksis', 'batch_lists.produksi_id', '=', 'produksis.id')->where('produksis.id', $id)
                                 ->select('batch_lists.id as id','batch_lists.batch_id as batch_id','batch_lists.created_at as created_at_batch','batch_lists.produksi_id as produksi_id','produksis.keterangan as keterangan')->get();
@@ -59,18 +59,20 @@ class BatchListController extends Controller
             $finish_good_liter = $finish_good * number_format(floatval($liquid->volume) / 1000, 5, '.', '');
             // dd(floatval($liquid->volume)  / 1000);
             $loss_liquid = $volume_mixing -$finish_good_liter;
+            $yield = $counter_filling * ($liquid->volume / 1000);
+
         } else {
             $volume_mixing = '';
             $loss_liquid = '';
+            $yield = '';
         }
 
-        $yield = $counter_filling * ($liquid->volume / 1000);
 
 
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('yield','unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap', 'jatuh_filling_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','trial_botol','finish_good','trial_cap'));
+        return view('dashboard.produksi.batch.batch-list', compact('yield','unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','finish_good'));
     }
 
     /**
