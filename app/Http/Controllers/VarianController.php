@@ -193,13 +193,15 @@ class VarianController extends Controller
     public function capStore($id, Request $request)
     {
         $request->validate([
-            'masuk_cap'=>'required',
+            'masuk_cap'=>$request->saldo_awal_cap ? '' : 'required',
+            'saldo_awal_cap'=> $request->masuk_cap ? '' : 'required',
         ]);
 
-        $pakai_cap = $request->masuk_cap - $request->saldo_cap;
+        $pakai_cap = $request->masuk_cap + $request->saldo_awal_cap - $request->saldo_cap;
         $varians = $pakai_cap - $request->masuk_cap;
 
         $cap = [
+            'saldo_awal_cap'=>$request->saldo_awal_cap,
             'saldo_cap'=>$request->saldo_cap,
             'masuk_cap'=>$request->masuk_cap,
             'pakai_cap'=>$pakai_cap,
@@ -216,14 +218,16 @@ class VarianController extends Controller
     public function labelStore($id, Request $request)
     {
         $request->validate([
-            'masuk_label'=>'required',
+            'masuk_label'=>$request->saldo_awal_label ? '' : 'required',
+            'saldo_awal_label'=> $request->masuk_label ? '' : 'required',
             'conversi_label'=>'required'
         ]);
 
-        $pakai_label = $request->masuk_label - $request->saldo_label;
-        $varians = $pakai_label - $request->masuk_label;
+        $pakai_label = $request->masuk_label + $request->saldo_awal_label - $request->saldo_label;
+        $varians = $pakai_label - $request->masuk_label + $request->saldo_awal_label;
 
         $label = [
+            'saldo_awal_label'=>$request->saldo_awal_label,
             'saldo_label'=>$request->saldo_label,
             'masuk_label'=>$request->masuk_label,
             'pakai_label'=>$pakai_label,
@@ -238,12 +242,14 @@ class VarianController extends Controller
     public function kartonStore($id, Request $request)
     {
         $request->validate([
-            'masuk_karton'=>'required',
+            'masuk_karton'=>$request->saldo_awal_karton ? '' : 'required',
+            'saldo_awal_karton'=> $request->masuk_karton ? '' : 'required',
         ]);
 
-        $pakai_karton = $request->masuk_karton - $request->saldo_karton - $request->reject_karton - $request->reject_supplier_karton;
+        $pakai_karton = $request->masuk_karton + $request->saldo_awal_karton - $request->saldo_karton - $request->reject_karton - $request->reject_supplier_karton;
 
         $karton = [
+            'saldo_awal_karton'=>$request->saldo_awal_karton,
             'saldo_karton'=>$request->saldo_karton,
             'masuk_karton'=>$request->masuk_karton,
             'terpakai_karton'=>$pakai_karton,
@@ -260,12 +266,14 @@ class VarianController extends Controller
     public function lakbanStore($id, Request $request)
     {
         $request->validate([
-            'masuk_lakban'=>'required',
+            'masuk_lakban'=>$request->saldo_awal_lakban1 ? '' : 'required',
+            'saldo_awal_lakban1'=> $request->masuk_lakban ? '' : 'required',
         ]);
 
-        $pakai_lakban = $request->masuk_lakban - $request->saldo_lakban + $request->reject_supplier_lakban;
+        $pakai_lakban = $request->masuk_lakban + $request->saldo_awal_lakban1 - $request->saldo_lakban + $request->reject_supplier_lakban;
 
         $lakban = [
+            'saldo_awal_lakban1'=>$request->saldo_awal_lakban1,
             'saldo_lakban'=>$request->saldo_lakban,
             'masuk_lakban'=>$request->masuk_lakban,
             'terpakai_lakban'=>$pakai_lakban,
@@ -281,12 +289,14 @@ class VarianController extends Controller
     public function lakbanStore2($id, Request $request)
     {
         $request->validate([
-            'masuk_lakban2'=>'required',
+            'masuk_lakban2'=>$request->saldo_awal_lakban2 ? '' : 'required',
+            'saldo_awal_lakban2'=> $request->masuk_lakban2 ? '' : 'required',
         ]);
 
-        $pakai_lakban2 = $request->masuk_lakban2 - $request->saldo_lakban2 + $request->reject_supplier_lakban2;
+        $pakai_lakban2 = $request->masuk_lakban2 + $request->saldo_awal_lakban2 - $request->saldo_lakban2 + $request->reject_supplier_lakban2;
 
         $lakban = [
+            'saldo_awal_lakban2'=>$request->saldo_awal_lakban2,
             'saldo_lakban2'=>$request->saldo_lakban2,
             'masuk_lakban2'=>$request->masuk_lakban2,
             'terpakai_lakban2'=>$pakai_lakban2,
@@ -335,67 +345,6 @@ class VarianController extends Controller
         return redirect()->back();
     }
 
-    // public function rejectIndex(Varian $varian)
-    // {
-    //     $jenis_rejects = JenisReject::get();
-    //     $parameter_rejects = ParameterReject::get();
-    //     $tempat_rejects = TempatReject::get();
-    //     $spesifik_rejects = SpesifikTempat::get();
-    //     $rejects = Reject::get();
-    //     return view('dashboard.produksi.reject.index', compact('varian','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects'));
-    // }
-
-    // public function reject(Request $request, Varian $varian)
-    // {
-    //     $request->validate([
-    //         'id_jenis_reject'=>'required',
-    //         'jumlah_reject'=>'required'
-    //     ]);
-
-    //     Reject::create([
-    //         'id_jenis_reject'=>$request->id_jenis_reject,
-    //         'id_tempat_reject'=>$request->id_tempat_reject,
-    //         'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-    //         'id_paramater_reject'=>$request->id_paramater_reject,
-    //         'jumlah_reject'=>$request->jumlah_reject,
-    //     ]);
-
-    //     return redirect()->back();
-    // }
-
-    // public function rejectUpdate(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'id_jenis_reject'=>'required',
-    //         'jumlah_reject'=>'required',
-    //     ]);
-
-    //     Reject::where('id', $id)->update([
-    //         'id_jenis_reject'=>$request->id_jenis_reject,
-    //         'id_tempat_reject'=>$request->id_tempat_reject,
-    //         'id_spesifik_tempat'=>$request->id_spesifik_tempat,
-    //         'id_paramater_reject'=>$request->id_paramater_reject,
-    //         'jumlah_reject'=>$request->jumlah_reject,
-    //     ]);
-
-    //     return redirect('/dashboard/reject-produksi');
-    // }
-
-    // public function rejectEdit($id)
-    // {
-    //     $jenis_rejects = JenisReject::get();
-    //     $parameter_rejects = ParameterReject::get();
-    //     $tempat_rejects = TempatReject::get();
-    //     $spesifik_rejects = SpesifikTempat::get();
-    //     $reject = Reject::where('id', $id)->first();
-    //     return view('dashboard.produksi.reject.edit', compact('reject','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects'));
-    // }
-
-    // public function rejectDestroy($id)
-    // {
-    //     Reject::where('id', $id)->delete();
-    //     return redirect('/dashboard/reject-produksi');
-    // }
 
     public function rejectBotol(Request $request, $produksi_id, $batch_id)
     {
@@ -406,9 +355,30 @@ class VarianController extends Controller
         $submittedValues = $request->input('reject');
 
     // Merge the submitted values with the original parameter rejects collection
-        $rejects = Reject::where([['id_jenis_reject', '1'],['produksi_id', $produksi_id],['batch_id', $batch_id]])->get();
+        $rejects = Reject::where([['id_jenis_reject', '1'],['produksi_id', $produksi_id],['batch_id', $batch_id]]);
 
+        if ($request->has('filter')) {
+            if ($request->input('filter') == 'terkecil') {
 
+                $rejects->orderByRaw('jumlah_botol + 0 ASC');
+            } elseif($request->input('filter') == 'terbesar') {
+                $rejects->orderByRaw('jumlah_botol + 0 DESC');
+            }
+        }
+
+        if ($request->has('parameter')) {
+            $rejects->where('id_paramater_reject', $request->input('parameter'));
+        }
+
+        if ($request->has('tempat')) {
+            $rejects->where('id_tempat_reject', $request->input('tempat'));
+        }
+
+        if ($request->has('spesifik')) {
+            $rejects->where('id_spesifik_tempat', $request->input('spesifik'));
+        }
+
+    $rejects = $rejects->get();
 
         // dd($previousData);
         return view('dashboard.produksi.reject.botol.index', compact('produksi_id','batch_id','jenis_rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects'));

@@ -21,7 +21,7 @@
                                         <td>
                                             <div class="input-group">
                                                 <input placeholder="Counter" class="form-control" type="number"
-                                                    name="counter[{{ $key }}]" id="" value="">
+                                                    name="counter[{{ $key }}]" id="" value="{{ $batch_list->counter }}">
                                             </div>
                                         </td>
                                     </tr>
@@ -38,7 +38,8 @@
                                 <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
 
                                 <a href="{{ route('counter-edit', ['id' => $produksi_id, 'param_id' => $param_id]) }}"
-                                    class="btn btn-primary" style="float: right"> <i class="fa-regular fa-pen-to-square"></i> Edit Counter</a>
+                                    class="btn btn-primary" style="float: right"> <i
+                                        class="fa-regular fa-pen-to-square"></i> Edit Counter</a>
                             @endif
                         </form>
                     @endif

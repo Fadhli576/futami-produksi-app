@@ -62,7 +62,6 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::delete('/dashboard/jenis-cap-delete/{cap}', [CapController::class, 'destroy'])->name('jenis-cap-delete');
     Route::get('/dashboard/jenis-cap-edit/{cap}', [CapController::class, 'edit'])->name('jenis-cap-edit');
     Route::put('/dashboard/jenis-cap-update/{cap}', [CapController::class, 'update'])->name('jenis-cap-update');
-
     Route::get('/dashboard/jenis-label', [LabelController::class, 'index'])->name('jenis-label-index');
     Route::post('/dashboard/jenis-label/store', [LabelController::class, 'store'])->name('jenis-label-store');
     Route::delete('/dashboard/jenis-label-delete/{label}', [LabelController::class, 'destroy'])->name('jenis-label-delete');
@@ -108,6 +107,9 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
 
     Route::get('/dashboard/produksi/{id}/batch-list', [BatchListController::class, 'index'])->name('batch-list-index');
     Route::post('/dashboard/produksi/{id}/batch-list/store', [BatchListController::class, 'store'])->name('batch-list-store');
+    Route::get('/dashboard/produksi/{id}/batch-list/edit/{batch_id}', [BatchListController::class, 'edit'])->name('batch-list-edit');
+Route::put('/dashboard/produksi/{id}/batch-list/update/{batch_id}', [BatchListController::class, 'update'])->name('batch-list-update');
+
     Route::delete('/dashboard/produksi/{produksi_id}/batch-list/delete/{batch_id}', [BatchListController::class, 'destroy'])->name('batch-list-delete');
     // Route::get('/dashboard/density/{density}/edit', [DensityController::class, 'edit'])->name('density-edit');
     // Route::put('/dashboard/density/{density}/update', [DensityController::class, 'update'])->name('density-update');
@@ -116,6 +118,7 @@ Route::middleware(['Login', 'checkRole:super admin'])->group(function () {
     Route::get('/dashboard/{id}/batch', [BatchController::class, 'index'])->name('batch-index');
     Route::post('/dashboard/{id}/batch/store', [BatchController::class, 'store'])->name('batch-store');
 
+    Route::get('/dashboard/reject-produksi/{produksi_id}', [BatchListController::class, 'rejectAll'])->name('reject-botol-all');
     Route::get('/dashboard/reject-produksi/{produksi_id}/botol/{batch_id}', [VarianController::class, 'rejectBotol'])->name('reject-botol-index');
     Route::post('/dashboard/reject-produksi/{produksi_id}/botol/{batch_id}/store', [VarianController::class, 'rejectBotolStore'])->name('reject-botol-store');
     Route::get('/dashboard/reject-produksi/botol-edit/{reject}', [VarianController::class, 'rejectBotolEdit'])->name('reject-botol-edit');
@@ -232,6 +235,7 @@ Route::middleware(['Login'])->prefix('dashboard')->group(function () {
     Route::put('/varian/detail/{id}/karton', [VarianController::class, 'kartonStore'])->name('karton-detail-store');
     Route::put('/varian/detail/{id}/lakban', [VarianController::class, 'lakbanStore'])->name('lakban-detail-store');
     Route::put('/varian/detail/{id}/lakban2', [VarianController::class, 'lakbanStore2'])->name('lakban2-detail-store');
+    Route::get('/export/{id}/produksi', [BatchListController::class, 'export'])->name('export-produksi');
 });
 
 Route::middleware(['Login'])->group(function() {

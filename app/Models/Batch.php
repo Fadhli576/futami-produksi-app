@@ -19,4 +19,9 @@ class Batch extends Model
     {
         return $this->hasMany(FinishGood::class);
     }
+
+    public function counter()
+    {
+        return $this->hasOne(Counter::class);
+    }
 }

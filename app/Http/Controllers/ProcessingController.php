@@ -8,6 +8,7 @@ use App\Models\Processing;
 use App\Models\VolumeMixing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Process;
 
 class ProcessingController extends Controller
 {
@@ -52,13 +53,19 @@ class ProcessingController extends Controller
             'density_id'=>'required'
         ]);
 
-        Processing::create([
-            'produksi_id'=>$id,
-            'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
-            'drain_out'=>$request->drain_out,
-            'volume'=>$request->volume,
-            'density_id'=>$request->density_id
-        ]);
+        $processing = Processing::where('produksi_id', $id)->first();
+        if ($processing) {
+            Processing::where('produksi_id', $id)->update($proses);
+        } else {
+            Processing::create([
+                'produksi_id'=>$id,
+                'volume_mixing'=>VolumeMixing::where('produksi_id', $id)->sum('volume_mixing'),
+                'drain_out'=>$request->drain_out,
+                'volume'=>$request->volume,
+                'density_id'=>$request->density_id
+            ]);
+        }
+
         toast('Berhasil!','success');
         return redirect()->back();
     }

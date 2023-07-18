@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProduksiExport;
 use App\Models\Batch;
 use App\Models\BatchList;
 use App\Models\Counter;
 use App\Models\FinishGood;
+use App\Models\ParameterReject;
 use App\Models\Processing;
 use App\Models\Produksi;
 use App\Models\Reject;
 use App\Models\Sampel;
+use App\Models\SpesifikTempat;
+use App\Models\TempatReject;
 use App\Models\Trial;
 use App\Models\Varian;
 use App\Models\VolumeMixing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BatchListController extends Controller
 {
@@ -59,7 +64,6 @@ class BatchListController extends Controller
             $finish_good_liter = $finish_good * number_format(floatval($liquid->volume) / 1000, 5, '.', '');
             // dd(floatval($liquid->volume)  / 1000);
             $loss_liquid = $volume_mixing -$finish_good_liter;
-            $yield = $counter_filling * ($liquid->volume / 1000);
 
         } else {
             $volume_mixing = '';
@@ -72,7 +76,7 @@ class BatchListController extends Controller
         $batchs = Batch::all();
         $produksi = Produksi::where('id', $id)->first();
         $tgl_produksi =  Carbon::parse($produksi->tgl_produksi)->translatedFormat('dmY');
-        return view('dashboard.produksi.batch.batch-list', compact('yield','unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','finish_good'));
+        return view('dashboard.produksi.batch.batch-list', compact('finish_good_liter','unidentified','varian','pakai_cap','pakai_botol','reject_produksi_cap','jatuh_botol','reject_hci','defect_hci','reject_produksi','loss_liquid','volume_mixing','counter_coding','counter_filling','counter_label','batchs','batch_lists','id', 'produksi','tgl_produksi','reject','sampel','finish_good'));
     }
 
     /**
@@ -115,17 +119,30 @@ class BatchListController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BatchList $batchList)
+    public function edit($id, $batch_id)
     {
-        //
+        $batchs = Batch::all();
+        $batch_list = BatchList::where('id', $batch_id)->first();
+        return view('dashboard.produksi.batch.batch-list-edit', compact('batch_list','batchs','id','batch_id'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BatchList $batchList)
+    public function update(Request $request, $id, $batch_id)
     {
-        //
+        $request->validate([
+            'batch_id'=>'required'
+        ]);
+
+        $batch_list = BatchList::where('id', $batch_id)->first();
+
+        $batch_list->update([
+            'batch_id'=> $request->batch_id
+        ]);
+
+        toast('success','Berhasil Mengupdate');
+        return redirect()->back();
     }
 
     /**
@@ -143,5 +160,42 @@ class BatchListController extends Controller
         VolumeMixing::where([['batch_id', $batch_id],['produksi_id',$produksi_id]])->delete();
         toast('Berhasil!','success');
         return redirect()->back();
+    }
+
+    public function rejectAll(Request $request, $produksi_id) {
+        $parameter_rejects = ParameterReject::all();
+        $tempat_rejects = TempatReject::all();
+        $spesifik_rejects = SpesifikTempat::all();
+        $rejects = Reject::where('produksi_id', $produksi_id);
+
+            if ($request->has('filter')) {
+                if ($request->input('filter') == 'terkecil') {
+
+                    $rejects->orderByRaw('jumlah_botol + 0 ASC');
+                } elseif($request->input('filter') == 'terbesar') {
+                    $rejects->orderByRaw('jumlah_botol + 0 DESC');
+                }
+            }
+
+            if ($request->has('parameter')) {
+                $rejects->where('id_paramater_reject', $request->input('parameter'));
+            }
+
+            if ($request->has('tempat')) {
+                $rejects->where('id_tempat_reject', $request->input('tempat'));
+            }
+
+            if ($request->has('spesifik')) {
+                $rejects->where('id_spesifik_tempat', $request->input('spesifik'));
+            }
+
+        $rejects = $rejects->get();
+        return view('dashboard.produksi.reject.reject-all', compact('rejects','parameter_rejects','tempat_rejects','spesifik_rejects','rejects','produksi_id'));
+    }
+
+    public function export($id)
+    {
+        $produksi = Produksi::where('id', $id)->first();
+        return Excel::download(new ProduksiExport($id), $produksi->varian->parameter->name.' '.\Carbon\Carbon::parse($produksi->created_at)->format('dmY').'.xlsx');
     }
 }

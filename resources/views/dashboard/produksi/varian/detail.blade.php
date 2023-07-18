@@ -94,6 +94,11 @@
                             @method('PUT')
                             <h5>{{ $varian->cap->name }}</h5>
                             <div class="col-sm-12 col-md-6">
+                                <label for="">Saldo Awal</label>
+                                <div class="input-group">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_cap }}" class="form-control"
+                                        type="number" name="saldo_awal_cap" id="" autocomplete="off">
+                                </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
                                     <input placeholder="Masuk" value="{{ $varian->masuk_cap }}" class="form-control"
@@ -152,6 +157,12 @@
                             @csrf
                             @method('PUT')
                             <div class="col-sm-12 col-md-6">
+                                <label for="">Saldo Awal</label>
+                                <div class="input-group">
+                                    <input step="any" placeholder="Saldo Awal" value="{{ $varian->saldo_awal_label }}"
+                                        class="form-control" type="number" name="saldo_awal_label" id=""
+                                        autocomplete="off">
+                                </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
                                     <input step="any" placeholder="Masuk" value="{{ $varian->masuk_label }}"
@@ -207,6 +218,11 @@
                             @csrf
                             @method('PUT')
                             <div class="col-sm-12 col-md-6">
+                                <label for="">Saldo Awal</label>
+                                <div class="input-group">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_karton }}" class="form-control"
+                                        type="number" name="saldo_awal_karton" id="">
+                                </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
                                     <input placeholder="Masuk" value="{{ $varian->masuk_karton }}" class="form-control"
@@ -234,12 +250,6 @@
                                     <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_karton }}"
                                         class="form-control" type="number" name="terpakai_karton" id="">
                                 </div>
-                                <label for="">Reject Supplier</label>
-                                <div class="input-group">
-                                    <input placeholder="Reject Supplier" value="{{ $varian->reject_supplier_karton }}"
-                                        class="form-control" type="number" name="reject_supplier_karton"
-                                        id="">
-                                </div>
                                 <label for="">Reject</label>
                                 <div class="input-group">
                                     <input placeholder="Reject" value="{{ $varian->reject_karton }}"
@@ -262,6 +272,11 @@
                             @csrf
                             @method('PUT')
                             <div class="col-sm-12 col-md-6">
+                                <label for="">Saldo Awal</label>
+                                <div class="input-group">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_lakban1 }}" class="form-control"
+                                        type="number" name="saldo_awal_lakban1" id="">
+                                </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
                                     <input placeholder="Masuk" value="{{ $varian->masuk_lakban }}" class="form-control"
@@ -312,6 +327,11 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="col-sm-12 col-md-6">
+                                    <label for="">Saldo Awal</label>
+                                    <div class="input-group">
+                                        <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_lakban2 }}"
+                                            class="form-control" type="number" name="saldo_awal_lakban2" id="">
+                                    </div>
                                     <label for="">Masuk</label>
                                     <div class="input-group">
                                         <input placeholder="Masuk" value="{{ $varian->masuk_lakban2 }}"

@@ -9,4 +9,9 @@ class Counter extends Model
 {
     protected $guarded = ['id'];
     use HasFactory;
+
+    public function batchList()
+    {
+        return $this->hasOne(BatchList::class, 'batch_id');
+    }
 }

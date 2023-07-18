@@ -20,5 +20,10 @@ class BatchList extends Model
     {
         return $this->belongsTo(Batch::class);
     }
+
+    public function counter()
+    {
+        return $this->belongsTo(Counter::class, 'batch_id');
+    }
 }
 

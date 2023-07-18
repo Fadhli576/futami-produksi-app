@@ -71,15 +71,7 @@
                         <span class="input-group-text">ml</span>
                     </div>
                     <div class="col-12 mt-2">
-                        @if ($processing_self == null)
                             <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
-                        @endif
-                        @if ($processing_self)
-                            <a href={{ route('processing-edit', ['id' => $id, 'processing_id' => $processing_self->id]) }}
-                                class="btn btn-primary my-2 mx-1" style="float: right"><i class="fa-solid fa-thumbs-up"></i>
-                                Edit Loss Liquid</a>
-                        @endif
-
                     </div>
                 </form>
             </div>

@@ -22,7 +22,7 @@ class CounterController extends Controller
      */
     public function create($produksi_id, $param_id)
     {
-        $batch_lists = BatchList::where('produksi_id', $produksi_id)->get();
+        $batch_lists = BatchList::with('counter')->where('produksi_id', $produksi_id)->get();
         $varian = Varian::where('produksi_id', $produksi_id)->select('trial_botol','jatuh_botol')->first();
         return view('dashboard.produksi.varian.counter', compact('param_id', 'produksi_id', 'batch_lists', 'varian'));
     }
@@ -35,7 +35,8 @@ class CounterController extends Controller
     {
         $batch_lists = BatchList::where('produksi_id', $produksi_id)->get();
         foreach ($batch_lists as $key => $batch_list) {
-            if (Counter::where('batch_id', $batch_list->batch_id)->where('produksi_id', $produksi_id)->first() == null) {
+            $counter = Counter::where('batch_id', $batch_list->batch_id)->where('produksi_id', $produksi_id)->first();
+            if ($counter == null) {
                 if ($param_id == 1) {
                     Counter::create([
                         'produksi_id'=>$batch_list->produksi_id,
@@ -59,7 +60,26 @@ class CounterController extends Controller
                     toast('Berhasil menambahkan!', 'success');
                 }
             } else {
-                toast('Data sudah ada!', 'error');
+                if ($param_id == 1) {
+                    $counter->update([
+                        'produksi_id'=>$produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_filling'=>$request->counter[$key]
+                    ]);
+                } elseif($param_id == 2) {
+                    $counter->update([
+                        'produksi_id'=>$produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_coding'=>$request->counter[$key]
+                    ]);
+                } elseif ($param_id == 3) {
+                    $counter->update([
+                        'produksi_id'=>$produksi_id,
+                        'batch_id'=>$batch_list->batch_id,
+                        'counter_label'=>$request->counter[$key]
+                    ]);
+                }
+                toast('Data berhasil diupdate!', 'error');
             }
 
         }
@@ -73,24 +93,49 @@ class CounterController extends Controller
             'counter'=>'required'
         ]);
 
-        if ($param_id == 1) {
-            Counter::create([
-                'produksi_id'=>$produksi_id,
-                'batch_id'=>$batch_id,
-                'counter_filling'=>$request->counter
-            ]);
-        } elseif($param_id == 2) {
-            Counter::create([
-                'produksi_id'=>$produksi_id,
-                'batch_id'=>$batch_id,
-                'counter_coding'=>$request->counter
-            ]);
-        } elseif ($param_id == 3) {
-            Counter::create([
-                'produksi_id'=>$produksi_id,
-                'batch_id'=>$batch_id,
-                'counter_label'=>$request->counter
-            ]);
+        $counter = Counter::where('batch_id', $batch_id)->where('produksi_id', $produksi_id)->first();
+
+        if ($counter != null) {
+            if ($param_id == 1) {
+                $counter->update([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_filling'=>$request->counter
+                ]);
+            } elseif($param_id == 2) {
+                $counter->update([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_coding'=>$request->counter
+                ]);
+            } elseif ($param_id == 3) {
+                $counter->update([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_label'=>$request->counter
+                ]);
+            }
+        } else {
+
+            if ($param_id == 1) {
+                Counter::create([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_filling'=>$request->counter
+                ]);
+            } elseif($param_id == 2) {
+                Counter::create([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_coding'=>$request->counter
+                ]);
+            } elseif ($param_id == 3) {
+                Counter::create([
+                    'produksi_id'=>$produksi_id,
+                    'batch_id'=>$batch_id,
+                    'counter_label'=>$request->counter
+                ]);
+            }
         }
         toast('Berhasil menambahkan!', 'success');
         return redirect()->route('batch-list-index', $produksi_id);
