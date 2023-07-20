@@ -69,6 +69,7 @@ class BatchListController extends Controller
             $volume_mixing = '';
             $loss_liquid = '';
             $yield = '';
+            $finish_good_liter = '';
         }
 
 

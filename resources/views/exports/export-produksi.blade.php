@@ -116,12 +116,12 @@
             <td>{{ $varian->masuk_label }}</td>
             <td>{{ $varian->masuk_label + $varian->saldo_awal_label }}</td>
             <td>{{ $varian->masuk_label - $varian->saldo_label }}</td>
-            <td>{{ $varian->saldo_label == '' ? '' : number_format(($varians = $varian->pakai_label - $finish_good / $varian->conversi_label) * 1, 2) }} </td>
+            <td>{{ $varian->saldo_label == '' ? '0' : number_format(($varians = $varian->pakai_label - $finish_good / $varian->conversi_label) * 1, 2) }} </td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ number_format(($varian->pakai_label + $varians), 2) }}</td>
+            <td>{{$varian->saldo_label == '' ? '0' : number_format(($varian->pakai_label + $varians), 2) }}</td>
             <td></td>
             <td>-</td>
             <td>{{ $varian->saldo_label }} </td>

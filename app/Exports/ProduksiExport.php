@@ -30,6 +30,8 @@ class ProduksiExport implements FromView, ShouldAutoSize, WithStyles
 
     public function styles(Worksheet $sheet)
     {
+        $varian = Varian::where('id', $this->id)->first();
+
         $styleArray = [
             'alignment' => [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
@@ -42,34 +44,58 @@ class ProduksiExport implements FromView, ShouldAutoSize, WithStyles
                 ],
             ],
         ];
-
-        //font bold
         $sheet->getStyle('A1:Q5')->getFont()->setBold(true);
-        $sheet->getStyle('M6:M11')->getFont()->setBold(true);
-        $sheet->getStyle('F6:F11')->getFont()->setBold(true);
-        $sheet->getStyle('B12')->getFont()->setBold(true);
-        $sheet->getStyle('B15')->getFont()->setBold(true);
-        $sheet->getStyle('B20')->getFont()->setBold(true);
 
-
-        //fill color
         $sheet->getStyle('A5:Q5')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4'],]);
         $sheet->getStyle('H3:L4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => '00B0F0'],]);
         $sheet->getStyle('A3:G4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'FFFF00'],]);
         $sheet->getStyle('M3:M4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => '00B050'],]);
         $sheet->getStyle('N3:N4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'A9D08E'],]);
         $sheet->getStyle('O3:O4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'BF8F00'],]);
-
-        $sheet->getStyle('D6:D11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
-        $sheet->getStyle('F6:F11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
-        $sheet->getStyle('G6:G11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
-
-        $sheet->getStyle('M6:M11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
-        $sheet->getStyle('N6:N11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'A9D08E'],]);
-        $sheet->getStyle('O6:O11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
-        $sheet->getStyle('P6:P11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
         $sheet->getStyle('P3:P4')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'FDE9D9'],]);
-        $sheet->getStyle('Q3:Q11')->getFont()->setColor(new Color('000080'));
+
+        if ($varian->lakban2) {
+
+            $sheet->getStyle('M6:M11')->getFont()->setBold(true);
+            $sheet->getStyle('F6:F11')->getFont()->setBold(true);
+            $sheet->getStyle('B12')->getFont()->setBold(true);
+            $sheet->getStyle('B15')->getFont()->setBold(true);
+            $sheet->getStyle('B20')->getFont()->setBold(true);
+
+            //fill color
+
+
+            $sheet->getStyle('D6:D11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('F6:F11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('G6:G11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
+
+            $sheet->getStyle('M6:M11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('N6:N11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'A9D08E'],]);
+            $sheet->getStyle('O6:O11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
+            $sheet->getStyle('P6:P11')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('Q3:Q11')->getFont()->setColor(new Color('000080'));
+        } else {
+
+            $sheet->getStyle('M6:M10')->getFont()->setBold(true);
+            $sheet->getStyle('F6:F10')->getFont()->setBold(true);
+            $sheet->getStyle('B11')->getFont()->setBold(true);
+            $sheet->getStyle('B14')->getFont()->setBold(true);
+            $sheet->getStyle('B19')->getFont()->setBold(true);
+
+            $sheet->getStyle('D6:D10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('F6:F10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('G6:G10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
+
+            $sheet->getStyle('M6:M10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('N6:N10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'A9D08E'],]);
+            $sheet->getStyle('O6:O10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'F4B084'],]);
+            $sheet->getStyle('P6:P10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'E4DFEC'],]);
+            $sheet->getStyle('Q3:Q10')->getFont()->setColor(new Color('000080'));
+
+        }
+
+
+        //font bold
 
 
 
@@ -119,6 +145,7 @@ class ProduksiExport implements FromView, ShouldAutoSize, WithStyles
             $volume_mixing = '';
             $loss_liquid = '';
             $yield = '';
+            $finish_good_liter = '';
         }
 
 

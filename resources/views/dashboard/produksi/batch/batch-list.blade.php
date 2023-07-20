@@ -19,11 +19,16 @@
                 </div>
                 <div class="col-12 mt-2">
                     <button class="btn text-white" style="background-color: #98c1d9">Submit</button>
+                    <a href={{ route('batch-index', $id) }} class="btn btn-primary my-2" style="float: right"><i
+                        class="fa-solid fa-plus"></i> Tambah Batch</a>
                 </div>
+
             </form>
         </div>
+
     @endif
-    <div class="d-flex flex-column flex-wrap gap-4">
+
+    <div class="d-flex flex-column flex-wrap gap-4 mb-5">
         <a href="{{ route('varian-detail', $id) }}" class="btn btn-primary">Varian <i
                 class="fa-solid fa-arrow-up-right-from-square"></i></a>
         <div class="global d-flex flex-wrap gap-3">
@@ -288,8 +293,6 @@
         </div>
     </div>
 
-    <a href={{ route('batch-index', $id) }} class="btn btn-primary my-2" style="float: right"><i
-            class="fa-solid fa-plus"></i> Tambah Batch</a>
     <a href={{ route('reject-botol-all', $id) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
             class="fa-solid fa-eye"></i> Data Reject</a>
     <a href={{ route('processing-index', $id) }} class="btn btn-primary my-2 mx-1" style="float: right"><i
