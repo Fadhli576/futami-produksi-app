@@ -194,8 +194,8 @@
                 </div>
                 <div class="card bg-white p-3 shadow-sm" style="border-left: 10px solid #98c1d9">
                     <strong style="font-size: 20px">Reject Karton</strong>
-                    <strong style="font-size: 20px">{{ $varian->reject_karton ? $varian->reject_karton : 0 }}</strong>
-                    <strong>{{ $varian->saldo_karton == '' ? 0 : number_format(($varian->reject_karton / $varian->terpakai_karton) * 100, 2) }}
+                    <strong style="font-size: 20px">{{ $varian->saldo_karton == '' ? '' : number_format(($varians_karton = $varian->terpakai_karton - $finish_good / $varian->conversi_karton) * 1) }}</strong>
+                    <strong>{{ $varian->saldo_karton == '' ? 0 : number_format(($varians_karton / $varian->terpakai_karton) * 100, 2) }}
                         %</strong>
                 </div>
             </div>

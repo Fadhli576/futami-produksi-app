@@ -96,8 +96,9 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Saldo Awal</label>
                                 <div class="input-group">
-                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_cap }}" class="form-control"
-                                        type="number" name="saldo_awal_cap" id="" autocomplete="off">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_cap }}"
+                                        class="form-control" type="number" name="saldo_awal_cap" id=""
+                                        autocomplete="off">
                                 </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
@@ -159,9 +160,9 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Saldo Awal</label>
                                 <div class="input-group">
-                                    <input step="any" placeholder="Saldo Awal" value="{{ $varian->saldo_awal_label }}"
-                                        class="form-control" type="number" name="saldo_awal_label" id=""
-                                        autocomplete="off">
+                                    <input step="any" placeholder="Saldo Awal"
+                                        value="{{ $varian->saldo_awal_label }}" class="form-control" type="number"
+                                        name="saldo_awal_label" id="" autocomplete="off">
                                 </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
@@ -220,8 +221,8 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Saldo Awal</label>
                                 <div class="input-group">
-                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_karton }}" class="form-control"
-                                        type="number" name="saldo_awal_karton" id="">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_karton }}"
+                                        class="form-control" type="number" name="saldo_awal_karton" id="">
                                 </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
@@ -232,6 +233,11 @@
                                 <div class="input-group">
                                     <input placeholder="Saldo Akhir" value="{{ $varian->saldo_karton }}"
                                         class="form-control" type="number" name="saldo_karton" id="">
+                                </div>
+                                <label for="">Finish Good</label>
+                                <div class="input-group">
+                                    <input disabled placeholder="" value="{{ $finish_good }}" class="form-control"
+                                        type="number" name="n" id="">
                                 </div>
                                 {{-- <label for="">Varians</label>
                                 <div class="input-group">
@@ -245,17 +251,27 @@
                                 </div> --}}
                             </div>
                             <div class="col-sm-12 col-md-6">
+                                <label for="">Conversi Pcs</label>
+                                <div class="input-group">
+                                    <input placeholder="Conversi" value="{{ $varian->conversi_karton }}"
+                                        class="form-control" type="number" name="conversi_karton" id="">
+                                </div>
                                 <label for="">Pakai</label>
                                 <div class="input-group">
-                                    <input disabled placeholder="Terpakai" value="{{ $varian->terpakai_karton }}"
+                                    <input disabled placeholder="Terpakai"
+                                        value="{{ $varian->terpakai_karton }}"
                                         class="form-control" type="number" name="terpakai_karton" id="">
-                                </div>
-                                <label for="">Reject</label>
-                                <div class="input-group">
-                                    <input placeholder="Reject" value="{{ $varian->reject_karton }}"
-                                        class="form-control" type="number" name="reject_karton" id="">
                                     <span class="input-group-text"
-                                        id="basic-addon2">{{ $varian->saldo_karton == '' ? 0 : number_format(($varian->reject_karton / $varian->terpakai_karton) * 100, 2) }}
+                                        id="basic-addon2">{{ $varian->terpakai_karton * $varian->conversi_karton }}
+                                        </span>
+                                </div>
+                                <label for="">Loss</label>
+                                <div class="input-group">
+                                    <input disabled step="any" placeholder="Reject"
+                                        value="{{ $varian->saldo_karton == '' ? '' : number_format(($varians_karton = $varian->terpakai_karton - $finish_good / $varian->conversi_karton) * 1) }}"
+                                        class="form-control" type="number" name="" id="">
+                                    <span class="input-group-text"
+                                        id="basic-addon2">{{ $varian->saldo_karton == '' ? 0 : number_format(($varians_karton / $varian->terpakai_karton) * 100, 2) }}
                                         %</span>
                                 </div>
                             </div>
@@ -274,8 +290,8 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="">Saldo Awal</label>
                                 <div class="input-group">
-                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_lakban1 }}" class="form-control"
-                                        type="number" name="saldo_awal_lakban1" id="">
+                                    <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_lakban1 }}"
+                                        class="form-control" type="number" name="saldo_awal_lakban1" id="">
                                 </div>
                                 <label for="">Masuk</label>
                                 <div class="input-group">
@@ -330,7 +346,8 @@
                                     <label for="">Saldo Awal</label>
                                     <div class="input-group">
                                         <input placeholder="Saldo Awal" value="{{ $varian->saldo_awal_lakban2 }}"
-                                            class="form-control" type="number" name="saldo_awal_lakban2" id="">
+                                            class="form-control" type="number" name="saldo_awal_lakban2"
+                                            id="">
                                     </div>
                                     <label for="">Masuk</label>
                                     <div class="input-group">

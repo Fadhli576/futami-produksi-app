@@ -79,7 +79,7 @@ class UserController extends Controller
         ]);
 
         User::where('id',$id)->update($user);
-        toast('Berhasil mengapdet User!','success');
+        toast('Berhasil update User!','success');
         return redirect('/dashboard/user-data');
     }
 

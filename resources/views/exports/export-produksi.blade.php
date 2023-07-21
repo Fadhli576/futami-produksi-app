@@ -144,7 +144,8 @@
             <td></td>
             <td>-</td>
             <td>{{ $varian->saldo_karton }} </td>
-            <td>{{ $varian->saldo_karton == '' ? 0 : number_format(($varian->reject_karton / $varian->terpakai_karton) * 100, 2) }} %</td>
+            <td>{{ $varian->saldo_karton == '' ? 0 : number_format((number_format(($varian->terpakai_karton - $finish_good / $varian->conversi_karton) * 1) / $varian->terpakai_karton) * 100, 2) }}
+                %</td>
         </tr>
         <tr>
             <td>5</td>

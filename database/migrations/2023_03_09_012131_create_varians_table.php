@@ -40,6 +40,7 @@ return new class extends Migration
             $table->integer('masuk_karton')->nullable();
             $table->integer('terpakai_karton')->nullable();
             $table->integer('reject_karton')->nullable();
+            $table->integer('conversi_karton')->nullable();
 
             $table->integer('saldo_lakban')->nullable();
             $table->integer('masuk_lakban')->nullable();
@@ -50,6 +51,24 @@ return new class extends Migration
             $table->integer('masuk_lakban2')->nullable();
             $table->integer('terpakai_lakban2')->nullable();
             $table->integer('reject_lakban2')->nullable();
+
+            $table->string('reject_supplier_karton')->nullable();
+            $table->string('reject_supplier_lakban')->nullable();
+            $table->string('reject_supplier_lakban2')->nullable();
+
+            $table->string('jatuh_filling_cap')->nullable();
+            $table->string('sampel_cap')->nullable();
+            $table->string('trial_cap')->nullable();
+
+
+            $table->string('trial_botol')->nullable();
+            $table->string('jatuh_botol')->nullable();
+
+            $table->integer('saldo_awal_cap')->nullable();
+            $table->integer('saldo_awal_label')->nullable();
+            $table->integer('saldo_awal_karton')->nullable();
+            $table->integer('saldo_awal_lakban1')->nullable();
+            $table->integer('saldo_awal_lakban2')->nullable();
 
         });
     }

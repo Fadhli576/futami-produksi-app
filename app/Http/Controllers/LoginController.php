@@ -32,7 +32,7 @@ class LoginController extends Controller
                 return redirect()->intended('/dashboard');
             }
         }
-        Alert::error('Gagal', 'Login gagal, cek no hp atau password anda');
+        Alert::error('Gagal', 'Login gagal, cek alias atau password anda');
         return redirect('/login');
     }
 

@@ -79,7 +79,7 @@ class CounterController extends Controller
                         'counter_label'=>$request->counter[$key]
                     ]);
                 }
-                toast('Data berhasil diupdate!', 'error');
+                toast('Berhasil menambahkan!', 'success');
             }
 
         }

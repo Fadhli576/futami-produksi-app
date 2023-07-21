@@ -244,6 +244,7 @@ class VarianController extends Controller
         $request->validate([
             'masuk_karton'=>$request->saldo_awal_karton ? '' : 'required',
             'saldo_awal_karton'=> $request->masuk_karton ? '' : 'required',
+            'conversi_karton'=>'required'
         ]);
 
         $pakai_karton = $request->masuk_karton + $request->saldo_awal_karton - $request->saldo_karton - $request->reject_karton - $request->reject_supplier_karton;
@@ -251,9 +252,9 @@ class VarianController extends Controller
         $karton = [
             'saldo_awal_karton'=>$request->saldo_awal_karton,
             'saldo_karton'=>$request->saldo_karton,
+            'conversi_karton'=>$request->conversi_karton, // 'conversi_karton'=>$request->conversi_karton ? $request->conversi_karton : '0
             'masuk_karton'=>$request->masuk_karton,
             'terpakai_karton'=>$pakai_karton,
-            'reject_karton'=>$request->reject_karton,
             'reject_supplier_karton'=>$request->reject_supplier_karton
         ];
 
